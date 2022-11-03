@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+@import 'styles.scss';
+
+@layer components {
+    .flex-center {
+        @apply flex items-center justify-center;
+    }
+
+    .row {
+        @apply flex justify-center gap-4;
+        // Mobile sm-> (max-width:576px);
+        @apply sm:flex-col;
+    }
+}
+
+html,
+body {
+    @apply m-0 h-full min-w-[320px] bg-[#f9f9f9] p-0;
+    font-family: 'Roboto', sans-serif;
+}
+
+body::-webkit-scrollbar {
+    // display: none;
+}
+
+body {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+a {
+    @apply text-myBlue no-underline;
+}
+
+a:hover {
+    @apply text-myBlack;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    @apply m-0;
+}
+
+.container {
+    @apply my-0 mx-auto w-full max-w-[1440px] py-0 px-8;
+    // Tablet md-> (max-width:768px);
+    @apply md:px-6;
+    // Mobile sm-> (max-width:576px);
+    @apply sm:px-4;
+    // Small devices xs -> (max-width:320px);
+    @apply xs:px-4;
+}
+
+.fluid {
+    @apply p-0;
+}
+
+#__next {
+    @apply flex min-h-full flex-col;
+}
+
+main {
+    z-index: 0;
+    flex: 1 1 auto;
+}

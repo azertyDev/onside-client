@@ -1,0 +1,104 @@
+.section {
+    @apply flex flex-1;
+
+    & .logo {
+        @apply relative mb-14 h-[56px] w-[234px];
+        // Tablet
+        @apply md:h-12 md:w-[200px];
+        // Mobile
+        @apply sm:h-7 sm:w-[120px];
+    }
+
+    & .sidebar {
+        @apply flex w-[360px] flex-col items-center bg-myBlue py-8;
+        // Mobile sm-> (max-width:576px);
+        @apply sm:hidden;
+
+        & a {
+            @apply inline-block;
+        }
+
+        & ul {
+            @apply flex w-full flex-col items-start;
+
+            & li {
+                @apply z-0 w-full cursor-pointer;
+
+                &.active {
+                    @apply bg-slate-500 text-myRed;
+                }
+
+                &:hover {
+                    @apply bg-slate-700;
+                }
+
+                & a {
+                    @apply flex text-white px-8 py-[13.5px];
+
+                    & svg {
+                        @apply mr-2;
+                    }
+                }
+            }
+        }
+    }
+
+    & .header {
+        @apply flex flex-col bg-white text-right text-myBlue;
+
+        & .toolsWrapper {
+            @apply flex justify-end border-b border-slate-300 p-7;
+            // Tablet md-> (max-width:768px);
+            @apply md:flex-col md:p-4;
+
+            & .inputWrapper {
+                @apply relative mr-6 w-3/12;
+                // Laptop lg-> (max-width:1024px);
+                @apply lg:w-5/12;
+                // Tablet md-> (max-width:768px);
+                @apply md:mr-0 md:w-full;
+
+                & .searchInput {
+                    @apply w-full;
+                    // Tablet md-> (max-width:768px);
+                    @apply md:mb-4;
+                    background: rgba(82, 83, 102, 0.05);
+                    border-radius: 8px;
+                    padding: 12px 40px 12px 9px;
+                }
+
+                & .searchIcon {
+                    @apply absolute top-[calc(50%-0.8em)] right-[5px];
+                    // Tablet md-> (max-width:768px);
+                    @apply md:top-[calc(50%-1.25em)];
+                }
+            }
+        }
+    }
+}
+
+.footer {
+    @apply py-16 font-play;
+    // Mobile sm-> (max-width:576px);
+    @apply sm:py-8;
+
+    & span {
+        @apply mb-4 block;
+    }
+
+    .footer_info {
+        @apply text-myBlue;
+
+        a {
+            @apply font-play text-myRed;
+        }
+
+        ul {
+            @apply mb-8 list-disc pl-5;
+        }
+
+        .additional {
+            @apply relative mb-8 flex min-h-max items-center border-l-2 border-myRed pl-6 uppercase;
+        }
+    }
+}

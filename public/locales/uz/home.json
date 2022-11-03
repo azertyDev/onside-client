@@ -1,0 +1,240 @@
+{
+    "nav": {
+        "about_us": "Korxona xaqida",
+        "services": "Xizmatlar",
+        "news": "Yangiliklar",
+        "career": "Karyera",
+        "contacts": "A'loqa",
+        "main": "Asosiy",
+        "price": "Narxlar",
+        "publications": "Nashrlar",
+        "partnership": "Hamkorlik",
+        "products": "Mahsulotlar"
+    },
+    "home": {
+        "intro": {
+            "title": "Oʻzbekistonda tomchilab va yomgʻirlatib sugʻorish tizimi.",
+            "description": "Zamonaviy texnologiyalarni qoʻllaymiz va qishloq xoʻjaligi samaradorligini oshiramiz.",
+            "cards": {
+                "1": {
+                    "title": "Yuqori sifat",
+                    "description": "Bizning uskunalar barcha sifat talablariga javob beradi va toʻgʻri foydalanilganda, uzoq muddat ishlab bera olishi bilan ajralib turadi."
+                },
+                "2": {
+                    "title": "Hosildorlikni oshiramiz",
+                    "description": "Sugʻorish jarayonida zamonaviy texnologiyalarni toʻgʻri qoʻllanishi  sababli, bizning mijozlarimiz nafaqat  suvni tejabgina qolmay, shuningdek, oʻgʻitni, energiyani va oʻsimlikni himoyalash vositalarini ham tejab qolgan holda yuqori hosildorlikni qoʻlga kiritishmoqda."
+                },
+                "3": {
+                    "title": "Yechimi tayyor qarorlar",
+                    "description": "Tomchilab sugʻorish va yomgʻirlatib sugʻorish tizimlari boʻyicha toʻliq xizmatlarni, loyiha boʻyicha dastlabki maʼlumotlarini toʻplash, loyihalash, uskunalash, yigʻish va xizmat koʻrsatuvchi xodimlarni oʻqitishgacha boʻlgan barcha jarayonlarni taʼminlab beramiz."
+                }
+            }
+        },
+
+        "products": {
+            "title": "Maxsulot",
+            "description": "Yomg'irlatib sug'orish-bu qisqa muddatli, ammo tez-tez sug'orish usuli bo'lib, tabiiy yomg'irga yaqin sug'orish sharoitlarini ta'minlaydi. Ishlash tartibi: nasos yordamida suv quvurlar tizimi orqali yetkazib beriladi va purkagichlar yordamida oqim tomchilarga bo'linadi va havoga purkaladi.",
+            "additional": "Tomchilatib sug'orish tizimi zamonaviy sug'orish texnologiyasi boʻlib, uning yordamida tuproqdagi namlikning maqbul darajasi saqlanib qolinadi va o'g'itlar tuproqqa belgilangan dozalarda beriladi."
+        },
+
+        "about": {
+            "title": "Kompaniya haqida",
+            "description": "Bizning kompaniyamiz O'zbekistonda tomchilatib sug'orish va yomg'irlatib sug'orish tizimlarini o'rnatishda yetakchi o'rinni egallaydi. Biz faqat yuqori sifatli materiallar ishlatilgan uskunalardan foydalanamiz, bu esa oʻz vaqtida yuqori samaradorlik va ishonchlilikni taʼminlaydi. Biz har qanday bosqichda ishlarni qabul qilamiz va loyihani faol holatiga keltiramiz.",
+            "additional": "Bizning mutaxassislarimiz tomchilatib sug'orish tizimlarini loyihalash va o'rnatish bo'yicha katta tajribaga ega."
+        },
+        "advantages": {
+            "title": "Почему мы?",
+            "blocks": {
+                "1": {
+                    "title": "Tomchilatib sugʻorish tizimidan foydalanish orqali quyidagilarga erishish mumkin:",
+                    "points": {
+                        "1": "Belgilangan miqdorda yetkazib beriladigan oʻgʻit va suvni tejashga;",
+                        "2": "Oʻsimlikni sugʻorishda suvni ayni ildiz atrofiga yetkazib berishni avtomatlashtirishga;",
+                        "3": "Parallel ravishda,  qator oraliqlarining quruqligi tufayli, tuproqqa mexanik ishlov berish, changlatish va yig'im-terim ishlarini olib borishga;",
+                        "4": "O'simliklarga fosfor, azot, kaliy va boshqa kimyoviy oʻgʻitlar bilan kerakli miqdorda ishlov berishga;"
+                    }
+                },
+                "2": {
+                    "title": "Yomg'irlatib sug'orish tizimidan foydalanish  quyidagi imkonlarni beradi:",
+                    "points": {
+                        "1": "Suvdan tejamli foydalanish imkonini, shu jumladan, infiltratsiya darajasi yuqori bo'lgan qumli tuproqlarda ham;",
+                        "2": "Yer osti suvlari sathi yoʻqori boʻlgan hududlarda qo'llash imkoniyatini;",
+                        "3": "omg'irlatib sug'orish o'simliklarni chang-gʻubordan xalos etib, fotosintezning normal kechishiga va tezroq o'sishiga yordam beradi;",
+                        "4": "Sug'orish bilan bir vaqtda texnologiya havoni namlanishini ta'minlaydi, bu esa bodring va karam kabi sabzavotlar uchun juda ma'qul- yomg'irlatib sepish yaxshi yechim hisoblanadi."
+                    }
+                }
+            }
+        },
+        "services": {
+            "title": "Toshkent shaxrida sinov laboratoriyasi xizmatlari",
+            "description": "«Trusted laboratory»  qurilish sinovlari va sifat nazorati sohasida xizmatlarni taklif qiluvchi, sertifikatlangan tashkilotdir. Biz asfaltbeton va tuproq sinovlaridan tortib, to temir-armatura sifatini nazorat qilishgacha bo'lgan keng ko'lamli masalalarni hal qilamiz.",
+            "additional": ""
+        },
+        "stages": {
+            "title": "Biz bilan hamkorlik bosqichlari",
+            "description": "Qurilish sinovlarini o'tkazish jarayonida biz har doim ishning natijasi va shaffofligiga e'tibor qaratamiz. Barcha ob'ektlarimiz GOSTga mos keladi va  foydalanish uchun ishonchli.",
+            "points": {
+                "1": {
+                    "title": "So’rovnoma",
+                    "description": "Siz saytda telefon orqali yoki info@trustlab.ru pochtasiga so’rovnoma qoldirasiz"
+                },
+                "2": {
+                    "title": "Texnik topshiriq",
+                    "description": "Topshiriq va narxlar aniqlab olinadi. Texnik topshiriq ishlab chiqiladi."
+                },
+                "3": {
+                    "title": "Shartnomani imzolash",
+                    "description": "Muhlat, to’lov sharti va boshqa sharoitlarga  aniqlik kiritamiz"
+                },
+                "4": {
+                    "title": "Oldindan to'lov",
+                    "description": "Doimiy mijozlar bilan, avans kelib tushgunga qadar ishlashni boshlaymiz"
+                },
+                "5": {
+                    "title": "Maydonda ishlash",
+                    "description": "Mutaxassislarimiz zarur bo’lgan barcha o’lchash, namuna va andaza olish ishlarini amalga oshirishadi"
+                },
+                "6": {
+                    "title": "To’plangan materiallarni tahlil qilish",
+                    "description": "Olingan namunalar ustida laboratoriya sinovlarini o’tkazamiz"
+                },
+                "7": {
+                    "title": "Xulosa tuzamiz",
+                    "description": "Dala va laboratoriya sinovlarining barcha natijalarini qayta ishlaymiz. Mijoz uchun keng qamrovli hisobot tayyorlaymiz"
+                },
+                "8": {
+                    "title": "Yakuniy xulosani taqdim etamiz",
+                    "description": "Natijalarni mijozga yetkazamiz va shartnomani yopamiz"
+                }
+            }
+        },
+
+        "testimonials": {
+            "title": "Bizga ishonishadi"
+        },
+        "sertificates": {
+            "title": "Sertifikatlar",
+            "description": "UZ akkreditatsiya sertifikatlari 2021-2022"
+        },
+        "publications": {
+            "title": "Nashrlar",
+            "description": "Haqiqiy ma'lumotlar, Testlar, Yangiliklar, Nashrlar"
+        },
+        "feedback": {
+            "title": "Ariza qoldiring",
+            "description": "Biznesingizni samarali rivojlantiring"
+        }
+    },
+
+    "about": {
+        "title": "«Agro Plast» kompaniyasi haqida",
+        "description": "Kompaniyamiz Turkiya ishlab chiqaruvchilari bilan birgalikda O'zbekiston Respublikasida tomchilatib va ​​yomg'irlatib sug'orish tizimlari va butlosh qismlarini ishlab chiqaruvchisi hisoblanadi. Kompaniya tashkil etilganidan buyon biz har kuni mijozlarimiz uchun qiymatli bo'lishga intilamiz, qishloq xo‘jaligi samaradorligi va ekinlar sifatini oshiradigan innovatsion, aqlli sug‘orish texnologiyalarini yaratib, joriy etmoqdamiz.",
+        "additional": "Ishlab chiqarishga innovatsiyalarni joriy etish va mahsulotlarimiz sifatini nazorat qilish bo‘yicha yuqori talablarni qo‘yish orqali biz qishloq xo‘jaligi korxonalarining samaradorligi va unumdorligini oshirishga hissa qo‘shamiz.",
+        "card": "Biz tomonidan ishlab chiqilgan barcha jihozlar erkin savdoga chiqarilgunga qadar qattiq sifat nazoratidan o'tadi.",
+        "additional_info": {
+            "title": "Biz  ishlarni oxirigacha bajaramiz, tomchilatib va ​​yomg'irlatib sug'orish tizimlarini o'rnatish bo'yicha to'liq xizmat ko'rsatamiz:",
+            "points": {
+                "1": {
+                    "title": "Muhit sharoiti bo'yicha ma'lumot yig'amiz va tahlil qilamiz"
+                },
+                "2": {
+                    "title": "Tizimni loyihalaymiz"
+                },
+                "3": {
+                    "title": "Yig'amiz va sozlaymiz"
+                },
+                "4": {
+                    "title": "Xodimlarni o'qitamiz"
+                },
+                "5": {
+                    "title": "Texnik xizmat ko'rsatamiz."
+                }
+            }
+        },
+        "description1": "Bizning kuchimiz -xodimlarimizdir. Kompaniyaning asosini “soha” bo‘yicha boy ilmiy bilim va katta tajribaga ega yuqori malakali mutaxassislar tashkil etadi.",
+        "description2": "Bizda zamonaviy ishlab chiqarish bazasi, barcha turdagi texnologik ishlar uchun uskunalar mavjud.",
+        "description3": "Biz qoʻllaydigan tizimlari muzni o'z ishlab chiqarish korxonamizda va hamkorlarimizning qishloq xo'jaligi korxonalaridagi  sinovdan o'tkazamiz.",
+        "footer_info": {
+            "blocks": {
+                "1": {
+                    "title": "Yomgʻirlatib sugʻorishni qoʻllash",
+                    "points": {
+                        "1": "mehnat jarayonlarini mexanizatsiyalash, demak, sug'orishni qishloq xo'jaligida amalga oshiriladigan boshqa qishloq xo'jaligi ishlari bilan to'liq uyg'unlashtirish;",
+                        "2": "kichik hajmda tez-tez sug'orishni amalga oshirish nafaqat tuproqni namlanishi, balki, havoning sirt qatlamining mikroiqlimini yaxshilanishiga (tetiklantiruvchi sug'orish) va demakki, fiziologik jarayonlarning borishiga qulay shart-sharoitlarni yaratish va suvni kam sarf qilgan holda oʻsimlikning hosildorligini oshirish;",
+                        "3": "kislorod, yglerod dioksidi va gazsimon azot bilan boyitilgan tomchilar tuproq va o'simliklarni qo'shimcha oziqlantirish bilan ta'minlaydi;",
+                        "4": "tuproqqa, o'simlikka murakkab ta'sir ko'rsatishi va natijada suv va oziqlantirish tartibini oʻzgartirish natijasida hosilni shakllantirish va tartibga solish osonroq;"
+                    }
+                },
+                "2": {
+                    "title": "Tomchilatib sugʻorish usulini qoʻllash",
+                    "points": {
+                        "1": "Agar siz ilgari sug'ormasdan dehqonchilik qilgan bo'lsangiz, hosildorlikni 100% gacha, agar yomgʻirlatib sug'organ bo'lsangiz - 50% gacha hosildorlik oshadi. Pishib etilish muddati 5-10 kunga qisqaradi",
+                        "2": "suv sarfi kamayadi, chunki, suv bugʻlanib ketmaydi, balki, oʻsimlikning ildiz atrofi zaxlatiladi",
+                        "3": "O'g'it, ozuqa va himoya vositalarini suv bilan birgalikda qulay va tejamli qo'llash. Eritilgan o'g'itlar sug'orish bilan birga to'g'ridan-to'g'ri ildiz atrofiga yoʻborilladi.",
+                        "4": "mehnat xarajatlari kamayadi. Tomchilatib sug‘orish tizimini boshqarishni avtomatlashtirish tufayli 3-4 ta operator butun mavsum davomida 150-200 gektar maydonda sug‘orishni boshqarishi mumkin."
+                    }
+                }
+            }
+        }
+    },
+
+    "products": {
+        "advantages": {
+            "blocks": {
+                "1": {
+                    "points": {
+                        "1": "Dehqonchilikda tomchilatib sug‘orish va yomgʻirlatib sugʻorish muhim o‘rinni egalladi. Har ikkala sug'orish tizimi ham yuqori samaradorlikka ega va imkon qadar qisqa vaqt ichida tuproqni namlik bilan to'yintirish imkonini beradi.",
+                        "2": "Kichik sug'orish amallari nafaqat keskin tanqis bo'lgan suv zaxiralarini saqlab qolishga, balki, zararli moddalarning drenaj oqimi bilan yer usti yoki yer osti manbalariga qaytarilishining oldini olishga ham imkon beradi",
+                        "3": "Bizning texnologiyamiz allaqachon tashkil etilgan fermer xo'jaliklarida o'zining ishonchliligini isbotlamoqda. ",
+                        "4": "Bizning ishimizda biz doimo eng yaxshi butlovchi qismlar va texnologiyalarni, sug'orish va purkash sohasida qishloq xo'jaligi korxonalari uchun arzon, ammo ishonchli yechimlarni tanlaymiz."
+                    }
+                },
+                "2": {
+                    "points": {
+                        "1": "Tomchilatib sug'orish tizimida suv va o'g'itlarni yetkazib berish hajmi va muntazamliligi juda aniq va texnik jihatdan ham oson. Bu esa oʻsimlikning rivojlanish davrining har bir bosqichida ular talab qiladigan darajada suv bilan ta'minlash imkonini beradi.",
+                        "2": "Yomg'irlatib sug'orishda  ekinlarni bir vaqtning o'zida o'g'itlash, shu bilan birga zararkunandalar va kasalliklarga qarshi pestitsidlarni qo'llash, shuningdek, hosilni yig'ib olishdan oldin o'simlik barglarini defoliatsiya qilish  mumkin;",
+                        "3": "Tomchilatib sug'orishda agrotexnika- ekishdan oldin ham, vegetatsiya davrida ham, ishlov berish texnologiyasi soddalashtirilgan.",
+                        "4": "O'g'itlar kuzda ancha kam miqdorda solinadi, lekin yerni chuqur shudgorlash va begona o'tlardan tozalash muhim."
+                    }
+                }
+            }
+        }
+    },
+
+    "services": {
+        "title": "Sinov laboratoriyasi xizmatlari",
+        "description": "Trusted laboratory xomashyo,binolar va inshootlarni qurilish sinovlaridan o’tkazish uchun laboratoriya va ko’chma jihozlarning to'liq to'plamiga ega",
+        "additional": "Laboratoriyada tajribali, yuqori malakali mutaxassislar ishlaydi, GOST talablariga muvofiq tezkor va sifatli ish va sinovlarni amalga oshirish uchun barcha zarur sinov uskunalari va o'lchov vositalari mavjud.",
+        "additional2": "Bizning mutaxassislarimiz Sizning vaqtingiz va mablag'ingizni tejagan holda, sertifikatlash jarayonini imkon qadar tezroq bajarishga qodir."
+    },
+
+    "price_list": {
+        "title": "«Trusted laboratory» sinov laboratoriyasi xizmati narxlari",
+        "description": "«Trusted laboratory» qurilish sinov laboratoriyasi qurilish sohasida barcha turdagi sinovlarni o'tkazadi. Biz shartnoma asosida ishlaymiz va muddatlarga rioya qilamiz. GOSTning xalqaro standartlari va talablariga, O'zbekiston Respublikasi qonunchiligiga muvofiqligini aniqlaymiz.",
+        "additional": "Sinov laboratoriyasi xizmatlari narxlari",
+        "additional2": {
+            "title": "Narxlar taxminan ko’rsatilgan. Yakuniy narxlar quyidagi omillar ta’sirida o’zgarishi mumkin:",
+            "points": {
+                "1": "O’rganilayotgan jism turi",
+                "2": "Qo’llanilayotgan usul",
+                "3": "O'rganilay    otgan ko'rsatgichlar soni",
+                "4": "Ob’ektning mavjud sharoiti",
+                "5": "Ishlash sharoitlari"
+            }
+        }
+    },
+
+    "additional_info": {
+        "title": "Narxlar taxminan ko’rsatilgan. Yakuniy narxlar quyidagi omillar ta’sirida o’zgarishi mumkin:",
+        "points": {
+            "1": "O’rganilayotgan jism turi",
+            "2": "Qo’llanilayotgan usul",
+            "3": "O'rganilay    otgan ko'rsatgichlar soni",
+            "4": "Ob’ektning mavjud sharoiti",
+            "5": "Ishlash sharoitlari"
+        },
+        "additional": "Biz tadqiqotlarimizni GOST standartlari va me’yorlariga muvofiqligini kafolatlaymiz"
+    },
+
+    "additional_contacts": "Agar Sizda Bizning tashkilotimiz va bevosita bajarayotgan ishlarimizga nisbatan savollar mavjud bo’lsa, <phone>+998 (90) 998 37 27</phone> raqamiga qo’ng’iroq qilishingiz yoki <mail>inamjan-5554@mail.ru</mail> elektron pochtamizga  yozishingiz mumkin va Bizning muhandisimiz Sizga kerakli maslahatlarni beradi."
+}
