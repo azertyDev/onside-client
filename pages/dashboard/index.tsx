@@ -2,11 +2,9 @@ import type { GetServerSidePropsContext, GetStaticProps, NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Layout } from "components/layouts/Layout";
 import { Home } from "src/pages/home";
-import { Login } from "src/pages/login";
 
-const HomePage: NextPage = (props: any) => {
-    return <Login />;
-    // return <Home />;
+const DashboardPage: NextPage = (props: any) => {
+    return <Home />;
 };
 
 interface IHomeProps {}
@@ -25,8 +23,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 // @ts-ignore:next-line
-HomePage.getLayout = function getLayout(page: ReactElement) {
+DashboardPage.getLayout = function getLayout(page: ReactElement) {
     return <Layout>{page}</Layout>;
 };
 
-export default HomePage;
+export default DashboardPage;

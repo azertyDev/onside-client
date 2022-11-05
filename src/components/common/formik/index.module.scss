@@ -1,0 +1,130 @@
+.form {
+    @apply my-0 mx-auto flex w-full flex-col items-center justify-center;
+
+    label {
+        @apply flex w-full flex-col items-start;
+    }
+}
+
+.submitBtn {
+    @apply mt-12 w-full rounded-lg;
+}
+
+.field {
+    @apply mb-6 flex w-full flex-col items-start justify-center;
+
+    select {
+        -webkit-appearance: none;
+        appearance: none;
+        background-image: url('/assets/icons/chevron-down.svg');
+        background-size: 16px;
+        background-repeat: no-repeat;
+        background-position: calc(100% - 8px) center;
+    }
+
+    label {
+        @apply mb-1;
+    }
+    /* Disable arrows Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Disable arrows Firefox */
+    input[type='number'] {
+        -moz-appearance: textfield;
+    }
+
+    input,
+    select,
+    textarea {
+        @apply w-full rounded-lg bg-[#F7F8FC] py-[15px] px-[10px] text-myBlack outline-myRed placeholder:text-mySilver placeholder:text-sm;
+    }
+}
+
+.errorText {
+    @apply mt-1 text-myRed text-xs; 
+}
+
+.imageUpload {
+}
+
+.add_logo_wrapper {
+    position: relative;
+    width: 100%;
+    margin: 20px 0;
+    & .input_wrapper {
+        position: absolute;
+        right: 12px;
+        z-index: 1;
+        top: 10px;
+        & input {
+            display: none;
+        }
+
+        & label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 34px;
+            height: 34px;
+            margin-bottom: 0;
+            border-radius: 100%;
+            background: #ffffff;
+            border: 1px solid transparent;
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+            cursor: pointer;
+            font-weight: normal;
+            transition: all 0.2s ease-in-out;
+
+            &:hover {
+                background: #f1f1f1;
+                border-color: #d6d6d6;
+            }
+
+            &:after {
+                content: '';
+                color: #757575;
+                position: absolute;
+                top: 10px;
+                left: 0;
+                right: 0;
+                text-align: center;
+                margin: auto;
+            }
+        }
+    }
+
+    & .img_wrapper {
+        width: 250px;
+        height: 200px;
+        position: relative;
+        border-radius: 5%;
+        border: 6px solid #f8f8f8;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+
+        & svg {
+            height: 20px;
+            color: #6b7280;
+        }
+
+        & .preview_img {
+            width: 100%;
+            height: 100%;
+            border-radius: 1%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        & div#imagePreview {
+            width: 100%;
+            height: 100%;
+            border-radius: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    }
+}
