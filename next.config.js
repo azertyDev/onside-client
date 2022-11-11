@@ -5,6 +5,7 @@ const nextConfig = {
     i18n,
     reactStrictMode: false,
     swcMinify: true,
+    distDir: 'build',
     async redirects() {
         return [
             {
