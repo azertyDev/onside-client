@@ -1,7 +1,6 @@
 import { Field, ErrorMessage, FieldProps } from "formik";
 import { ErrorText } from "./ErrorText";
 import InputMask from "react-input-mask";
-import s from "./index.module.scss";
 import { Input, InputBase } from "@mantine/core";
 import { useId } from "@mantine/hooks";
 

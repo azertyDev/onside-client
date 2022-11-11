@@ -11,7 +11,7 @@
 }
 
 .field {
-    @apply mb-6 flex w-full flex-col items-start justify-center;
+    /* @apply w-full; */
 
     select {
         -webkit-appearance: none;
@@ -23,7 +23,7 @@
     }
 
     label {
-        @apply mb-1;
+        @apply leading-[24.8px];
     }
     /* Disable arrows Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,
@@ -40,12 +40,16 @@
     input,
     select,
     textarea {
-        @apply w-full rounded-lg bg-[#F7F8FC] py-[15px] px-[10px] text-myBlack outline-myRed placeholder:text-mySilver placeholder:text-sm;
+        @apply w-full rounded-[4px] bg-white h-[42px] px-[14px] text-myBlack placeholder:text-mySilver placeholder:text-sm border border-solid border-[#ced4da];
+    }
+
+    & select {
+        @apply focus:border-[#228be6] border-[#ced4da] border bg-white focus:outline-none;
     }
 }
 
 .errorText {
-    @apply mt-1 text-myRed text-xs; 
+    @apply mt-1 text-myRed text-xs;
 }
 
 .imageUpload {

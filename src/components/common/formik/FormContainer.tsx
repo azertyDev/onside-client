@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { FC, PropsWithChildren } from 'react';
 
@@ -20,7 +19,7 @@ export const FormikContainer: FC<FormikContainerPropsType> = ({
             validationSchema={validationSchema}
             onSubmit={onSubmit}
         >
-            {(formik) => children}
+            {children}
         </Formik>
     );
 };

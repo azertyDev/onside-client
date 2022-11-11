@@ -1,18 +1,18 @@
-import React from 'react';
 import { Field, ErrorMessage } from 'formik';
 import { ErrorText } from './ErrorText';
 import s from './index.module.scss';
 
 export const FormikSelect = (props: any) => {
-    const { label, name, options, ...rest } = props;
+    const { label, name, options, withAsterisk, className, ...rest } = props;
+
     return (
         <div className={s.field}>
             {label && <label htmlFor={name}>{label}</label>}
-            <Field as='select' id={name} name={name} {...rest}>
+            <Field id={name} name={name} {...rest} as='select'>
                 {options.map((option: any) => {
                     return (
-                        <option key={option.value} value={option.value}>
-                            {option.key}
+                        <option key={option.key} value={option.key}>
+                            {option.value}
                         </option>
                     );
                 })}

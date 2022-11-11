@@ -1,22 +1,19 @@
-import { TextInput } from "@mantine/core";
-import { Field, ErrorMessage, FieldProps } from "formik";
-import { ErrorText } from "./ErrorText";
+import { TextInput } from '@mantine/core';
+import { Field, ErrorMessage, FieldProps } from 'formik';
+import { ErrorText } from './ErrorText';
 
 export const FormikInput = (props: any) => {
-    const { label, name, placeholder, withAsterisk, className, ...rest } =
-        props;
+    const { label, name, placeholder, withAsterisk, className, ...rest } = props;
 
     return (
         <>
             <Field {...rest} id={name} name={name}>
-                {({
-                    field,
-                    form: { touched, errors, isSubmitting },
-                }: FieldProps) => {
+                {({ field, form: { touched, errors, isSubmitting } }: FieldProps) => {
                     return (
                         <TextInput
-                            size="md"
+                            size='md'
                             {...field}
+                            {...rest}
                             width={100}
                             label={label}
                             className={className}
@@ -26,10 +23,7 @@ export const FormikInput = (props: any) => {
                             error={
                                 touched[field.name] &&
                                 errors[field.name] && (
-                                    <ErrorMessage
-                                        component={ErrorText}
-                                        name={name}
-                                    />
+                                    <ErrorMessage component={ErrorText} name={name} />
                                 )
                             }
                         />

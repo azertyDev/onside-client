@@ -1,20 +1,19 @@
-import { Paper, createStyles, TextInput, PasswordInput, Button, Title } from '@mantine/core';
-import axios from 'axios';
 import Cookies from 'js-cookie';
-import { Form } from 'formik';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
 import { Store } from 'utils/Store';
-import { FormikContainer } from 'components/common/formik/FormContainer';
+import { Form, Formik } from 'formik';
+import { axiosInstance } from 'utils/instance';
+import { Paper, createStyles, Button, Title, Autocomplete } from '@mantine/core';
 import { FormikControl } from 'components/common/formik/FormikControl';
 import { authSchema } from 'src/validation/authSchema';
-import { axiosInstance } from 'utils/instance';
+import { showNotification } from '@mantine/notifications';
 
 const useStyles = createStyles((theme) => ({
     wrapper: {
         minHeight: '100vh',
         backgroundSize: 'cover',
-        backgroundImage: "url('/img/stadium.jpeg')",
+        backgroundImage: "url('/assets/img/stadium.jpeg')",
         display: 'flex',
         justifyContent: 'center',
         backgroundPosition: 'center',
@@ -44,47 +43,45 @@ export const Login = () => {
     const router = useRouter();
     const { dispatch } = useContext(Store);
 
+    const [email, setEmail] = useState('');
+
     const initialValues = {
-        phone: '',
+        email: '',
         password: '',
     };
 
     const onSubmit = async (values: any) => {
-        const { phone, password } = values;
-
         await axiosInstance
-            .post(`/login`, {
-                phone: phone.replace('+', ''),
-                password,
+            .post(`/users/login`, values)
+            .then(({ data }) => {
+                dispatch({ type: 'ADMIN_LOGIN', payload: data });
+                Cookies.set('userInfo', JSON.stringify(data));
+                router.push('/dashboard');
+                if (data) {
+                    showNotification({
+                        title: '',
+                        message: `You are logged in as ${data.user.name}`,
+                    });
+                }
             })
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch((err) => {
-                console.log(err);
+            .catch(({ response }) => {
+                if (data) {
+                    showNotification({
+                        title: '',
+                        message: response.data.message,
+                    });
+                }
             });
+    };
 
-        await fetch(`http://localhost:3001/login`, {
-            method: 'POST',
-            // headers: {
-            //     'Access-Control-Allow-Origin': 'localhost',
-            //     'Access-Control-Allow-Methods': '*',
-            // },
-            body: JSON.stringify({
-                phone: phone.replace('+', ''),
-                password,
-            }),
-        })
-            .then((response) => {
-                // dispatch({ type: 'ADMIN_LOGIN', payload: response.data });
-                console.log(response.json());
+    const data =
+        email.trim().length > 0 && !email.includes('@')
+            ? ['gmail.com', 'mail.ru', 'inbox.ru'].map((provider) => `${email}@${provider}`)
+            : [];
 
-                // Cookies.set("userInfo", JSON.stringify(response.data));
-                // router.push("/dashboard");
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+    const handleMailInput = (setFieldValue: any, value: any) => {
+        setEmail(value);
+        setFieldValue('email', value);
     };
 
     return (
@@ -94,34 +91,47 @@ export const Login = () => {
                     Welcome back to ONSIDE!
                 </Title>
 
-                <FormikContainer
+                <Formik
                     initialValues={initialValues}
                     validationSchema={authSchema}
                     onSubmit={onSubmit}
                 >
-                    <Form>
-                        <FormikControl
-                            withAsterisk
-                            label='Телефон'
-                            type='text'
-                            name='phone'
-                            control='phone'
-                            placeholder='Телефон'
-                        />
-                        <FormikControl
-                            withAsterisk
-                            label='Пароль'
-                            control='password'
-                            name='password'
-                            type='password'
-                            className='mt-4'
-                            placeholder='Пароль'
-                        />
-                        <Button fullWidth mt='xl' size='md' className='bg-blue-500' type='submit'>
-                            Авторизоваться
-                        </Button>
-                    </Form>
-                </FormikContainer>
+                    {({ values, setFieldValue, errors }) => {
+                        return (
+                            <Form>
+                                <Autocomplete
+                                    value={values.email}
+                                    onChange={(value) => handleMailInput(setFieldValue, value)}
+                                    label='Email'
+                                    placeholder='Почта'
+                                    data={data}
+                                    error={errors.email}
+                                    withAsterisk
+                                    size='md'
+                                />
+
+                                <FormikControl
+                                    withAsterisk
+                                    label='Пароль'
+                                    control='password'
+                                    name='password'
+                                    type='password'
+                                    className='mt-4'
+                                    placeholder='Пароль'
+                                />
+                                <Button
+                                    fullWidth
+                                    mt='xl'
+                                    size='md'
+                                    className='bg-blue-500'
+                                    type='submit'
+                                >
+                                    Авторизоваться
+                                </Button>
+                            </Form>
+                        );
+                    }}
+                </Formik>
             </Paper>
         </div>
     );

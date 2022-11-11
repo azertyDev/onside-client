@@ -1,25 +1,18 @@
-import type { GetServerSidePropsContext, GetStaticProps, NextPage } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Layout } from "components/layouts/Layout";
-import { Home } from "src/pages/home";
-import { Login } from "src/pages/login";
+import type { GetServerSidePropsContext, GetStaticProps, NextPage } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { Layout } from 'components/layouts/Layout';
+import { Home } from 'src/pages/home';
 
 const HomePage: NextPage = (props: any) => {
-    return <Login />;
-    // return <Home />;
+    return <Home />;
 };
-
-interface IHomeProps {}
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const lang = context.locale;
 
     return {
         props: {
-            ...(await serverSideTranslations(lang as string, [
-                "common",
-                "home",
-            ])),
+            ...(await serverSideTranslations(lang as string, ['common', 'home'])),
         },
     };
 }

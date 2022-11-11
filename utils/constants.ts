@@ -1,4 +1,9 @@
-export const SERVER_URL = `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}`;
+export const SERVER_URL = `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3001'}`;
+
+export const baseURL =
+    process.env.NODE_ENV === 'development'
+        ? process.env.NEXT_PUBLIC_DEV_API_URL
+        : process.env.NEXT_PUBLIC_PROD_API_URL;
 
 export const SITE_KEY = `${
     process.env.NEXT_PUBLIC_SITE_KEY || '6LeBYBohAAAAAE6paKtryZbb0k5bIq0mig3qWTcb'

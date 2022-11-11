@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
 export const authSchema = yup.object().shape({
-    phone: yup.string().required("phoneAuth"),
+    email: yup.string().required("emailAuth"),
     password: yup.string().required("passwordAuth"),
 });
