@@ -1,0 +1,112 @@
+.wrapperInputFile {
+    padding: 32px 0;
+}
+.bodyLoad {
+    width: 100%;
+    display: flex;
+    padding: 32px 0px;
+}
+
+.titleInputFile {
+    font-size: 20px;
+    line-height: 24px;
+    color: #525366;
+    font-weight: 600;
+}
+
+.fileLoadBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 130px;
+    height: 130px;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: #e7e7e7;
+    padding: 0px 25px;
+    text-align: center;
+    margin-right: 11px;
+}
+
+.fileLoadBlock input {
+    display: none;
+}
+
+.imgBlock {
+    width: 32px;
+    height: 32px;
+    position: relative;
+}
+
+.imgIcon {
+    width: 100%;
+    height: 100%;
+    position: relative !important;
+}
+
+.tetleLoadBlock {
+    font-size: 14px;
+    line-height: 19px;
+    color: #68686b;
+    text-transform: uppercase;
+}
+
+.previewblock {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    margin: 0px 11px;
+    border-radius: 8px;
+}
+
+.previewLoadImg {
+    width: 130px;
+    height: 130px;
+    position: relative;
+    margin: 0px 11px;
+}
+
+.previewLoad {
+    width: 100%;
+    height: 100%;
+    position: relative !important;
+}
+
+.previewImg {
+    width: 130px;
+    height: 130px;
+    position: relative;
+}
+
+.preview {
+    width: 100%;
+    height: 100%;
+    position: relative !important;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px;
+}
+
+.btnBlock {
+    background: none;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    z-index: 3;
+}
+
+.btnImgBlock {
+    width: 16px;
+    height: 16px;
+    position: relative;
+}
+
+.btnIcon {
+    width: 100%;
+    height: 100%;
+    position: relative !important;
+}
+.message {
+    color: red;
+}

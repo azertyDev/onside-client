@@ -3,11 +3,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Layout } from 'components/layouts/Layout';
 import { Home } from 'src/pages/home';
 
-const HomePage = (props: any) => {
+const HomePage: NextPage = (props: any) => {
     return <Home />;
 };
-
-interface IHomeProps {}
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const lang = context.locale;

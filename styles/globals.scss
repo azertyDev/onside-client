@@ -11,15 +11,18 @@
     }
 
     .row {
-        @apply flex justify-center gap-4;
-        // Mobile sm-> (max-width:576px);
-        @apply sm:flex-col;
+        @apply grid grid-cols-3 gap-8 sm:grid-cols-1 sm:gap-5;
     }
+}
+
+img {
+    /* filter: blur(0px); */
+    @apply filter-none #{!important};
 }
 
 html,
 body {
-    @apply m-0 h-full min-w-[320px] bg-[#f9f9f9] p-0;
+    @apply m-0 h-full min-w-[320px] bg-[#fafafa] p-0;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -42,6 +45,11 @@ a:hover {
 
 * {
     box-sizing: border-box;
+}
+
+input,
+input::placeholder {
+    @apply text-sm;
 }
 
 p,
