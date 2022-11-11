@@ -2,7 +2,7 @@ import { Grid, Tabs } from '@mantine/core';
 import { AxiosResponse } from 'axios';
 import { CustomTabs } from 'components/common/tabs';
 import { useContext, useEffect, useState } from 'react';
-import IUser from 'src/interfaces/IUser';
+import {IUser} from 'src/interfaces/IUser';
 import { axiosInstance } from 'utils/instance';
 import { Store } from 'utils/Store';
 import { CreateModeratorsForm } from './form';

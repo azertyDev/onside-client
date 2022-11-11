@@ -12,7 +12,7 @@ import {
 import { DeleteIcon } from 'components/common/icons';
 import { EditIcon } from 'components/common/icons/edit_icon/EditIcon';
 import { useState } from 'react';
-import IUser from 'src/interfaces/IUser';
+import { IUser } from 'src/interfaces/IUser';
 
 const useStyles = createStyles((theme) => ({
     header: {
