@@ -3,6 +3,7 @@ import { CustomTabs } from 'components/common/tabs';
 import { useEffect, useState } from 'react';
 import { baseURL } from 'utils/constants';
 import { axiosInstance } from 'utils/instance';
+import { CategoriesTable } from './CategoriesTable';
 import { CreateCategoriesForm } from './form';
 
 export const Categories = () => {
@@ -26,9 +27,7 @@ export const Categories = () => {
             </Tabs.List>
 
             <Tabs.Panel value='1' pt='xl'>
-                {categories?.map((item: any) => {
-                    return <div key={item.id}>{item.nameLink}</div>;
-                })}
+                <CategoriesTable data={categories} />
             </Tabs.Panel>
 
             <Tabs.Panel value='2' pt='xl'>

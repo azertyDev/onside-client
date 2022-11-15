@@ -15,6 +15,7 @@ export const DashboardLayout = ({ children, meta }: any) => {
             type: 'ADMIN_LOGOUT',
         });
         Cookies.remove('userInfo');
+        Cookies.remove('token');
         router.push('/login');
     };
 

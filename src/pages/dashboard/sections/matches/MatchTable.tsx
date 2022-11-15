@@ -8,8 +8,8 @@ export const MatchTable = ({ data }: { data: IMatchCenter[] }) => {
         return dayjs(value).locale('ru').format('DD-MMMM-YYYY HH:mm');
     };
 
-    const rows = data?.map((element) => (
-        <tr key={element.id}>
+    const rows = data?.map((element, index) => (
+        <tr key={index}>
             <td>{element.host}</td>
             <td>{element.guest}</td>
             <td>{date(element.date)}</td>
