@@ -5,6 +5,7 @@ import { Clubs } from './sections/clubs';
 import { Matches } from './sections/matches';
 import { Moderators } from './sections/moderators';
 import { News } from './sections/news';
+import { Slider } from './sections/slider';
 
 const useStyles = createStyles((theme) => {
     return {
@@ -32,6 +33,8 @@ export const Dashboard = () => {
                 return <Clubs />;
             case 'moderators':
                 return <Moderators />;
+            case 'slider':
+                return <Slider />;
         }
     };
 

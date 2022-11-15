@@ -48,11 +48,13 @@ export const News = () => {
                             );
                         })}
                     </Grid>
-                    <Pagination
-                        total={news.total}
-                        className='my-6 flex justify-center'
-                        onChange={handlePagination}
-                    />
+                    {news.data?.length > 0 && news.data && (
+                        <Pagination
+                            total={news.total}
+                            className='my-6 flex justify-center'
+                            onChange={handlePagination}
+                        />
+                    )}
                 </Tabs.Panel>
 
                 <Tabs.Panel value='2' pt='xl'>

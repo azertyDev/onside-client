@@ -1,30 +1,50 @@
-import { useState } from 'react';
 import { Text, Image, SimpleGrid } from '@mantine/core';
 import { Dropzone as MantineDropzone, IMAGE_MIME_TYPE, FileWithPath } from '@mantine/dropzone';
+import { useState } from 'react';
 
 export const Dropzone = (props: any) => {
     const [files, setFiles] = useState<FileWithPath[]>([]);
 
-    const handleUpload = (url: any) => {
-        props.setFieldValue('image', url);
-        URL.revokeObjectURL(url);
-    };
-
-    const previews = files.map((file, index) => {
+    const thumb = files.map((file, index) => {
         const imageUrl = URL.createObjectURL(file);
         return (
             <Image
-                alt='preview'
+                alt='previeww'
                 key={index}
                 src={imageUrl}
-                imageProps={{ onLoad: () => handleUpload(URL.revokeObjectURL(imageUrl)) }}
+                imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
             />
         );
     });
 
+    const handleUpload = (image: any) => {
+        console.log(image);
+
+        setFiles(image);
+        props.setFieldValue('image', image);
+    };
+
+    // const previews = props.images.map((image: FileWithPath, index: number) => {
+    //     const imageUrl = URL.createObjectURL(image);
+
+    //     return <Image alt='preview' key={index} src={imageUrl} />;
+    // });
+
+    const previews = () => {
+        const imageUrl = URL.createObjectURL(props.images.url);
+
+        return <Image alt='preview' src={imageUrl} />;
+    };
+
     return (
         <div>
-            <MantineDropzone accept={IMAGE_MIME_TYPE} onDrop={setFiles}>
+            <MantineDropzone
+                id={props.id}
+                multiple={false}
+                name={props.name}
+                accept={IMAGE_MIME_TYPE}
+                onDrop={handleUpload}
+            >
                 <Text align='center'>Drop images here</Text>
             </MantineDropzone>
 
@@ -33,7 +53,7 @@ export const Dropzone = (props: any) => {
                 breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
                 mt={previews.length > 0 ? 'xl' : 0}
             >
-                {previews}
+                {thumb}
             </SimpleGrid>
         </div>
     );

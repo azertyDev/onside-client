@@ -56,6 +56,7 @@ export const Login = () => {
             .then(({ data }) => {
                 dispatch({ type: 'ADMIN_LOGIN', payload: data });
                 Cookies.set('userInfo', JSON.stringify(data));
+                Cookies.set('token', JSON.stringify(data.token));
                 router.push('/dashboard');
                 if (data) {
                     showNotification({

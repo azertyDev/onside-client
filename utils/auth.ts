@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiResponse } from 'next';
 import { IGetUserAuthInfoRequest } from 'src/interfaces/IGetUserAuthInfoRequest';
 import { IUser } from 'src/interfaces/IUser';
 const secret = process.env.NEXT_PUBLIC_JWT_SECRET;

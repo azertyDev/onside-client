@@ -10,6 +10,7 @@ import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
 import '../styles/globals.scss';
 import { NotificationsProvider } from '@mantine/notifications';
+import { ModalsProvider } from '@mantine/modals';
 
 type NextPageWithLayout = NextPage & {
     getLayout?: (page: ReactElement) => ReactNode;
@@ -40,7 +41,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                         colorScheme: 'light',
                     }}
                 >
-                    <NotificationsProvider>{layout}</NotificationsProvider>
+                    <ModalsProvider>
+                        <NotificationsProvider>{layout}</NotificationsProvider>
+                    </ModalsProvider>
                 </MantineProvider>
             </StoreProvider>
         </>

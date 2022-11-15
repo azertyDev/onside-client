@@ -1,15 +1,14 @@
 import Cookies from 'js-cookie';
+import { IUser } from 'src/interfaces/IUser';
 
 export const setTokenToHeader = () => {
-    const token = Cookies.get('slondo_auth');
+    const userInfo: IUser = JSON.parse(Cookies.get('userInfo')!);
 
-    if (token) {
+    if (userInfo.token) {
         return {
             headers: {
-                'Cross-Origin-Embedder-Policy': 'require-corp',
-                'Cross-Origin-Opener-Policy': 'same-origin',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${userInfo.token}`,
             },
         };
     }

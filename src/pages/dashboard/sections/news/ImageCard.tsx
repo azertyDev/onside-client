@@ -3,7 +3,6 @@ import { EyeIcon } from 'components/common/icons/eye_icon/EyeIcon';
 import { LikeIcon } from 'components/common/icons/like_icon/LikeIcon';
 import { StarIcon } from 'components/common/icons/star_icon/StarIcon';
 import { INews } from 'src/interfaces/INews';
-import { baseURL } from 'utils/constants';
 
 const useStyles = createStyles((theme, _params, getRef) => {
     const image = getRef('image');
@@ -82,9 +81,7 @@ export function ImageCard(props: INews) {
                 className={classes.image}
                 style={{
                     backgroundImage: `url(${
-                        props.image
-                            ? `${baseURL}/${props.image.url}`
-                            : '/assets/img/placeholder-img.svg'
+                        props.image ? `${props.image.url}` : '/assets/img/placeholder-img.svg'
                     })`,
                 }}
             />
