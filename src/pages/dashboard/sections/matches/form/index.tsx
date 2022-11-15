@@ -30,7 +30,7 @@ export const CreateMatchForm = () => {
         };
 
         await axiosInstance
-            .post(`${baseURL}/matches`, body, {
+            .post(`/matches`, body, {
                 headers: {
                     authorization: `Bearer ${userInfo!.token}`,
                 },

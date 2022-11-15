@@ -31,7 +31,7 @@ export const CreateClubsForm = () => {
         };
 
         await axiosInstance
-            .post(`${baseURL}/clubs`, body, {
+            .post(`/clubs`, body, {
                 headers: {
                     'authorization': `Bearer ${userInfo!.token}`,
                     'Content-Type': 'multipart/form-data',

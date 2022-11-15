@@ -11,7 +11,7 @@ export const Clubs = () => {
     const [clubs, setClubs] = useState([]);
 
     const fetchClubs = () => {
-        axiosInstance.get(`${baseURL}/clubs`).then(({ data }) => {
+        axiosInstance.get(`/clubs`).then(({ data }) => {
             setClubs(data);
         });
     };

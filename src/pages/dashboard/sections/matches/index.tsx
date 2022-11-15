@@ -12,7 +12,7 @@ export const Matches = () => {
     const [matches, setMatches] = useState<IMatchCenter[]>([]);
 
     const fetchMatches = () => {
-        axiosInstance.get(`${baseURL}/matches`).then(({ data }) => {
+        axiosInstance.get(`/matches`).then(({ data }) => {
             setMatches(data);
         });
     };

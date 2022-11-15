@@ -10,7 +10,7 @@ export const Categories = () => {
     const [categories, setCategories] = useState([]);
 
     const fetchCategories = () => {
-        axiosInstance.get(`${baseURL}/categories`).then(({ data }) => {
+        axiosInstance.get(`/categories`).then(({ data }) => {
             setCategories(data);
         });
     };

@@ -21,7 +21,7 @@ export const CreateModeratorsForm = () => {
 
     const onSubmit = async (values: any) => {
         await axiosInstance
-            .post(`${baseURL}/moderators`, values, {
+            .post(`/moderators`, values, {
                 headers: {
                     authorization: `Bearer ${userInfo!.token}`,
                 },

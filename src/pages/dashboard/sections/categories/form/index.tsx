@@ -28,7 +28,7 @@ export const CreateCategoriesForm = () => {
 
     const onSubmit = async (values: any) => {
         await axiosInstance
-            .post(`${baseURL}/categories`, values, {
+            .post(`/categories`, values, {
                 headers: {
                     authorization: `Bearer ${userInfo!.token}`,
                 },

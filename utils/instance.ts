@@ -1,14 +1,13 @@
 import axios from 'axios';
+import { baseURL } from './constants';
 import { setTokenToHeader } from './helpers';
 const https = require('https');
-const baseURL =
-    process.env.NODE_ENV === 'development'
-        ? process.env.NEXT_PUBLIC_DEV_API_URL
-        : process.env.NEXT_PUBLIC_PROD_API_URL;
+console.log(process.env.NEXT_PUBLIC_PROD_API_URL);
 
 export const axiosInstance = axios.create({
     withCredentials: false,
     baseURL: baseURL,
+    // baseURL: process.env.NEXT_PUBLIC_PROD_API_URL,
     headers: {
         'Access-Control-Allow-Origin': 'localhost',
         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
