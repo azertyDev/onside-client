@@ -3,7 +3,8 @@ const { parse } = require('url');
 const next = require('next');
 
 const dev = process.env.NODE_ENV !== 'production';
-const hostname = dev ? 'localhost' : 'http://185.196.213.14';
+// const hostname = dev ? 'localhost' : 'http://185.196.213.14';
+const hostname = 'localhost';
 const port = 3000;
 
 // when using middleware `hostname` and `port` must be provided below
@@ -32,6 +33,6 @@ app.prepare().then(() => {
         }
     }).listen(port, (err) => {
         if (err) throw err;
-        console.log(`> Ready on http://${hostname}:${port}`);
+        console.log(`> Ready on ${hostname}:${port}`);
     });
 });
