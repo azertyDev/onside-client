@@ -127,10 +127,13 @@ export const CreateNewsForm = () => {
 
         const body: any = new FormData();
 
+        if (subCategoryTypeId) {
+            body.append('subCategoryTypeId', subCategoryTypeId);
+        }
         body.append('image', image[0]);
         body.append('categoryId', categoryId);
         body.append('subCategoryId', subCategoryId);
-        body.append('subCategoryTypeId', subCategoryTypeId);
+
         body.append('text', text);
         body.append('author', author);
         body.append('authorLink', authorLink);
