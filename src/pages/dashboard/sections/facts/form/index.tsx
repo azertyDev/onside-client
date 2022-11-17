@@ -1,4 +1,4 @@
-import { Button, CheckIcon } from '@mantine/core';
+import { Button, CheckIcon, Select } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { Dropzone } from 'components/common/dropzone';
 import InputFile from 'components/common/fileUpload/inputFile';
@@ -23,6 +23,12 @@ export const CreateFactsForm = () => {
         link: '',
         file: '',
     };
+
+    const typeData = [
+        { label: 'Выберите', value: '' },
+        { label: 'Video', value: 'video' },
+        { label: 'Image', value: 'image' },
+    ];
 
     const onSubmit = async (values: any) => {
         const { file, ...rest } = values;
@@ -73,10 +79,13 @@ export const CreateFactsForm = () => {
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <div className='row'>
-                            <FormikControl
+                            <Select
+                                size='md'
                                 name='type'
-                                control='input'
                                 label='Type'
+                                data={typeData}
+                                onChange={(e) => setFieldValue('type', e)}
+                                value={values.type}
                                 placeholder='video or image'
                             />
                             <FormikControl name='link' control='input' label='Link' />
