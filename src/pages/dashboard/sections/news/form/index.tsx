@@ -149,23 +149,23 @@ export const CreateNewsForm = () => {
             rating,
             publishedAt,
         } = JSON.parse(JSON.stringify(values));
-console.log(values);
+        console.log(values);
 
         const body: any = new FormData();
 
         if (subCategoryTypeId) {
             body.append('subCategoryTypeId', subCategoryTypeId);
         }
+
+        body.append('text', text);
+        body.append('amountRating', amountRating);
         body.append('image', image[0]);
         body.append('categoryId', categoryId);
         body.append('subCategoryId', subCategoryId);
-
-        body.append('text', text);
         body.append('authorId', authorId);
         body.append('nameLink', nameLink);
         body.append('link', link);
         body.append('type', type);
-        body.append('amountRating', amountRating);
         body.append('rating', rating);
         body.append('editorText', richText);
         body.append('publishedAt', publishedAt.replace('T', ' '));

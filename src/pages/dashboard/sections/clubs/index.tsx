@@ -32,7 +32,7 @@ export const Clubs = () => {
                     {clubs?.map((item: IClub) => {
                         return (
                             <Grid.Col md={6} lg={3} key={item.id}>
-                                <ClubCard {...item} />
+                                <ClubCard data={item} url={`/clubs/${item.id}`} />
                             </Grid.Col>
                         );
                     })}

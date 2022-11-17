@@ -5,6 +5,7 @@ import { IFact } from 'src/interfaces/IFact';
 import { axiosInstance } from 'utils/instance';
 import { Store } from 'utils/Store';
 import { FactCard } from './FactCard';
+import { CreateFactsForm } from './form';
 
 export interface Story {
     id: number;
@@ -78,7 +79,7 @@ export const Facts: FC = () => {
                 </Tabs.Panel>
 
                 <Tabs.Panel value='2' pt='xl'>
-                    <div>Form</div>
+                    <CreateFactsForm />
                 </Tabs.Panel>
             </CustomTabs>
         </div>

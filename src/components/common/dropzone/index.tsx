@@ -1,12 +1,14 @@
 import { Text, Image, SimpleGrid } from '@mantine/core';
-import { Dropzone as MantineDropzone, IMAGE_MIME_TYPE, FileWithPath } from '@mantine/dropzone';
+import { Dropzone as MantineDropzone, FileWithPath, MIME_TYPES } from '@mantine/dropzone';
 import { useState } from 'react';
 
 export const Dropzone = (props: any) => {
     const [files, setFiles] = useState<FileWithPath[]>([]);
+console.log(files);
 
     const thumb = files.map((file, index) => {
         const imageUrl = URL.createObjectURL(file);
+
         return (
             <Image
                 alt='previeww'
@@ -17,11 +19,11 @@ export const Dropzone = (props: any) => {
         );
     });
 
-    const handleUpload = (image: any) => {
-        console.log(image);
+    const handleUpload = (file: any) => {
+        console.log(file);
 
-        setFiles(image);
-        props.setFieldValue('image', image);
+        setFiles(file);
+        props.setFieldValue('image', file);
     };
 
     // const previews = props.images.map((image: FileWithPath, index: number) => {
@@ -31,7 +33,7 @@ export const Dropzone = (props: any) => {
     // });
 
     const previews = () => {
-        const imageUrl = URL.createObjectURL(props.images.url);
+        const imageUrl = URL.createObjectURL(props.file.url);
 
         return <Image alt='preview' src={imageUrl} />;
     };
@@ -42,7 +44,7 @@ export const Dropzone = (props: any) => {
                 id={props.id}
                 multiple={false}
                 name={props.name}
-                accept={IMAGE_MIME_TYPE}
+                accept={[MIME_TYPES.png, MIME_TYPES.jpeg, MIME_TYPES.mp4, MIME_TYPES.svg]}
                 onDrop={handleUpload}
             >
                 <Text align='center'>Drop images here</Text>

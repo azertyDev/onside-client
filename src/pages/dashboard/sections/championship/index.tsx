@@ -3,6 +3,7 @@ import { CustomTabs } from 'components/common/tabs';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from 'utils/instance';
 import { ClubCard } from '../clubs/Card';
+import { CreateChampionshipForm } from './form';
 
 export const Championships = () => {
     const [championships, setChampionships] = useState([]);
@@ -29,7 +30,7 @@ export const Championships = () => {
                     {championships?.map((item: any) => {
                         return (
                             <Grid.Col md={6} lg={3} key={item.id}>
-                                <ClubCard {...item} />
+                                <ClubCard data={item} url={`/chempionships/${item.id}`} />
                             </Grid.Col>
                         );
                     })}
@@ -37,8 +38,7 @@ export const Championships = () => {
             </Tabs.Panel>
 
             <Tabs.Panel value='2' pt='xl'>
-                <div>Form</div>
-                {/* <CreateClubsForm /> */}
+                <CreateChampionshipForm />
             </Tabs.Panel>
         </CustomTabs>
     );

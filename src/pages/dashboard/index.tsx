@@ -33,14 +33,14 @@ export const Dashboard = () => {
                 return <Matches />;
             case 'clubs':
                 return <Clubs />;
+            case 'championship':
+                return <Championships />;
             case 'moderators':
                 return <Moderators />;
             case 'slider':
                 return <Slider />;
             case 'facts':
                 return <Facts />;
-            case 'championship':
-                return <Championships />;
         }
     };
 

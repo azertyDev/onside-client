@@ -6,7 +6,6 @@ const https = require('https');
 export const axiosInstance = axios.create({
     withCredentials: false,
     baseURL: baseURL,
-    // baseURL: process.env.NEXT_PUBLIC_PROD_API_URL,
     headers: {
         'Access-Control-Allow-Origin': 'localhost',
         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
