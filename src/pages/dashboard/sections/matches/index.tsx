@@ -1,10 +1,8 @@
-import { Grid, Table, Tabs } from '@mantine/core';
+import { Tabs } from '@mantine/core';
 import { CustomTabs } from 'components/common/tabs';
 import { useEffect, useState } from 'react';
 import { IMatchCenter } from 'src/interfaces/IMatchCenter';
-import { baseURL } from 'utils/constants';
 import { axiosInstance } from 'utils/instance';
-import { MatchCard } from './Card';
 import { CreateMatchForm } from './form';
 import { MatchTable } from './MatchTable';
 
@@ -37,7 +35,7 @@ export const Matches = () => {
             </Tabs.List>
 
             <Tabs.Panel value='1' pt='xl'>
-                <MatchTable data={matches}/>
+                <MatchTable data={matches} />
             </Tabs.Panel>
 
             <Tabs.Panel value='2' pt='xl'>

@@ -1,15 +1,15 @@
 import { Button, CheckIcon } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import FormikControl from 'components/common/formik/FormikControl';
-import { CloseIcon, PostIcon } from 'components/common/icons';
+import { CloseIcon } from 'components/common/icons';
 import { Form, Formik } from 'formik';
+import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import { baseURL } from 'utils/constants';
-import { setTokenToHeader } from 'utils/helpers';
 import { axiosInstance } from 'utils/instance';
 import { Store } from 'utils/Store';
 
 export const CreateMatchForm = () => {
+    const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
 
@@ -20,7 +20,7 @@ export const CreateMatchForm = () => {
         date: '',
     };
 
-    const onSubmit = async (values: any) => {
+    const onSubmit = async (values: any, { resetForm }: any) => {
         const { publishedAt, date, ...rest } = values;
 
         const body = {
@@ -35,14 +35,17 @@ export const CreateMatchForm = () => {
                     authorization: `Bearer ${userInfo!.token}`,
                 },
             })
-            .then(({ data }) => {
+            .then((data) => {
                 if (data) {
                     showNotification({
                         title: '',
-                        message: data.message,
+                        message: data.data.message,
                         color: 'teal',
                         icon: <CheckIcon />,
                     });
+                }
+                if (data.status === 200) {
+                    reload();
                 }
             })
             .catch(({ response }) => {

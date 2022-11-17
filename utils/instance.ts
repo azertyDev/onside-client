@@ -2,7 +2,6 @@ import axios from 'axios';
 import { baseURL } from './constants';
 import { setTokenToHeader } from './helpers';
 const https = require('https');
-console.log(process.env.NEXT_PUBLIC_PROD_API_URL);
 
 export const axiosInstance = axios.create({
     withCredentials: false,

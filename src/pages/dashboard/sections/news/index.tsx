@@ -42,7 +42,7 @@ export const News = () => {
                     <Grid>
                         {news?.data?.map((item: INews) => {
                             return (
-                                <Grid.Col md={6} lg={4} key={item.id}>
+                                <Grid.Col md={6} lg={4} xl={3} key={item.id}>
                                     <ImageCard {...item} />
                                 </Grid.Col>
                             );

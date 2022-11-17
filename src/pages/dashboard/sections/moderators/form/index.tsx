@@ -3,37 +3,45 @@ import { showNotification } from '@mantine/notifications';
 import FormikControl from 'components/common/formik/FormikControl';
 import { CloseIcon } from 'components/common/icons';
 import { Form, Formik } from 'formik';
+import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import { baseURL } from 'utils/constants';
+import { IUser } from 'src/interfaces/IUser';
 import { axiosInstance } from 'utils/instance';
 import { Store } from 'utils/Store';
 
-export const CreateModeratorsForm = () => {
+export const CreateModeratorsForm = ({ current }: { current: IUser | undefined }) => {
+    const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
 
     const initialValues = {
-        name: '',
-        surname: '',
-        phone: '',
-        email: '',
+        name: current?.name ?? '',
+        surname: current?.surname ?? '',
+        phone: current?.phone ?? '',
+        email: current?.email ?? '',
     };
 
     const onSubmit = async (values: any) => {
-        await axiosInstance
-            .post(`/moderators`, values, {
-                headers: {
-                    authorization: `Bearer ${userInfo!.token}`,
-                },
-            })
-            .then(({ data }) => {
+        await axiosInstance({
+            method: current ? 'PATCH' : 'POST',
+            url: current ? `/moderators/info/${current.id}` : '/moderators',
+            data: values,
+            headers: {
+                authorization: `Bearer ${userInfo!.token}`,
+            },
+        })
+            .then((data) => {
                 if (data) {
                     showNotification({
                         title: '',
-                        message: data.message,
+                        message: data.data.message,
                         color: 'teal',
                         icon: <CheckIcon />,
                     });
+                }
+
+                if (data.status === 200) {
+                    reload();
                 }
             })
             .catch(({ response }) => {
@@ -49,7 +57,7 @@ export const CreateModeratorsForm = () => {
     };
 
     return (
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
             {({ values, setFieldValue }) => {
                 return (
                     <Form className='grid gap-8 sm:gap-5'>

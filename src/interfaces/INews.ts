@@ -19,7 +19,10 @@ export interface INews {
     image: IImage;
     nameLink: string;
     link: string;
-    author: string;
+    author: {
+        name: string;
+        surname: string;
+    };
     authorLink: string;
     likes?: number;
     comment?: number;

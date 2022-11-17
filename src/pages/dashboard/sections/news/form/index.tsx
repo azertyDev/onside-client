@@ -1,4 +1,4 @@
-import { Button, Group, NumberInput, Select } from '@mantine/core';
+import { Button, NumberInput, Select } from '@mantine/core';
 import InputFile from 'components/common/fileUpload/inputFile';
 import FormikControl from 'components/common/formik/FormikControl';
 import { StarIcon } from 'components/common/icons/star_icon/StarIcon';
@@ -9,6 +9,8 @@ import { Store } from 'utils/Store';
 import { showNotification } from '@mantine/notifications';
 import { baseURL } from 'utils/constants';
 import { axiosInstance } from 'utils/instance';
+import { IUser } from 'src/interfaces/IUser';
+import { useRouter } from 'next/router';
 
 export enum NewsType {
     Common = 'COMMON',
@@ -26,6 +28,7 @@ interface IOptions {
 }
 
 export const CreateNewsForm = () => {
+    const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
 
@@ -46,24 +49,48 @@ export const CreateNewsForm = () => {
     subCategoriesArray.push(dropdown);
     subCategoriesTypeArray.push(dropdown);
 
+    const [moderators, setModerators] = useState<IUser[]>([]);
+
+    const authorsData = moderators.map((moderator: IUser) => {
+        return {
+            label: `${moderator.name} ${moderator.surname}`,
+            value: `${moderator.id}`,
+        };
+    });
+
+    const fetchModerators = async () => {
+        await axiosInstance
+            .get('/moderators', {
+                headers: {
+                    authorization: `Bearer ${userInfo!.token}`,
+                },
+            })
+            .then(({ data }) => {
+                setModerators(data);
+            })
+            .catch(({ response }) => {
+                console.log('Moderators fetch error: ', response);
+            });
+    };
+
     const fetchCategories = async () => {
         await axiosInstance
             .get('/categories')
             .then(({ data }) => {
-                data.map((i: any) => {
+                data?.map((i: any) => {
                     categoriesArray.push({
                         value: i.id,
                         label: i.name,
                     });
 
-                    i.menu.map((j: any) => {
+                    i.menu?.map((j: any) => {
                         subCategoriesArray.push({
                             value: j.id,
                             label: j.name,
                             group: i.name,
                         });
 
-                        j.menu.map((e: any) => {
+                        j.menu?.map((e: any) => {
                             subCategoriesTypeArray.push({
                                 value: e.id,
                                 label: e.name,
@@ -97,8 +124,7 @@ export const CreateNewsForm = () => {
         subCategoryId: '',
         subCategoryTypeId: '',
         text: '',
-        author: '',
-        authorLink: '',
+        authorId: '',
         nameLink: '',
         link: '',
         type: '',
@@ -115,8 +141,7 @@ export const CreateNewsForm = () => {
             subCategoryId,
             subCategoryTypeId,
             text,
-            author,
-            authorLink,
+            authorId,
             nameLink,
             link,
             type,
@@ -124,6 +149,7 @@ export const CreateNewsForm = () => {
             rating,
             publishedAt,
         } = JSON.parse(JSON.stringify(values));
+console.log(values);
 
         const body: any = new FormData();
 
@@ -135,8 +161,7 @@ export const CreateNewsForm = () => {
         body.append('subCategoryId', subCategoryId);
 
         body.append('text', text);
-        body.append('author', author);
-        body.append('authorLink', authorLink);
+        body.append('authorId', authorId);
         body.append('nameLink', nameLink);
         body.append('link', link);
         body.append('type', type);
@@ -153,17 +178,24 @@ export const CreateNewsForm = () => {
             body,
         })
             .then((data: any) => {
-                console.log(data);
-
                 if (data) {
                     showNotification({
                         title: '',
                         message: data.statusText,
                     });
                 }
+
+                if (data.status === 200) {
+                    reload();
+                }
             })
-            .catch((error) => {
-                console.log(error);
+            .catch((data) => {
+                if (data) {
+                    showNotification({
+                        title: '',
+                        message: data.statusText,
+                    });
+                }
             });
     };
 
@@ -174,6 +206,7 @@ export const CreateNewsForm = () => {
 
     useEffect(() => {
         fetchCategories();
+        fetchModerators();
     }, []);
 
     return (
@@ -182,10 +215,52 @@ export const CreateNewsForm = () => {
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <div className='row'>
+                            <FormikControl name='text' control='input' label='Title' />
+
+                            <Select
+                                size='md'
+                                name='authorId'
+                                label='Author'
+                                data={authorsData}
+                                onChange={(e) => setFieldValue('authorId', e)}
+                                value={values.authorId}
+                            />
+                            <Select
+                                size='md'
+                                name='type'
+                                label='Type'
+                                data={newsTypes}
+                                onChange={(e) => setFieldValue('type', e)}
+                                value={values.type}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor='editorText' className='mb-4'>
+                                Editor
+                            </label>
+                            <Rich_text
+                                value={richText!}
+                                onChange={(value) => handleRichText(setFieldValue, value)}
+                                className='editorTex mt-1'
+                                placeholder='Описание'
+                            />
+                        </div>
+
+                        <div className='row'>
+                            <FormikControl name='nameLink' control='input' label='Source name' />
+                            <FormikControl name='link' control='input' label='Source link' />
+                            <FormikControl
+                                name='publishedAt'
+                                control='dateTime'
+                                label='Publish time'
+                            />
+                        </div>
+
+                        <div className='row'>
                             <Select
                                 size='md'
                                 name='categoryId'
-                                label='categoryId'
+                                label='Category'
                                 data={categories}
                                 onChange={(e) => setFieldValue('categoryId', e)}
                                 value={values.categoryId}
@@ -193,7 +268,7 @@ export const CreateNewsForm = () => {
                             <Select
                                 size='md'
                                 name='subCategoryId'
-                                label='subCategoryId'
+                                label='Subcategory'
                                 data={subCategories}
                                 onChange={(e) => setFieldValue('subCategoryId', e)}
                                 value={values.subCategoryId}
@@ -201,29 +276,10 @@ export const CreateNewsForm = () => {
                             <Select
                                 size='md'
                                 name='subCategoryTypeId'
-                                label='subCategoryTypeId'
+                                label='Subcategory type'
                                 data={subCategoriesType}
                                 onChange={(e) => setFieldValue('subCategoryTypeId', e)}
                                 value={values.subCategoryTypeId}
-                            />
-                        </div>
-
-                        <div className='row'>
-                            <FormikControl name='text' control='input' label='text' />
-                            <FormikControl name='author' control='input' label='author' />
-                            <FormikControl name='authorLink' control='input' label='authorLink' />
-                        </div>
-
-                        <div className='row'>
-                            <FormikControl name='nameLink' control='input' label='nameLink' />
-                            <FormikControl name='link' control='input' label='link' />
-                            <Select
-                                size='md'
-                                name='type'
-                                label='type'
-                                data={newsTypes}
-                                onChange={(e) => setFieldValue('type', e)}
-                                value={values.type}
                             />
                         </div>
 
@@ -242,27 +298,10 @@ export const CreateNewsForm = () => {
                             />
                             <NumberInput
                                 size='md'
-                                label='amountRating'
+                                label='Amount rating'
                                 defaultValue={0}
                                 name='amountRating'
                                 onChange={(val) => setFieldValue('amountRating', val)}
-                            />
-                            <FormikControl
-                                name='publishedAt'
-                                control='dateTime'
-                                label='publishedAt'
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor='editorText' className='mb-4'>
-                                editorText
-                            </label>
-                            <Rich_text
-                                value={richText!}
-                                onChange={(value) => handleRichText(setFieldValue, value)}
-                                className='editorText'
-                                placeholder='Описание'
                             />
                         </div>
 

@@ -86,6 +86,8 @@ export const menu = [
     { id: 4, title: 'Матч центр', link: 'match_center' },
     { id: 5, title: 'Клубы', link: 'clubs' },
     { id: 6, title: 'Модераторы', link: 'moderators' },
+    { id: 7, title: 'Факты', link: 'facts' },
+    { id: 8, title: 'Чемпионат', link: 'championship' },
 ];
 
 export const Header = ({ logout }: IHeaderProps) => {

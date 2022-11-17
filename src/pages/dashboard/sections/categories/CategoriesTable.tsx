@@ -1,7 +1,7 @@
-import { Table } from '@mantine/core';
+import { ActionIcon, Group, Table } from '@mantine/core';
+import { EditIcon } from 'components/common/icons/edit_icon/EditIcon';
 import ICategory from 'src/interfaces/ICategory';
-import ISubCategory from 'src/interfaces/ISubCategory';
-import ISubCategoryType from 'src/interfaces/ISubCategoryType';
+import { DeleteModal } from '../slider/Card';
 
 export const CategoriesTable = (props: any) => {
     const rows = props.data.map((element: any) => {
@@ -17,6 +17,14 @@ export const CategoriesTable = (props: any) => {
             <tr key={element.name}>
                 <td>{element.name ? element.name : 'Пусто'}</td>
                 <td>{element.menu.map((item: any) => `${item.name} `)}</td>
+                <td>
+                    <Group spacing='sm' position='right'>
+                        <ActionIcon>
+                            <EditIcon />
+                        </ActionIcon>
+                        <DeleteModal url={`/categories/${element.id}`} />
+                    </Group>
+                </td>
                 {/* <td>{element.menu.map((item: ISubCategoryType) => console.log(item.name))}</td> */}
             </tr>
         );
@@ -28,6 +36,7 @@ export const CategoriesTable = (props: any) => {
                 <tr>
                     <th>Category (1 level)</th>
                     <th>Subcategory (2 level)</th>
+                    <th>Действия</th>
                     {/* <th>SubCategoryType (3 level)</th> */}
                 </tr>
             </thead>

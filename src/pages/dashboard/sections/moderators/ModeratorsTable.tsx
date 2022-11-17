@@ -8,11 +8,18 @@ import {
     Text,
     Badge,
     ActionIcon,
+    CheckIcon,
 } from '@mantine/core';
-import { DeleteIcon } from 'components/common/icons';
+import { showNotification } from '@mantine/notifications';
+import { CloseIcon, DeleteIcon } from 'components/common/icons';
 import { EditIcon } from 'components/common/icons/edit_icon/EditIcon';
-import { useState } from 'react';
+import { LockIcon } from 'components/common/icons/lock_icon/LockIcon';
+import { UnlockIcon } from 'components/common/icons/unlock_icon/UnlockIcon';
+import { useRouter } from 'next/router';
+import { useContext, useState } from 'react';
 import { IUser } from 'src/interfaces/IUser';
+import { axiosInstance } from 'utils/instance';
+import { Store } from 'utils/Store';
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -43,16 +50,63 @@ const jobColors: Record<string, string> = {
     moderator: 'blue',
 };
 
-export const ModeratorsTable = ({ data }: { data: IUser[] }) => {
+export const ModeratorsTable = ({
+    data,
+    handleEdit,
+}: {
+    data: IUser[];
+    handleEdit: (item: IUser) => void;
+}) => {
+    const { reload, push } = useRouter();
     const { classes, cx } = useStyles();
     const [scrolled, setScrolled] = useState(false);
+    const { params } = useContext(Store);
+    const { userInfo } = params;
+
+    const handleLock = async (id: number) => {
+        await axiosInstance
+            .patch(
+                `/moderators/active/${id}`,
+                {},
+                {
+                    headers: { Authorization: `Bearer ${userInfo?.token}` },
+                }
+            )
+            .then((data) => {
+                console.log(data);
+
+                if (data) {
+                    showNotification({
+                        title: '',
+                        message: data.data.message,
+                        color: 'teal',
+                        icon: <CheckIcon />,
+                    });
+                }
+
+                if (data.status === 200) {
+                    reload();
+                }
+            })
+            .catch(({ response }) => {
+                console.log(response);
+                if (response) {
+                    showNotification({
+                        title: '',
+                        message: response.data,
+                        color: 'red',
+                        icon: <CloseIcon />,
+                    });
+                }
+            });
+    };
 
     const theme = useMantineTheme();
     const rows = data.map((item) => (
         <tr key={item.id}>
             <td>
                 <Group spacing='sm'>
-                    <Avatar size={30} radius={30} />
+                    <Avatar size={30} radius={30} color={`${item.isActive ? 'blue' : 'red'}`} />
                     <Text size='sm' weight={500}>
                         {item.name}
                     </Text>
@@ -83,11 +137,14 @@ export const ModeratorsTable = ({ data }: { data: IUser[] }) => {
             </td>
             <td>
                 <Group spacing='sm' position='right'>
-                    <ActionIcon>
+                    <ActionIcon onClick={() => handleEdit(item)}>
                         <EditIcon />
                     </ActionIcon>
-                    <ActionIcon color='red'>
-                        <DeleteIcon className='fill-black' />
+                    <ActionIcon
+                        onClick={() => handleLock(item.id!)}
+                        color={`${item.isActive ? 'red' : 'blue'}`}
+                    >
+                        <LockIcon />
                     </ActionIcon>
                 </Group>
             </td>

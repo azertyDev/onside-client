@@ -1,7 +1,6 @@
 import { Tabs } from '@mantine/core';
 import { CustomTabs } from 'components/common/tabs';
 import { useEffect, useState } from 'react';
-import { baseURL } from 'utils/constants';
 import { axiosInstance } from 'utils/instance';
 import { CategoriesTable } from './CategoriesTable';
 import { CreateCategoriesForm } from './form';

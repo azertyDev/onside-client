@@ -1,8 +1,10 @@
-import { Card, Text, Group, Center, createStyles } from '@mantine/core';
+import { Card, Text, Group, Center, createStyles, ActionIcon } from '@mantine/core';
+import { EditIcon } from 'components/common/icons/edit_icon/EditIcon';
 import { EyeIcon } from 'components/common/icons/eye_icon/EyeIcon';
 import { LikeIcon } from 'components/common/icons/like_icon/LikeIcon';
 import { StarIcon } from 'components/common/icons/star_icon/StarIcon';
 import { INews } from 'src/interfaces/INews';
+import { DeleteModal } from '../slider/Card';
 
 const useStyles = createStyles((theme, _params, getRef) => {
     const image = getRef('image');
@@ -73,9 +75,9 @@ export function ImageCard(props: INews) {
             shadow='lg'
             className={classes.card}
             radius='md'
-            component='a'
-            href={props.nameLink}
-            target='_blank'
+            // component='a'
+            // href={props.nameLink}
+            // target='_blank'
         >
             <div
                 className={classes.image}
@@ -95,10 +97,18 @@ export function ImageCard(props: INews) {
 
                     <Group position='apart' spacing='xs'>
                         <Text size='sm' className={classes.author}>
-                            {props.author}
+                            {`${props.author.name} ${props.author.surname}`}
                         </Text>
 
                         <Group spacing='lg'>
+                            <Group position='right'>
+                                <Group spacing={8}>
+                                    <ActionIcon>
+                                        <EditIcon className='w-5 h-5' />
+                                    </ActionIcon>
+                                    <DeleteModal url={`/news/${props.id}`} />
+                                </Group>
+                            </Group>
                             <Center>
                                 <StarIcon className='stroke-white h-4 w-4' />
                                 <Text size='sm' className={classes.bodyText}>

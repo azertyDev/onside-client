@@ -4,12 +4,14 @@ import InputFile from 'components/common/fileUpload/inputFile';
 import FormikControl from 'components/common/formik/FormikControl';
 import { CloseIcon } from 'components/common/icons';
 import { Form, Formik } from 'formik';
+import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import { baseURL } from 'utils/constants';
 import { axiosInstance } from 'utils/instance';
 import { Store } from 'utils/Store';
 
 export const CreateClubsForm = () => {
+    const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
 
@@ -37,15 +39,18 @@ export const CreateClubsForm = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             })
-            .then(({ data }) => {
+            .then((data) => {
                 if (data) {
                     showNotification({
                         title: '',
-                        message: data.message,
+                        message: data.data.message,
                         color: 'teal',
                         icon: <CheckIcon />,
                         autoClose: 5000,
                     });
+                }
+                if (data.status === 200) {
+                    reload();
                 }
             })
             .catch(({ response }) => {

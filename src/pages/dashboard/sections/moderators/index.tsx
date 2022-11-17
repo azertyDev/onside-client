@@ -1,6 +1,6 @@
-import { Grid, Tabs } from '@mantine/core';
-import { AxiosResponse } from 'axios';
+import { Tabs } from '@mantine/core';
 import { CustomTabs } from 'components/common/tabs';
+import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { IUser } from 'src/interfaces/IUser';
 import { axiosInstance } from 'utils/instance';
@@ -9,9 +9,16 @@ import { CreateModeratorsForm } from './form';
 import { ModeratorsTable } from './ModeratorsTable';
 
 export const Moderators = () => {
+    const { push } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
     const [moderators, setModerators] = useState<IUser[]>([]);
+    const [current, setCurrent] = useState<IUser>();
+
+    const handleEdit = (moder: IUser) => {
+        setCurrent(moder);
+        push('/dashboard/moderators/2');
+    };
 
     const fetchModerators = async () => {
         await axiosInstance
@@ -28,8 +35,6 @@ export const Moderators = () => {
             });
     };
 
-    console.log(moderators);
-
     useEffect(() => {
         fetchModerators();
     }, []);
@@ -43,15 +48,11 @@ export const Moderators = () => {
                 </Tabs.List>
 
                 <Tabs.Panel value='1' pt='xl'>
-                    <ModeratorsTable data={moderators} />
+                    <ModeratorsTable data={moderators} handleEdit={handleEdit} />
                 </Tabs.Panel>
 
                 <Tabs.Panel value='2' pt='xl'>
-                    <CreateModeratorsForm
-                    // categories={categories}
-                    // subCategories={subCategories}
-                    // subCategoriesType={subCategoriesType}
-                    />
+                    <CreateModeratorsForm current={current} />
                 </Tabs.Panel>
             </CustomTabs>
         </div>

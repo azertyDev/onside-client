@@ -34,7 +34,7 @@ export const CreateSlidersForm = (props: any) => {
         body.append('link', values.link);
         body.append('image', editCurrent ? values.image.url : values.image[0]);
 
-        await fetch(`/sliders${editCurrent ? `/${editCurrent.id}` : ''}`, {
+        await fetch(`${baseURL}/sliders${editCurrent ? `/${editCurrent.id}` : ''}`, {
             headers: {
                 authorization: `Bearer ${userInfo!.token}`,
             },
@@ -42,6 +42,8 @@ export const CreateSlidersForm = (props: any) => {
             body,
         })
             .then((data: any) => {
+                console.log(data);
+
                 if (data) {
                     showNotification({
                         title: '',

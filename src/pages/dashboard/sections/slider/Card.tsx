@@ -3,7 +3,6 @@ import { CloseIcon, DeleteIcon } from 'components/common/icons';
 import { EditIcon } from 'components/common/icons/edit_icon/EditIcon';
 import { useContext } from 'react';
 import { IImage } from 'src/interfaces/IImage';
-import { baseURL } from 'utils/constants';
 import { axiosInstance } from 'utils/instance';
 import { Store } from 'utils/Store';
 import { openConfirmModal } from '@mantine/modals';
@@ -51,33 +50,30 @@ interface CardProps {
     handleEdit: () => void;
 }
 
-export const DeleteModal = ({
-    id,
-    token,
-    className,
-}: {
-    id: number;
-    token: string;
-    className: any;
-}) => {
+export const DeleteModal = ({ url }: { url: string }) => {
     const { reload } = useRouter();
+    const { classes, cx } = useStyles();
+    const { params } = useContext(Store);
+    const { userInfo } = params;
 
     const handleDelete = async () => {
         await axiosInstance
-            .delete(`/sliders/${id}`, {
-                headers: { Authorization: `Bearer ${token}` },
+            .delete(url, {
+                headers: { Authorization: `Bearer ${userInfo?.token}` },
             })
-            .then(({ data }) => {
+            .then((data) => {
                 if (data) {
                     showNotification({
                         title: '',
-                        message: data.message,
+                        message: data.data.message,
                         color: 'teal',
                         icon: <CheckIcon />,
                         autoClose: 5000,
                     });
                 }
-                reload();
+                if (data.status === 200) {
+                    reload();
+                }
             })
             .catch(({ response }) => {
                 if (response) {
@@ -104,7 +100,7 @@ export const DeleteModal = ({
     };
 
     return (
-        <ActionIcon className={className} onClick={openModal}>
+        <ActionIcon className={classes.action} onClick={openModal} color='red'>
             <DeleteIcon className='w-6 h-6' />
         </ActionIcon>
     );
@@ -131,7 +127,7 @@ export const SliderCard = ({ id, text, image, link, handleEdit }: CardProps) => 
                     <ActionIcon className={classes.action} onClick={handleEdit}>
                         <EditIcon className='w-5 h-5' />
                     </ActionIcon>
-                    <DeleteModal className={classes.action} id={id} token={userInfo!.token} />
+                    <DeleteModal url={`/sliders/${id}`} />
                 </Group>
             </Group>
         </Card>
