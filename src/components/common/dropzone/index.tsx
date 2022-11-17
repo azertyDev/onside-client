@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 export const Dropzone = (props: any) => {
     const [files, setFiles] = useState<FileWithPath[]>([]);
-console.log(files);
+    console.log(files);
 
     const thumb = files.map((file, index) => {
         const imageUrl = URL.createObjectURL(file);

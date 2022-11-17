@@ -14,6 +14,7 @@ const InputFile = ({
 }: InputFileProps) => {
     const uploadToClient = (event: React.ChangeEvent<HTMLInputElement>) => {
         const target = event.target as HTMLInputElement;
+
         if (target.files && target.files[0]) {
             setCreateObjectURL([...createObjectURL, URL.createObjectURL(target.files[0])]);
             setImage([...image, target.files[0]]);
@@ -27,7 +28,8 @@ const InputFile = ({
                 return item;
             }
         });
-        // setFieldValue(name, '');
+        console.log(s);
+
         setCreateObjectURL(s);
     };
 
@@ -56,6 +58,7 @@ const InputFile = ({
                         onChange={(e: any) => uploadToClient(e)}
                     />
                 </label>
+
                 {createObjectURL.length === 0 ? (
                     <div className={sInputFile.previewLoadImg}>
                         <Image

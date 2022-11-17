@@ -7,7 +7,7 @@ export const FactCard = (props: IFact) => {
     return (
         <Card shadow='xs' p='sm' radius='md' withBorder>
             <Card.Section>
-                <Image src={`${props.url}`} height={250} alt='fact' />
+                <Image src={`${props.url}`} height={250} alt={props.type} />
             </Card.Section>
 
             <Group position='apart' mt='md' mb='xs'>

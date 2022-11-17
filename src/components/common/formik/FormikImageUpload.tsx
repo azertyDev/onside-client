@@ -13,7 +13,7 @@ export const FormikImageUpload = (props: any) => {
                 {...rest}
                 className={s.upload_input}
                 type='file'
-                accept='image/jpeg, image/png, image/gif, image/jpg'
+                accept='image/jpeg, image/png, image/gif, image/jpg, video/mp4'
             />
             <ErrorMessage component={ErrorText} name={name} />
         </div>

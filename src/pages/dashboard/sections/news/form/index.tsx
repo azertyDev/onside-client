@@ -149,7 +149,6 @@ export const CreateNewsForm = () => {
             rating,
             publishedAt,
         } = JSON.parse(JSON.stringify(values));
-        console.log(values);
 
         const body: any = new FormData();
 
@@ -157,8 +156,8 @@ export const CreateNewsForm = () => {
             body.append('subCategoryTypeId', subCategoryTypeId);
         }
 
-        body.append('text', text);
         body.append('amountRating', amountRating);
+        body.append('text', text);
         body.append('image', image[0]);
         body.append('categoryId', categoryId);
         body.append('subCategoryId', subCategoryId);
@@ -299,7 +298,7 @@ export const CreateNewsForm = () => {
                             <NumberInput
                                 size='md'
                                 label='Amount rating'
-                                defaultValue={0}
+                                // defaultValue={0}
                                 name='amountRating'
                                 onChange={(val) => setFieldValue('amountRating', val)}
                             />

@@ -26,7 +26,7 @@ export const CreateFactsForm = () => {
 
     const onSubmit = async (values: any) => {
         const { file, ...rest } = values;
-        console.log(rest);
+        console.log(values);
 
         const body = {
             file: image[0],
@@ -73,20 +73,25 @@ export const CreateFactsForm = () => {
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <div className='row'>
-                            <FormikControl name='type' control='input' label='Type' />
+                            <FormikControl
+                                name='type'
+                                control='input'
+                                label='Type'
+                                placeholder='video or image'
+                            />
                             <FormikControl name='link' control='input' label='Link' />
                         </div>
 
-                        {/* <InputFile
+                        <InputFile
                             name='file'
                             image={image}
                             setImage={setImage}
                             createObjectURL={createObjectURL}
                             setCreateObjectURL={setCreateObjectURL}
                             setFieldValue={setFieldValue}
-                        /> */}
+                        />
 
-                        <Dropzone setFieldValue={setFieldValue} />
+                        {/* <Dropzone setFieldValue={setFieldValue} /> */}
 
                         <Button variant='outline' type='submit' my='lg' size='md'>
                             Submit
