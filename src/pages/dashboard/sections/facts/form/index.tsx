@@ -47,7 +47,7 @@ export const CreateFactsForm = () => {
                     });
                 }
                 if (data.status === 200) {
-                    // resetForm();
+                    reload();
                 }
             })
             .catch(({ response }) => {
