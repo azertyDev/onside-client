@@ -6,10 +6,13 @@ import { CreateNewsForm } from './form';
 import { ImageCard } from './ImageCard';
 import { INews } from 'src/interfaces/INews';
 import { Pagination } from '@mantine/core';
+import { useRouter } from 'next/router';
 
 export const News = () => {
+    const { push } = useRouter();
     const [news, setNews] = useState<any>([]);
     const [page, setPage] = useState<number>(1);
+    const [currentNews, setCurrentNews] = useState<INews>();
 
     const fetchNews = async () => {
         await axiosInstance
@@ -20,6 +23,11 @@ export const News = () => {
             .catch((error) => {
                 console.log('News fetch error: ', error);
             });
+    };
+
+    const handleEditNews = (news: INews) => {
+        setCurrentNews(news);
+        push('/dashboard/news/2');
     };
 
     const handlePagination = (e: any) => {
@@ -43,7 +51,7 @@ export const News = () => {
                         {news?.data?.map((item: INews) => {
                             return (
                                 <Grid.Col md={6} lg={4} xl={3} key={item.id}>
-                                    <ImageCard {...item} />
+                                    <ImageCard data={item} handleEditNews={handleEditNews} />
                                 </Grid.Col>
                             );
                         })}
@@ -58,7 +66,7 @@ export const News = () => {
                 </Tabs.Panel>
 
                 <Tabs.Panel value='2' pt='xl'>
-                    <CreateNewsForm />
+                    <CreateNewsForm currentNews={currentNews!} />
                 </Tabs.Panel>
             </CustomTabs>
         </div>

@@ -11,6 +11,7 @@ import { baseURL } from 'utils/constants';
 import { axiosInstance } from 'utils/instance';
 import { IUser } from 'src/interfaces/IUser';
 import { useRouter } from 'next/router';
+import { INews } from 'src/interfaces/INews';
 
 export enum NewsType {
     Common = 'COMMON',
@@ -27,16 +28,16 @@ interface IOptions {
     group?: string;
 }
 
-export const CreateNewsForm = () => {
+export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
+    console.log(currentNews);
 
-    const [richText, setRichText] = useState('');
+    const [richText, setRichText] = useState(currentNews ? currentNews?.editorText : '');
     const [image, setImage] = useState<File[]>([]);
     const [createObjectURL, setCreateObjectURL] = useState<string[]>([]);
 
-    const dropdown = { label: 'Выберите', value: '', group: '' };
     const categoriesArray: IOptions[] = [];
     const subCategoriesArray: IOptions[] = [];
     const subCategoriesTypeArray: IOptions[] = [];
@@ -44,10 +45,6 @@ export const CreateNewsForm = () => {
     const [categories, setCategories] = useState<IOptions[]>(categoriesArray);
     const [subCategories, setSubCategories] = useState<IOptions[]>(subCategoriesArray);
     const [subCategoriesType, setSubCategoriesType] = useState<IOptions[]>(subCategoriesTypeArray);
-
-    categoriesArray.push(dropdown);
-    subCategoriesArray.push(dropdown);
-    subCategoriesTypeArray.push(dropdown);
 
     const [moderators, setModerators] = useState<IUser[]>([]);
 
@@ -110,7 +107,6 @@ export const CreateNewsForm = () => {
     };
 
     const newsTypes = [
-        { label: 'Выберите', value: '' },
         { label: 'COMMON', value: 'COMMON' },
         { label: 'INTERVIEW', value: 'INTERVIEW' },
         { label: 'BLOG', value: 'BLOG' },
@@ -118,6 +114,22 @@ export const CreateNewsForm = () => {
         { label: 'PHOTO', value: 'PHOTO' },
         { label: 'VIDEO', value: 'VIDEO' },
     ];
+
+    // const initialValues = {
+    //     categoryId: currentNews?.categoryId ?? '',
+    //     subCategoryId: currentNews?.subCategoryId ?? '',
+    //     subCategoryTypeId: currentNews?.subCategoryTypeId ?? '',
+    //     text: currentNews?.text ?? '',
+    //     authorId: currentNews?.authorId ?? '',
+    //     nameLink: currentNews?.nameLink ?? '',
+    //     link: currentNews?.link ?? '',
+    //     type: currentNews?.type ?? '',
+    //     amountRating: currentNews?.amountRating ?? '',
+    //     rating: currentNews?.rating ?? '',
+    //     editorText: currentNews?.editorText ?? '',
+    //     image: currentNews?.image ?? '',
+    //     publishedAt: currentNews?.publishedAt ?? '',
+    // };
 
     const initialValues = {
         categoryId: '',
@@ -149,6 +161,7 @@ export const CreateNewsForm = () => {
             rating,
             publishedAt,
         } = JSON.parse(JSON.stringify(values));
+        console.log(values);
 
         const body: any = new FormData();
 
@@ -156,7 +169,10 @@ export const CreateNewsForm = () => {
             body.append('subCategoryTypeId', subCategoryTypeId);
         }
 
-        body.append('amountRating', amountRating);
+        if (amountRating) {
+            body.append('amountRating', amountRating);
+        }
+
         body.append('text', text);
         body.append('image', image[0]);
         body.append('categoryId', categoryId);
@@ -169,11 +185,11 @@ export const CreateNewsForm = () => {
         body.append('editorText', richText);
         body.append('publishedAt', publishedAt.replace('T', ' '));
 
-        await fetch(`${baseURL}/news`, {
+        await fetch(`${baseURL}/news${currentNews ? `/${currentNews.id}` : ''}`, {
             headers: {
                 authorization: `Bearer ${userInfo!.token}`,
             },
-            method: 'POST',
+            method: currentNews ? 'PATCH' : 'POST',
             body,
         })
             .then((data: any) => {
@@ -209,13 +225,17 @@ export const CreateNewsForm = () => {
     }, []);
 
     return (
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
             {({ values, setFieldValue }) => {
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
+                        <FormikControl
+                            name='text'
+                            control='input'
+                            label='Title'
+                            placeholder='Введите текст'
+                        />
                         <div className='row'>
-                            <FormikControl name='text' control='input' label='Title' />
-
                             <Select
                                 size='md'
                                 name='authorId'
@@ -223,6 +243,7 @@ export const CreateNewsForm = () => {
                                 data={authorsData}
                                 onChange={(e) => setFieldValue('authorId', e)}
                                 value={values.authorId}
+                                placeholder='Выберите'
                             />
                             <Select
                                 size='md'
@@ -231,6 +252,12 @@ export const CreateNewsForm = () => {
                                 data={newsTypes}
                                 onChange={(e) => setFieldValue('type', e)}
                                 value={values.type}
+                                placeholder='Выберите'
+                            />
+                            <FormikControl
+                                name='publishedAt'
+                                control='dateTime'
+                                label='Publish time'
                             />
                         </div>
                         <div>
@@ -244,17 +271,6 @@ export const CreateNewsForm = () => {
                                 placeholder='Описание'
                             />
                         </div>
-
-                        <div className='row'>
-                            <FormikControl name='nameLink' control='input' label='Source name' />
-                            <FormikControl name='link' control='input' label='Source link' />
-                            <FormikControl
-                                name='publishedAt'
-                                control='dateTime'
-                                label='Publish time'
-                            />
-                        </div>
-
                         <div className='row'>
                             <Select
                                 size='md'
@@ -263,6 +279,7 @@ export const CreateNewsForm = () => {
                                 data={categories}
                                 onChange={(e) => setFieldValue('categoryId', e)}
                                 value={values.categoryId}
+                                placeholder='Выберите'
                             />
                             <Select
                                 size='md'
@@ -271,6 +288,7 @@ export const CreateNewsForm = () => {
                                 data={subCategories}
                                 onChange={(e) => setFieldValue('subCategoryId', e)}
                                 value={values.subCategoryId}
+                                placeholder='Выберите'
                             />
                             <Select
                                 size='md'
@@ -279,6 +297,29 @@ export const CreateNewsForm = () => {
                                 data={subCategoriesType}
                                 onChange={(e) => setFieldValue('subCategoryTypeId', e)}
                                 value={values.subCategoryTypeId}
+                                placeholder='Выберите'
+                            />
+                        </div>
+                        <div className='row'>
+                            <FormikControl
+                                name='nameLink'
+                                control='input'
+                                label='Source name'
+                                placeholder='Example'
+                            />
+                            <FormikControl
+                                name='link'
+                                control='input'
+                                label='Source link'
+                                placeholder='www.example.com'
+                            />
+                            <NumberInput
+                                size='md'
+                                label='Amount rating'
+                                defaultValue={0}
+                                name='amountRating'
+                                onChange={(val) => setFieldValue('amountRating', val)}
+                                min={0}
                             />
                         </div>
 
@@ -294,13 +335,7 @@ export const CreateNewsForm = () => {
                                 max={5}
                                 onChange={(val) => setFieldValue('rating', val)}
                                 icon={<StarIcon className='w-6 h-6' />}
-                            />
-                            <NumberInput
-                                size='md'
-                                label='Amount rating'
-                                // defaultValue={0}
-                                name='amountRating'
-                                onChange={(val) => setFieldValue('amountRating', val)}
+                                min={0}
                             />
                         </div>
 

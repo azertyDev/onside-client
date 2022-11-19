@@ -11,7 +11,7 @@ export const FactCard = (props: IFact) => {
             </Card.Section>
 
             <Group position='apart' mt='md' mb='xs'>
-                <Text weight={500}>{props.link}</Text>
+                <Text weight={500}>{props.title}</Text>
             </Group>
             <Group position='right'>
                 <Group spacing={8}>

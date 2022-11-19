@@ -3,7 +3,9 @@ import { EditIcon } from 'components/common/icons/edit_icon/EditIcon';
 import { EyeIcon } from 'components/common/icons/eye_icon/EyeIcon';
 import { LikeIcon } from 'components/common/icons/like_icon/LikeIcon';
 import { StarIcon } from 'components/common/icons/star_icon/StarIcon';
+import { useContext } from 'react';
 import { INews } from 'src/interfaces/INews';
+import { Store } from 'utils/Store';
 import { DeleteModal } from '../slider/Card';
 
 const useStyles = createStyles((theme, _params, getRef) => {
@@ -66,8 +68,19 @@ const useStyles = createStyles((theme, _params, getRef) => {
     };
 });
 
-export function ImageCard(props: INews) {
+export function ImageCard({
+    handleEditNews,
+    data,
+}: {
+    handleEditNews: (news: INews) => void;
+    data: INews;
+}) {
+    const { params } = useContext(Store);
+    const { userInfo } = params;
     const { classes } = useStyles();
+
+    console.log(data.author.name);
+    console.log(userInfo?.name);
 
     return (
         <Card
@@ -76,14 +89,14 @@ export function ImageCard(props: INews) {
             className={classes.card}
             radius='md'
             // component='a'
-            // href={props.nameLink}
+            // href={data.nameLink}
             // target='_blank'
         >
             <div
                 className={classes.image}
                 style={{
                     backgroundImage: `url(${
-                        props.image ? `${props.image.url}` : '/assets/img/placeholder-img.svg'
+                        data.image ? `${data.image.url}` : '/assets/img/placeholder-img.svg'
                     })`,
                 }}
             />
@@ -92,39 +105,41 @@ export function ImageCard(props: INews) {
             <div className={classes.content}>
                 <div>
                     <Text size='lg' className={classes.title} weight={500}>
-                        {props.text}
+                        {data.text}
                     </Text>
 
                     <Group position='apart' spacing='xs'>
                         <Text size='sm' className={classes.author}>
-                            {`${props.author.name} ${props.author.surname}`}
+                            {`${data.author.name} ${data.author.surname}`}
                         </Text>
 
                         <Group spacing='lg'>
                             <Group position='right'>
                                 <Group spacing={8}>
-                                    <ActionIcon>
+                                    <ActionIcon onClick={() => handleEditNews(data)}>
                                         <EditIcon className='w-5 h-5' />
                                     </ActionIcon>
-                                    <DeleteModal url={`/news/${props.id}`} />
+                                    {data.author.name === userInfo?.name && (
+                                        <DeleteModal url={`/news/${data.id}`} />
+                                    )}
                                 </Group>
                             </Group>
                             <Center>
                                 <StarIcon className='stroke-white h-4 w-4' />
                                 <Text size='sm' className={classes.bodyText}>
-                                    {props.rating}
+                                    {data.rating}
                                 </Text>
                             </Center>
                             <Center>
                                 <LikeIcon className='stroke-white h-4 w-4' />
                                 <Text size='sm' className={classes.bodyText}>
-                                    {props.likes}
+                                    {data.likes}
                                 </Text>
                             </Center>
                             <Center>
                                 <EyeIcon className='stroke-white h-4 w-4' />
                                 <Text size='sm' className={classes.bodyText}>
-                                    {props.views}
+                                    {data.views}
                                 </Text>
                             </Center>
                         </Group>

@@ -1,6 +1,7 @@
 export const SERVER_URL = `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3001'}`;
 
 export const baseURL = process.env.NEXT_PUBLIC_API_URL;
+// export const baseURL = 'http://185.196.213.14:3001';
 
 export const SITE_KEY = `${
     process.env.NEXT_PUBLIC_SITE_KEY || '6LeBYBohAAAAAE6paKtryZbb0k5bIq0mig3qWTcb'

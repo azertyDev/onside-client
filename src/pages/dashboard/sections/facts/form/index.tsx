@@ -1,12 +1,11 @@
 import { Button, CheckIcon, Select } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { Dropzone } from 'components/common/dropzone';
-import InputFile from 'components/common/fileUpload/inputFile';
 import FormikControl from 'components/common/formik/FormikControl';
-import { CloseIcon } from 'components/common/icons';
-import { Form, Formik } from 'formik';
+import { AddIcon, CloseIcon, DeleteIcon } from 'components/common/icons';
+import { FieldArray, Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { Fragment, useContext, useState } from 'react';
 import { axiosInstance } from 'utils/instance';
 import { Store } from 'utils/Store';
 
@@ -19,9 +18,7 @@ export const CreateFactsForm = () => {
     const [createObjectURL, setCreateObjectURL] = useState<string[]>([]);
 
     const initialValues = {
-        type: '',
-        link: '',
-        file: '',
+        data: [{ title: '', type: '', link: '', image: '' }],
     };
 
     const typeData = [
@@ -31,46 +28,40 @@ export const CreateFactsForm = () => {
     ];
 
     const onSubmit = async (values: any) => {
-        const { file, ...rest } = values;
         console.log(values);
 
-        const body = {
-            file: image[0],
-            ...rest,
-        };
-
-        await axiosInstance
-            .post(`/facts`, body, {
-                headers: {
-                    'authorization': `Bearer ${userInfo!.token}`,
-                    'Content-Type': 'multipart/form-data',
-                },
-            })
-            .then((data) => {
-                if (data) {
-                    showNotification({
-                        title: '',
-                        message: data.data.message,
-                        color: 'teal',
-                        icon: <CheckIcon />,
-                        autoClose: 5000,
-                    });
-                }
-                if (data.status === 200) {
-                    reload();
-                }
-            })
-            .catch(({ response }) => {
-                if (response) {
-                    showNotification({
-                        title: '',
-                        message: response.data.message,
-                        color: 'red',
-                        icon: <CloseIcon />,
-                        autoClose: 5000,
-                    });
-                }
-            });
+        // await axiosInstance
+        //     .post(`/facts`, values, {
+        //         headers: {
+        //             authorization: `Bearer ${userInfo!.token}`,
+        //             // 'Content-Type': 'multipart/form-data',
+        //         },
+        //     })
+        //     .then((data) => {
+        //         if (data) {
+        //             showNotification({
+        //                 title: '',
+        //                 message: data.data.message,
+        //                 color: 'teal',
+        //                 icon: <CheckIcon />,
+        //                 autoClose: 5000,
+        //             });
+        //         }
+        //         if (data.status === 200) {
+        //             reload();
+        //         }
+        //     })
+        //     .catch(({ response }) => {
+        //         if (response) {
+        //             showNotification({
+        //                 title: '',
+        //                 message: response.data.message,
+        //                 color: 'red',
+        //                 icon: <CloseIcon />,
+        //                 autoClose: 5000,
+        //             });
+        //         }
+        //     });
     };
 
     return (
@@ -78,27 +69,76 @@ export const CreateFactsForm = () => {
             {({ values, setFieldValue }) => {
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
-                        <div className='row'>
-                            <Select
-                                size='md'
-                                name='type'
-                                label='Type'
-                                data={typeData}
-                                onChange={(e) => setFieldValue('type', e)}
-                                value={values.type}
-                                placeholder='video or image'
-                            />
-                            <FormikControl name='link' control='input' label='Link' />
-                        </div>
+                        <FieldArray
+                            name='data'
+                            render={({ insert, remove, push }) => (
+                                <div>
+                                    {values.data &&
+                                        values.data.length > 0 &&
+                                        values.data.map((item, index) => (
+                                            <Fragment key={index}>
+                                                <div className='row items-end' key={index}>
+                                                    <FormikControl
+                                                        name={`data.${index}.title`}
+                                                        control='input'
+                                                        label='Title'
+                                                    />
+                                                    <Select
+                                                        size='md'
+                                                        label='Type'
+                                                        data={typeData}
+                                                        onChange={(e) =>
+                                                            setFieldValue(`data.${index}.type`, e)
+                                                        }
+                                                        name={`data.${index}.type`}
+                                                        value={item.type}
+                                                        placeholder='video or image'
+                                                    />
+                                                    <Button
+                                                        size='md'
+                                                        type='button'
+                                                        variant='outline'
+                                                        className='self-end'
+                                                        onClick={() => remove(index)}
+                                                    >
+                                                        <DeleteIcon />
+                                                    </Button>
+                                                </div>
+                                                <div className='row mt-6'>
+                                                    <FormikControl
+                                                        label='Link'
+                                                        control='input'
+                                                        name={`data.${index}.link`}
+                                                    />
+                                                    <Dropzone
+                                                        setFieldValue={setFieldValue}
+                                                        name={`data.${index}.image`}
+                                                    />
+                                                    <Button
+                                                        size='md'
+                                                        type='button'
+                                                        variant='outline'
+                                                        className='self-end'
+                                                        onClick={() => push('')}
+                                                    >
+                                                        Добавить
+                                                        <AddIcon className='ml-2' />
+                                                    </Button>
+                                                </div>
+                                            </Fragment>
+                                        ))}
+                                </div>
+                            )}
+                        />
 
-                        <InputFile
+                        {/* <InputFile
                             name='file'
                             image={image}
                             setImage={setImage}
                             createObjectURL={createObjectURL}
                             setCreateObjectURL={setCreateObjectURL}
                             setFieldValue={setFieldValue}
-                        />
+                        /> */}
 
                         {/* <Dropzone setFieldValue={setFieldValue} /> */}
 
