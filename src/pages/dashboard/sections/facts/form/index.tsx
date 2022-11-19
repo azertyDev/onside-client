@@ -30,38 +30,37 @@ export const CreateFactsForm = () => {
     const onSubmit = async (values: any) => {
         console.log(values);
 
-        // await axiosInstance
-        //     .post(`/facts`, values, {
-        //         headers: {
-        //             authorization: `Bearer ${userInfo!.token}`,
-        //             // 'Content-Type': 'multipart/form-data',
-        //         },
-        //     })
-        //     .then((data) => {
-        //         if (data) {
-        //             showNotification({
-        //                 title: '',
-        //                 message: data.data.message,
-        //                 color: 'teal',
-        //                 icon: <CheckIcon />,
-        //                 autoClose: 5000,
-        //             });
-        //         }
-        //         if (data.status === 200) {
-        //             reload();
-        //         }
-        //     })
-        //     .catch(({ response }) => {
-        //         if (response) {
-        //             showNotification({
-        //                 title: '',
-        //                 message: response.data.message,
-        //                 color: 'red',
-        //                 icon: <CloseIcon />,
-        //                 autoClose: 5000,
-        //             });
-        //         }
-        //     });
+        await axiosInstance
+            .post(`/facts`, values.data, {
+                headers: {
+                    authorization: `Bearer ${userInfo!.token}`,
+                },
+            })
+            .then((data) => {
+                if (data) {
+                    showNotification({
+                        title: '',
+                        message: data.data.message,
+                        color: 'teal',
+                        icon: <CheckIcon />,
+                        autoClose: 5000,
+                    });
+                }
+                if (data.status === 200) {
+                    reload();
+                }
+            })
+            .catch(({ response }) => {
+                if (response) {
+                    showNotification({
+                        title: '',
+                        message: response.data.message,
+                        color: 'red',
+                        icon: <CloseIcon />,
+                        autoClose: 5000,
+                    });
+                }
+            });
     };
 
     return (
