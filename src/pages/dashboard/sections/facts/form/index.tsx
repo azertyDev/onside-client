@@ -3,7 +3,7 @@ import { showNotification } from '@mantine/notifications';
 import { Dropzone } from 'components/common/dropzone';
 import FormikControl from 'components/common/formik/FormikControl';
 import { AddIcon, CloseIcon, DeleteIcon } from 'components/common/icons';
-import { FieldArray, Form, Formik } from 'formik';
+import { FieldArray, Form, Formik, FormikConfig, FormikHelpers } from 'formik';
 import { useRouter } from 'next/router';
 import { Fragment, useContext, useState } from 'react';
 import { axiosInstance } from 'utils/instance';
@@ -18,7 +18,7 @@ export const CreateFactsForm = () => {
     const [createObjectURL, setCreateObjectURL] = useState<string[]>([]);
 
     const initialValues = {
-        data: [{ title: '', type: '', link: '', image: '' }],
+        data: [{ title: '', type: '', link: '', url: '' }],
     };
 
     const typeData = [
@@ -27,7 +27,7 @@ export const CreateFactsForm = () => {
         { label: 'Image', value: 'image' },
     ];
 
-    const onSubmit = async (values: any) => {
+    const onSubmit = async (values: any, { resetForm }: any) => {
         console.log(values);
 
         await axiosInstance
@@ -47,7 +47,7 @@ export const CreateFactsForm = () => {
                     });
                 }
                 if (data.status === 200) {
-                    reload();
+                    // resetForm();
                 }
             })
             .catch(({ response }) => {
@@ -111,7 +111,7 @@ export const CreateFactsForm = () => {
                                                     />
                                                     <Dropzone
                                                         setFieldValue={setFieldValue}
-                                                        name={`data.${index}.image`}
+                                                        name={`data.${index}.url`}
                                                     />
                                                     <Button
                                                         size='md'
