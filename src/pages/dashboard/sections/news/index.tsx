@@ -1,5 +1,5 @@
 import { Checkbox, Grid, Select, Tabs } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { axiosInstance } from 'utils/instance';
 import { CustomTabs } from 'components/common/tabs';
 import { CreateNewsForm } from './form';
@@ -17,6 +17,7 @@ export const News = () => {
     const [isPublic, setIsPublic] = useState<boolean>(false);
 
     const newsTypes = [
+        { label: 'Тип новостей', value: '' },
         { label: 'COMMON', value: 'COMMON' },
         { label: 'INTERVIEW', value: 'INTERVIEW' },
         { label: 'BLOG', value: 'BLOG' },
@@ -28,7 +29,7 @@ export const News = () => {
     const fetchNews = async () => {
         await axiosInstance
             .get(
-                `/news/byType?page=${page}&limit=9${newsType ? `&type=${newsType}` : ''}${
+                `/news/byType?page=${page}&limit=12${newsType ? `&type=${newsType}` : ''}${
                     isPublic ? `&isPublic=${Number(isPublic)}` : ''
                 }`
             )
@@ -43,6 +44,11 @@ export const News = () => {
     const handleEditNews = (news: INews) => {
         setCurrentNews(news);
         push('/dashboard/news/2');
+    };
+
+    const toggleIsPublic = (event: ChangeEvent<HTMLInputElement>) => {
+        setIsPublic(event.currentTarget.checked);
+        // push(`/dashboard/news/1?isPublic=${Number(isPublic)}`);
     };
 
     const handlePagination = (e: any) => {
