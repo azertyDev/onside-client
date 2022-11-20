@@ -125,6 +125,7 @@ export const FileUploader = (props: any) => {
                             type='file'
                             onChange={handleChange}
                             style={{ display: 'none' }}
+                            accept='image/*, video/*'
                         />
                     </label>
                 </div>

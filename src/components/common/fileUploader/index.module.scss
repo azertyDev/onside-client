@@ -1,8 +1,8 @@
 .wrapper {
-    @apply relative;
+    @apply relative grid place-items-center min-w-[300px]; 
 
     & .imageUpload {
-        @apply p-1 bg-slate-300 max-w-[300px] h-[300px] rounded-3xl;
+        @apply p-1 bg-slate-300 max-w-[300px] h-[300px] rounded-3xl w-full;
 
         & label {
             @apply flex items-center justify-center bg-white w-full h-full rounded-3xl;
@@ -13,7 +13,7 @@
         @apply relative inline-block rounded-2xl p-1;
 
         & span {
-            @apply cursor-pointer animate-pulse absolute -top-2 -right-2 bg-slate-500 rounded-full p-1;
+            @apply cursor-pointer animate-pulse absolute -top-2 -right-2 bg-red-400 rounded-full p-1 w-8 h-8 grid place-items-center;
 
             & svg {
                 @apply fill-white;

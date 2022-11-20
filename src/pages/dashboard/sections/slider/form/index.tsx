@@ -65,16 +65,18 @@ export const CreateSlidersForm = (props: any) => {
             {({ values, setFieldValue }) => {
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
-                        <div className='row'>
+                        <div className='grid grid-cols-2 sm:grid-cols-1 gap-8'>
                             <FormikControl name='text' control='input' label='text' />
                             <FormikControl name='link' control='input' label='link' />
                         </div>
 
-                        <FileUploader
-                            name='url'
-                            setFieldValue={setFieldValue}
-                            currentPreview={values.url}
-                        />
+                        <div className='grid place-items-start'>
+                            <FileUploader
+                                name='url'
+                                setFieldValue={setFieldValue}
+                                currentPreview={values.url}
+                            />
+                        </div>
 
                         <Button variant='outline' type='submit' my='lg'>
                             Submit

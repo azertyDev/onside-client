@@ -55,6 +55,9 @@ const useStyles = createStyles((theme, _params, getRef) => {
         title: {
             color: theme.white,
             marginBottom: 5,
+            ":hover": {
+                color: theme.colors.red[4]
+            }
         },
 
         bodyText: {
@@ -95,13 +98,21 @@ export function ImageCard({
                     backgroundImage: `url(${
                         data.image ? `${data.image.url}` : '/assets/img/placeholder-img.svg'
                     })`,
+                    backgroundPosition: 'center',
                 }}
             />
             <div className={classes.overlay} />
 
             <div className={classes.content}>
                 <div>
-                    <Text size='lg' className={classes.title} weight={500}>
+                    <Text
+                        size='lg'
+                        className={classes.title}
+                        weight={500}
+                        component='a'
+                        target='_blank'
+                        href={data.link}
+                    >
                         {data.text}
                     </Text>
 

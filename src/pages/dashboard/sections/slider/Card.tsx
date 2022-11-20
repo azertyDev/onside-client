@@ -118,7 +118,12 @@ export const SliderCard = ({ id, text, image, link, handleEdit }: CardProps) => 
                 <Image src={image.url} height={250} alt={text} />
             </Card.Section>
 
-            <Text className={classes.title} weight={500} component='a' {...linkProps}>
+            <Text
+                className={`${classes.title} line-clamp-2`}
+                weight={500}
+                component='a'
+                {...linkProps}
+            >
                 {text}
             </Text>
 

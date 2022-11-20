@@ -161,7 +161,6 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             rating,
             publishedAt,
         } = JSON.parse(JSON.stringify(values));
-        console.log(values);
 
         const body: any = new FormData();
 
@@ -185,18 +184,22 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
         body.append('editorText', richText);
         body.append('publishedAt', publishedAt.replace('T', ' '));
 
-        await fetch(`${baseURL}/news${currentNews ? `/${currentNews.id}` : ''}`, {
-            headers: {
-                authorization: `Bearer ${userInfo!.token}`,
-            },
+        await axiosInstance({
+            data: body,
+            url: `${baseURL}/news${currentNews ? `/${currentNews.id}` : ''}`,
             method: currentNews ? 'PATCH' : 'POST',
-            body,
+            headers: {
+                'authorization': `Bearer ${userInfo!.token}`,
+                'Content-Type': 'multipart/form-data',
+            },
         })
-            .then((data: any) => {
+            .then((data) => {
+                console.log(data.data);
+
                 if (data) {
                     showNotification({
                         title: '',
-                        message: data.statusText,
+                        message: data.data.message,
                     });
                 }
 
@@ -204,11 +207,12 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                     reload();
                 }
             })
-            .catch((data) => {
-                if (data) {
+            .catch(({ response }) => {
+                if (response) {
                     showNotification({
                         title: '',
-                        message: data.statusText,
+                        message: response.data.message,
+                        color: 'red',
                     });
                 }
             });
