@@ -12,7 +12,7 @@ export const FileUploader = (props: any) => {
     const [preview, setPreview] = useState<any>();
 
     const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
-        const fileUploaded = event.target.files![0];
+        const fileUploaded: File = event.target.files![0];
 
         await axiosInstance
             .post(

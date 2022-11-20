@@ -1,4 +1,4 @@
-import { Grid, Tabs } from '@mantine/core';
+import { Checkbox, Grid, Select, Tabs } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from 'utils/instance';
 import { CustomTabs } from 'components/common/tabs';
@@ -13,10 +13,25 @@ export const News = () => {
     const [news, setNews] = useState<any>([]);
     const [page, setPage] = useState<number>(1);
     const [currentNews, setCurrentNews] = useState<INews>();
+    const [newsType, setNewsType] = useState<string | null>('');
+    const [isPublic, setIsPublic] = useState<boolean>(false);
+
+    const newsTypes = [
+        { label: 'COMMON', value: 'COMMON' },
+        { label: 'INTERVIEW', value: 'INTERVIEW' },
+        { label: 'BLOG', value: 'BLOG' },
+        { label: 'SPORT', value: 'SPORT' },
+        { label: 'PHOTO', value: 'PHOTO' },
+        { label: 'VIDEO', value: 'VIDEO' },
+    ];
 
     const fetchNews = async () => {
         await axiosInstance
-            .get(`/news/byType?page=${page}&limit=9`)
+            .get(
+                `/news/byType?page=${page}&limit=9${newsType ? `&type=${newsType}` : ''}${
+                    isPublic ? `&isPublic=${Number(isPublic)}` : ''
+                }`
+            )
             .then(({ data }) => {
                 setNews(data);
             })
@@ -36,7 +51,7 @@ export const News = () => {
 
     useEffect(() => {
         fetchNews();
-    }, [page]);
+    }, [page, newsType, isPublic]);
 
     return (
         <div className='w-full'>
@@ -47,10 +62,23 @@ export const News = () => {
                 </Tabs.List>
 
                 <Tabs.Panel value='1' pt='xl'>
+                    <div className='flex gap-4 items-center mb-8'>
+                        <Select
+                            value={newsType}
+                            data={newsTypes}
+                            onChange={setNewsType}
+                            placeholder='Выбрать тип новостей'
+                        />
+                        <Checkbox
+                            checked={isPublic}
+                            label='Опубликованные'
+                            onChange={(event) => setIsPublic(event.currentTarget.checked)}
+                        />
+                    </div>
                     <Grid>
                         {news?.data?.map((item: INews) => {
                             return (
-                                <Grid.Col md={6} lg={4} xl={3} key={item.id}>
+                                <Grid.Col xs={6} sm={6} md={6} lg={4} xl={3} key={item.id}>
                                     <ImageCard data={item} handleEditNews={handleEditNews} />
                                 </Grid.Col>
                             );

@@ -1,4 +1,4 @@
-import { Card, Text, Group, Center, createStyles, ActionIcon } from '@mantine/core';
+import { Card, Text, Group, Center, createStyles, ActionIcon, Stack } from '@mantine/core';
 import { EditIcon } from 'components/common/icons/edit_icon/EditIcon';
 import { EyeIcon } from 'components/common/icons/eye_icon/EyeIcon';
 import { LikeIcon } from 'components/common/icons/like_icon/LikeIcon';
@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import { INews } from 'src/interfaces/INews';
 import { Store } from 'utils/Store';
 import { DeleteModal } from '../slider/Card';
+import dayjs from 'dayjs';
 
 const useStyles = createStyles((theme, _params, getRef) => {
     const image = getRef('image');
@@ -14,7 +15,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
     return {
         card: {
             position: 'relative',
-            height: 280,
+            height: 320,
             backgroundColor:
                 theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
 
@@ -53,11 +54,11 @@ const useStyles = createStyles((theme, _params, getRef) => {
         },
 
         title: {
-            color: theme.white,
-            marginBottom: 5,
-            ":hover": {
-                color: theme.colors.red[4]
-            }
+            'color': theme.white,
+            'marginBottom': 5,
+            ':hover': {
+                color: theme.colors.red[4],
+            },
         },
 
         bodyText: {
@@ -81,6 +82,9 @@ export function ImageCard({
     const { params } = useContext(Store);
     const { userInfo } = params;
     const { classes } = useStyles();
+
+    const date = dayjs(data.publishedAt).format('YYYY-MM-DD');
+    const hour = dayjs(data.publishedAt).format('HH:mm');
 
     return (
         <Card
@@ -116,13 +120,41 @@ export function ImageCard({
                         {data.text}
                     </Text>
 
-                    <Group position='apart' spacing='xs'>
-                        <Text size='sm' className={classes.author}>
+                    <Group position='apart' spacing={0}>
+                        <Text size='xs' className={classes.author}>
                             {`${data.author.name} ${data.author.surname}`}
                         </Text>
+                        <Stack spacing={0} align='end'>
+                            <Text size='xs' className={classes.author}>
+                                {date}
+                            </Text>
+                            <Text size='xs' className={classes.author}>
+                                {hour}
+                            </Text>
+                        </Stack>
 
-                        <Group spacing='lg'>
-                            <Group position='right'>
+                        <div className='flex justify-between w-full'>
+                            <Group>
+                                <Center>
+                                    <StarIcon className='stroke-white h-4 w-4' />
+                                    <Text size='sm' className={classes.bodyText}>
+                                        {data.rating}
+                                    </Text>
+                                </Center>
+                                <Center>
+                                    <LikeIcon className='stroke-white h-4 w-4' />
+                                    <Text size='sm' className={classes.bodyText}>
+                                        {data.likes}
+                                    </Text>
+                                </Center>
+                                <Center>
+                                    <EyeIcon className='stroke-white h-4 w-4' />
+                                    <Text size='sm' className={classes.bodyText}>
+                                        {data.views}
+                                    </Text>
+                                </Center>
+                            </Group>
+                            <Group>
                                 <Group spacing={8}>
                                     <ActionIcon onClick={() => handleEditNews(data)}>
                                         <EditIcon className='w-5 h-5' />
@@ -133,25 +165,7 @@ export function ImageCard({
                                         ))}
                                 </Group>
                             </Group>
-                            <Center>
-                                <StarIcon className='stroke-white h-4 w-4' />
-                                <Text size='sm' className={classes.bodyText}>
-                                    {data.rating}
-                                </Text>
-                            </Center>
-                            <Center>
-                                <LikeIcon className='stroke-white h-4 w-4' />
-                                <Text size='sm' className={classes.bodyText}>
-                                    {data.likes}
-                                </Text>
-                            </Center>
-                            <Center>
-                                <EyeIcon className='stroke-white h-4 w-4' />
-                                <Text size='sm' className={classes.bodyText}>
-                                    {data.views}
-                                </Text>
-                            </Center>
-                        </Group>
+                        </div>
                     </Group>
                 </div>
             </div>

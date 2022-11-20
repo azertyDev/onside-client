@@ -1,4 +1,4 @@
-import { Grid, Tabs } from '@mantine/core';
+import { Grid, Pagination, Tabs } from '@mantine/core';
 import { CustomTabs } from 'components/common/tabs';
 import { FC, useContext, useEffect, useState } from 'react';
 import { IFact } from 'src/interfaces/IFact';
@@ -27,6 +27,7 @@ export interface IFacts {
 export const Facts: FC = () => {
     const { params } = useContext(Store);
     const { userInfo } = params;
+    const [page, setPage] = useState<number>(1);
     const [facts, setFacts] = useState<IFacts>({
         data: [
             {
@@ -39,7 +40,7 @@ export const Facts: FC = () => {
 
     const fetchFacts = async () => {
         await axiosInstance
-            .get('/facts', {
+            .get(`/facts?page=${page}&limit=12`, {
                 headers: {
                     authorization: `Bearer ${userInfo!.token}`,
                 },
@@ -52,9 +53,13 @@ export const Facts: FC = () => {
             });
     };
 
+    const handlePagination = (e: any) => {
+        setPage(e);
+    };
+
     useEffect(() => {
         fetchFacts();
-    }, []);
+    }, [page]);
 
     return (
         <div className='w-full'>
@@ -76,6 +81,13 @@ export const Facts: FC = () => {
                             });
                         })}
                     </Grid>
+                    {facts.data?.length > 0 && facts.data && (
+                        <Pagination
+                            total={facts.total}
+                            className='my-6 flex justify-center'
+                            onChange={handlePagination}
+                        />
+                    )}
                 </Tabs.Panel>
 
                 <Tabs.Panel value='2' pt='xl'>
