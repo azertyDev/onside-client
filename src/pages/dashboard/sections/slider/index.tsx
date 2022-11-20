@@ -7,7 +7,6 @@ import { ISlider } from 'src/interfaces/ISlider';
 import { useRouter } from 'next/router';
 import { SliderCard } from './Card';
 import { Carousel } from '@mantine/carousel';
-import { baseURL } from 'utils/constants';
 import { Store } from 'utils/Store';
 
 export const Slider = () => {
@@ -17,7 +16,7 @@ export const Slider = () => {
     const { userInfo } = params;
 
     const [sliders, setSliders] = useState<any>([]);
-    const [current, setCurrent] = useState<ISlider>();
+    const [currentSlide, setCurrentSlide] = useState<ISlider>();
 
     const fetchSliders = async () => {
         await axiosInstance
@@ -35,17 +34,8 @@ export const Slider = () => {
     };
 
     const handleEdit = async (slide: ISlider) => {
-        setCurrent(slide);
+        setCurrentSlide(slide);
         onTabChange('2');
-        // await axiosInstance
-        //     .get(`/sliders/${slide.id}`)
-        //     .then(({ data }) => {
-        //         setCurrent(data);
-        //         onTabChange('2');
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
     };
 
     useEffect(() => {
@@ -65,7 +55,7 @@ export const Slider = () => {
                     <Grid>
                         {sliders?.map((item: ISlider) => {
                             return (
-                                <Grid.Col key={item.id} lg={4}>
+                                <Grid.Col key={item.id} xs={6} sm={6} md={4} lg={4} xl={3}>
                                     <SliderCard
                                         id={item.id}
                                         {...item}
@@ -78,7 +68,7 @@ export const Slider = () => {
                 </Tabs.Panel>
 
                 <Tabs.Panel value='2' pt='xl'>
-                    <CreateSlidersForm onTabChange={onTabChange} editCurrent={current} />
+                    <CreateSlidersForm currentSlide={currentSlide} />
                 </Tabs.Panel>
 
                 <Tabs.Panel value='3' pt='xl'>

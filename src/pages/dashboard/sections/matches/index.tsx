@@ -1,5 +1,6 @@
 import { Tabs } from '@mantine/core';
 import { CustomTabs } from 'components/common/tabs';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { IMatchCenter } from 'src/interfaces/IMatchCenter';
 import { axiosInstance } from 'utils/instance';
@@ -7,12 +8,19 @@ import { CreateMatchForm } from './form';
 import { MatchTable } from './MatchTable';
 
 export const Matches = () => {
+    const { push } = useRouter();
     const [matches, setMatches] = useState<IMatchCenter[]>([]);
+    const [currentMatch, setCurrentMatch] = useState<IMatchCenter>();
 
     const fetchMatches = () => {
         axiosInstance.get(`/matches`).then(({ data }) => {
             setMatches(data);
         });
+    };
+
+    const handleUpdate = (match: IMatchCenter) => {
+        setCurrentMatch(match);
+        push('/dashboard/match_center/2');
     };
 
     useEffect(() => {
@@ -35,11 +43,11 @@ export const Matches = () => {
             </Tabs.List>
 
             <Tabs.Panel value='1' pt='xl'>
-                <MatchTable data={matches} />
+                <MatchTable data={matches} handleUpdate={handleUpdate} />
             </Tabs.Panel>
 
             <Tabs.Panel value='2' pt='xl'>
-                <CreateMatchForm />
+                <CreateMatchForm currentMatch={currentMatch!} />
             </Tabs.Panel>
         </CustomTabs>
     );

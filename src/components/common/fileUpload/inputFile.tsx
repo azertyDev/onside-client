@@ -12,6 +12,7 @@ const InputFile = ({
     setCreateObjectURL,
     setFieldValue,
 }: InputFileProps) => {
+
     const uploadToClient = (event: React.ChangeEvent<HTMLInputElement>) => {
         const target = event.target as HTMLInputElement;
 
@@ -29,7 +30,7 @@ const InputFile = ({
             }
         });
         console.log(s);
-
+        
         setCreateObjectURL(s);
     };
 

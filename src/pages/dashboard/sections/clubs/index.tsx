@@ -1,19 +1,26 @@
 import { Grid, Tabs } from '@mantine/core';
 import { CustomTabs } from 'components/common/tabs';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { IClub } from 'src/interfaces/IClub';
-import { baseURL } from 'utils/constants';
 import { axiosInstance } from 'utils/instance';
 import { ClubCard } from './Card';
 import { CreateClubsForm } from './form';
 
 export const Clubs = () => {
+    const { push } = useRouter();
     const [clubs, setClubs] = useState([]);
+    const [currentClub, setCurrentClub] = useState<IClub>();
 
     const fetchClubs = () => {
         axiosInstance.get(`/clubs`).then(({ data }) => {
             setClubs(data);
         });
+    };
+
+    const handleEdit = (club: IClub) => {
+        setCurrentClub(club);
+        push('/dashboard/clubs/2');
     };
 
     useEffect(() => {
@@ -32,7 +39,11 @@ export const Clubs = () => {
                     {clubs?.map((item: IClub) => {
                         return (
                             <Grid.Col md={6} lg={3} key={item.id}>
-                                <ClubCard data={item} url={`/clubs/${item.id}`} />
+                                <ClubCard
+                                    data={item}
+                                    url={`/clubs/${item.id}`}
+                                    handleEdit={() => handleEdit(item)}
+                                />
                             </Grid.Col>
                         );
                     })}
@@ -40,7 +51,7 @@ export const Clubs = () => {
             </Tabs.Panel>
 
             <Tabs.Panel value='2' pt='xl'>
-                <CreateClubsForm />
+                <CreateClubsForm currentClub={currentClub!} />
             </Tabs.Panel>
         </CustomTabs>
     );

@@ -22,7 +22,6 @@ export const CreateFactsForm = () => {
     };
 
     const typeData = [
-        { label: 'Выберите', value: '' },
         { label: 'Video', value: 'video' },
         { label: 'Image', value: 'image' },
     ];

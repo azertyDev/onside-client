@@ -5,7 +5,13 @@ import React from 'react';
 import { IMatchCenter } from 'src/interfaces/IMatchCenter';
 import { DeleteModal } from '../slider/Card';
 
-export const MatchTable = ({ data }: { data: IMatchCenter[] }) => {
+export const MatchTable = ({
+    data,
+    handleUpdate,
+}: {
+    data: IMatchCenter[];
+    handleUpdate: (match: IMatchCenter) => void;
+}) => {
     const date = (value: string) => {
         return dayjs(value).locale('ru').format('DD-MMMM-YYYY HH:mm');
     };
@@ -17,7 +23,7 @@ export const MatchTable = ({ data }: { data: IMatchCenter[] }) => {
             <td>{date(element.date)}</td>
             <td>
                 <Group spacing='sm' position='right'>
-                    <ActionIcon>
+                    <ActionIcon onClick={() => handleUpdate(element)}>
                         <EditIcon />
                     </ActionIcon>
                     <DeleteModal url={`/matches/${element.id}`} />

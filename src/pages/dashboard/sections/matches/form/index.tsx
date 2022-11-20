@@ -5,19 +5,20 @@ import { CloseIcon } from 'components/common/icons';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
+import { IMatchCenter } from 'src/interfaces/IMatchCenter';
 import { axiosInstance } from 'utils/instance';
 import { Store } from 'utils/Store';
 
-export const CreateMatchForm = () => {
+export const CreateMatchForm = ({ currentMatch }: { currentMatch: IMatchCenter }) => {
     const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
 
     const initialValues = {
-        host: '',
-        guest: '',
-        publishedAt: '',
-        date: '',
+        host: currentMatch?.host ?? '',
+        guest: currentMatch?.guest ?? '',
+        publishedAt: currentMatch?.publishedAt ?? '',
+        date: currentMatch?.date ?? '',
     };
 
     const onSubmit = async (values: any, { resetForm }: any) => {
@@ -29,12 +30,14 @@ export const CreateMatchForm = () => {
             date: date.replace('T', ' '),
         };
 
-        await axiosInstance
-            .post(`/matches`, body, {
-                headers: {
-                    authorization: `Bearer ${userInfo!.token}`,
-                },
-            })
+        await axiosInstance({
+            url: `/matches${currentMatch ? `/${currentMatch.id}` : ''}`,
+            data: body,
+            method: currentMatch ? 'PATCH' : 'POST',
+            headers: {
+                authorization: `Bearer ${userInfo!.token}`,
+            },
+        })
             .then((data) => {
                 if (data) {
                     showNotification({
@@ -61,7 +64,7 @@ export const CreateMatchForm = () => {
     };
 
     return (
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
             {({ values, setFieldValue }) => {
                 return (
                     <Form className='grid gap-8 sm:gap-5'>

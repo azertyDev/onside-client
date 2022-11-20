@@ -1,5 +1,5 @@
-import { Card, Image, Text, ActionIcon, Group, createStyles, CheckIcon } from '@mantine/core';
-import { CloseIcon, DeleteIcon } from 'components/common/icons';
+import { Card, Image, Text, ActionIcon, Group, createStyles } from '@mantine/core';
+import { CheckIcon, CloseIcon, DeleteIcon } from 'components/common/icons';
 import { EditIcon } from 'components/common/icons/edit_icon/EditIcon';
 import { useContext } from 'react';
 import { IImage } from 'src/interfaces/IImage';

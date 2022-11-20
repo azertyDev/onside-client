@@ -30,3 +30,5 @@ export { CaseIcon } from './case_icon/CaseIcon';
 export { LogoutIcon } from './logout_icon/LogoutIcon';
 export { DeleteIcon } from './delete_icon/DeleteIcon';
 export { ServicesIcon } from './services_icon/ServicesIcon';
+export { CheckIcon } from './check_icon/CheckIcon';
+export { BallIcon } from './ball_icon';

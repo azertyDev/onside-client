@@ -1,12 +1,12 @@
 import { createContext, useReducer, Dispatch } from 'react';
 import Cookies from 'js-cookie';
-import { IUser } from 'src/interfaces/IUser';
+import { ISuperUser, IUser } from 'src/interfaces/IUser';
 
-export type StateAction = { type: 'ADMIN_LOGOUT' } | { type: 'ADMIN_LOGIN'; payload: IUser };
+export type StateAction = { type: 'ADMIN_LOGOUT' } | { type: 'ADMIN_LOGIN'; payload: ISuperUser };
 
 export interface IStateContext {
     params: {
-        userInfo: IUser | null;
+        userInfo: ISuperUser | null;
     };
     dispatch: Dispatch<StateAction>;
 }

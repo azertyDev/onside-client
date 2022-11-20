@@ -1,53 +1,45 @@
 import { Button } from '@mantine/core';
-import InputFile from 'components/common/fileUpload/inputFile';
 import FormikControl from 'components/common/formik/FormikControl';
 import { Form, Formik } from 'formik';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { Store } from 'utils/Store';
 import { showNotification } from '@mantine/notifications';
 import { baseURL } from 'utils/constants';
 import { useRouter } from 'next/router';
-import { Dropzone } from 'components/common/dropzone';
+import { FileUploader } from 'components/common/fileUploader';
+import { axiosInstance } from 'utils/instance';
+import { CheckIcon, CloseIcon } from 'components/common/icons';
 
 export const CreateSlidersForm = (props: any) => {
-    const { reload } = useRouter();
-    const { editCurrent } = props;
-
     const { params } = useContext(Store);
     const { userInfo } = params;
-
-    const [image, setImage] = useState<File[]>([]);
-    const [createObjectURL, setCreateObjectURL] = useState<string[]>([]);
+    const { reload } = useRouter();
+    const { currentSlide } = props;
 
     const initialValues = {
-        text: editCurrent?.text ?? '',
-        link: editCurrent?.link ?? '',
-        image: editCurrent?.image ?? '',
+        text: currentSlide?.text ?? '',
+        link: currentSlide?.link ?? '',
+        url: currentSlide?.image.url ?? '',
     };
 
     const onSubmit = async (values: any) => {
-        console.log(values);
-
-        const body = new FormData();
-
-        body.append('text', values.text);
-        body.append('link', values.link);
-        body.append('image', editCurrent ? values.image.url : values.image[0]);
-
-        await fetch(`${baseURL}/sliders${editCurrent ? `/${editCurrent.id}` : ''}`, {
+        await axiosInstance({
+            url: `${baseURL}/sliders${currentSlide ? `/${currentSlide.id}` : ''}`,
+            data: values,
+            method: currentSlide ? 'PATCH' : 'POST',
             headers: {
                 authorization: `Bearer ${userInfo!.token}`,
+                method: currentSlide ? 'PATCH' : 'POST',
             },
-            method: editCurrent ? 'PATCH' : 'POST',
-            body,
         })
             .then((data: any) => {
-                console.log(data);
-
                 if (data) {
                     showNotification({
                         title: '',
-                        message: data.statusText,
+                        message: data.data.message,
+                        color: 'teal',
+                        icon: <CheckIcon />,
+                        autoClose: 5000,
                     });
                 }
 
@@ -55,8 +47,16 @@ export const CreateSlidersForm = (props: any) => {
                     reload();
                 }
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(({ response }) => {
+                if (response) {
+                    showNotification({
+                        title: '',
+                        message: response.data.message,
+                        color: 'red',
+                        icon: <CloseIcon />,
+                        autoClose: 5000,
+                    });
+                }
             });
     };
 
@@ -70,21 +70,11 @@ export const CreateSlidersForm = (props: any) => {
                             <FormikControl name='link' control='input' label='link' />
                         </div>
 
-                        <InputFile
-                            name='image'
-                            image={image}
-                            setImage={setImage}
-                            createObjectURL={createObjectURL}
-                            setCreateObjectURL={setCreateObjectURL}
+                        <FileUploader
+                            name='url'
                             setFieldValue={setFieldValue}
+                            currentPreview={values.url}
                         />
-
-                        {/* <Dropzone
-                            id='image'
-                            name='image'
-                            images={values.image}
-                            setFieldValue={setFieldValue}
-                        /> */}
 
                         <Button variant='outline' type='submit' my='lg'>
                             Submit

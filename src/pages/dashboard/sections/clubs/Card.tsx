@@ -7,6 +7,7 @@ import { DeleteModal } from '../slider/Card';
 type ClubCard = {
     data: IClub;
     url: string;
+    handleEdit: () => void;
 };
 
 export const ClubCard: FC<ClubCard> = (props) => {
@@ -22,7 +23,7 @@ export const ClubCard: FC<ClubCard> = (props) => {
             </Group>
             <Group position='right'>
                 <Group spacing={8}>
-                    <ActionIcon>
+                    <ActionIcon onClick={props.handleEdit}>
                         <EditIcon className='w-5 h-5' />
                     </ActionIcon>
                     <DeleteModal url={url} />

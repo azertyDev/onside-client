@@ -69,7 +69,7 @@ export const Facts: FC = () => {
                         {facts?.data?.map((item: any) => {
                             return item.story?.map((i: any) => {
                                 return (
-                                    <Grid.Col md={6} lg={3} key={i.id}>
+                                    <Grid.Col xs={6} sm={6} md={4} lg={4} xl={3} key={i.id}>
                                         <FactCard {...i} />
                                     </Grid.Col>
                                 );

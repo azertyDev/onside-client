@@ -1,17 +1,27 @@
 import { Grid, Tabs } from '@mantine/core';
 import { CustomTabs } from 'components/common/tabs';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { IChempionship } from 'src/interfaces/IChempionship';
 import { axiosInstance } from 'utils/instance';
 import { ClubCard } from '../clubs/Card';
 import { CreateChampionshipForm } from './form';
 
 export const Championships = () => {
+    const { push } = useRouter();
     const [championships, setChampionships] = useState([]);
+    const [currentChampionship, setCurrentChampionship] = useState<IChempionship>();
+    console.log(currentChampionship);
 
     const fetchChampionships = () => {
         axiosInstance.get(`/chempionships`).then(({ data }) => {
             setChampionships(data);
         });
+    };
+
+    const handleEdit = (championships: IChempionship) => {
+        setCurrentChampionship(championships);
+        push('/dashboard/championship/2');
     };
 
     useEffect(() => {
@@ -30,7 +40,11 @@ export const Championships = () => {
                     {championships?.map((item: any) => {
                         return (
                             <Grid.Col md={6} lg={3} key={item.id}>
-                                <ClubCard data={item} url={`/chempionships/${item.id}`} />
+                                <ClubCard
+                                    data={item}
+                                    url={`/chempionships/${item.id}`}
+                                    handleEdit={() => handleEdit(item)}
+                                />
                             </Grid.Col>
                         );
                     })}
@@ -38,7 +52,7 @@ export const Championships = () => {
             </Tabs.Panel>
 
             <Tabs.Panel value='2' pt='xl'>
-                <CreateChampionshipForm />
+                <CreateChampionshipForm currentChampionship={currentChampionship!} />
             </Tabs.Panel>
         </CustomTabs>
     );

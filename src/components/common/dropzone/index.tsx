@@ -38,7 +38,6 @@ export const Dropzone = (props: any) => {
                 }
             )
             .then((data) => {
-                console.log(data);
                 setFiles(file);
                 props.setFieldValue(props.name, data.data.url);
             })

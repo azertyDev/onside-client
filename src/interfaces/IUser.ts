@@ -19,3 +19,8 @@ export interface IUser {
     expiredAt: string;
     createdat?: Date;
 }
+
+export interface ISuperUser {
+    token: string;
+    user: IUser;
+}

@@ -32,7 +32,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
-    console.log(currentNews);
+    // console.log(currentNews);
 
     const [richText, setRichText] = useState(currentNews ? currentNews?.editorText : '');
     const [image, setImage] = useState<File[]>([]);

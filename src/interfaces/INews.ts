@@ -19,6 +19,7 @@ export interface INews {
     image: IImage;
     nameLink: string;
     link: string;
+    authorId: number;
     author: {
         name: string;
         surname: string;

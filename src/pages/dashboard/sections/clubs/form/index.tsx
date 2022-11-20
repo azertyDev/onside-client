@@ -1,44 +1,36 @@
-import { Button, CheckIcon } from '@mantine/core';
+import { Button } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
-import InputFile from 'components/common/fileUpload/inputFile';
+import { FileUploader } from 'components/common/fileUploader';
 import FormikControl from 'components/common/formik/FormikControl';
-import { CloseIcon } from 'components/common/icons';
+import { CheckIcon, CloseIcon } from 'components/common/icons';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
-import { baseURL } from 'utils/constants';
+import { useContext } from 'react';
+import { IClub } from 'src/interfaces/IClub';
 import { axiosInstance } from 'utils/instance';
 import { Store } from 'utils/Store';
 
-export const CreateClubsForm = () => {
+export const CreateClubsForm = ({ currentClub }: { currentClub: IClub }) => {
     const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
-
-    const [image, setImage] = useState<File[]>([]);
-    const [createObjectURL, setCreateObjectURL] = useState<string[]>([]);
+    console.log('currentClub: ', currentClub);
 
     const initialValues = {
-        name: '',
-        link: '',
-        image: '',
+        name: currentClub?.name ?? '',
+        link: currentClub?.link ?? '',
+        url: currentClub?.image?.url ?? '',
     };
 
     const onSubmit = async (values: any) => {
-        const { image, ...rest } = values;
-
-        const body = {
-            image: image[0],
-            ...rest,
-        };
-
-        await axiosInstance
-            .post(`/clubs`, body, {
-                headers: {
-                    'authorization': `Bearer ${userInfo!.token}`,
-                    'Content-Type': 'multipart/form-data',
-                },
-            })
+        await axiosInstance({
+            url: `/clubs${currentClub ? `/${currentClub.id}` : ''}`,
+            data: values,
+            method: currentClub ? 'PATCH' : 'POST',
+            headers: {
+                authorization: `Bearer ${userInfo!.token}`,
+            },
+        })
             .then((data) => {
                 if (data) {
                     showNotification({
@@ -67,7 +59,7 @@ export const CreateClubsForm = () => {
     };
 
     return (
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
             {({ values, setFieldValue }) => {
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
@@ -76,13 +68,10 @@ export const CreateClubsForm = () => {
                             <FormikControl name='link' control='input' label='link' />
                         </div>
 
-                        <InputFile
-                            name='image'
-                            image={image}
-                            setImage={setImage}
-                            createObjectURL={createObjectURL}
-                            setCreateObjectURL={setCreateObjectURL}
+                        <FileUploader
+                            name='url'
                             setFieldValue={setFieldValue}
+                            currentPreview={values?.url}
                         />
 
                         <Button variant='outline' type='submit' my='lg' size='md'>

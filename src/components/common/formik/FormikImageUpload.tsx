@@ -34,7 +34,7 @@ export const ImageUpload = ({ preview, onChange }: any) => {
                         name='avatar'
                         onChange={onChange}
                         className={s.upload_input}
-                        accept='image/jpeg, image/png, image/gif, image/jpg'
+                        accept='image/jpeg, image/png, image/gif, image/jpg,video/mp4,video/x-m4v,video/*'
                     />
                 </div>
                 {preview !== null && (

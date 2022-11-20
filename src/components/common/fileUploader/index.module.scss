@@ -1,0 +1,27 @@
+.wrapper {
+    @apply relative;
+
+    & .imageUpload {
+        @apply p-1 bg-slate-300 max-w-[300px] h-[300px] rounded-3xl;
+
+        & label {
+            @apply flex items-center justify-center bg-white w-full h-full rounded-3xl;
+        }
+    }
+
+    & .preview_block {
+        @apply relative inline-block rounded-2xl p-1;
+
+        & span {
+            @apply cursor-pointer animate-pulse absolute -top-2 -right-2 bg-slate-500 rounded-full p-1;
+
+            & svg {
+                @apply fill-white;
+            }
+        }
+
+        & img {
+            @apply rounded-3xl;
+        }
+    }
+}
