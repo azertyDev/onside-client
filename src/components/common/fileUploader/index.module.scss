@@ -1,5 +1,5 @@
 .wrapper {
-    @apply relative grid place-items-center min-w-[300px]; 
+    @apply relative grid place-items-center min-w-full;
 
     & .imageUpload {
         @apply p-1 bg-slate-300 max-w-[300px] h-[300px] rounded-3xl w-full;
