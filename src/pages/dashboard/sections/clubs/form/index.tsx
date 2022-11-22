@@ -76,7 +76,7 @@ export const CreateClubsForm = ({ currentClub }: { currentClub: IClub }) => {
                         </div>
 
                         <Button variant='outline' type='submit' my='lg' size='md'>
-                            Submit
+                            Qabul qilish
                         </Button>
                     </Form>
                 );

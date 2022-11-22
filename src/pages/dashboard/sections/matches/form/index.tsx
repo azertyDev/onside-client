@@ -82,7 +82,7 @@ export const CreateMatchForm = ({ currentMatch }: { currentMatch: IMatchCenter }
                             <FormikControl name='date' control='dateTime' label='date' />
                         </div>
                         <Button variant='outline' type='submit' my='lg' size='md' className='w-fit'>
-                            Submit
+                        Qabul qilish
                         </Button>
                     </Form>
                 );

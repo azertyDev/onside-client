@@ -9,7 +9,6 @@ import s from './index.module.scss';
 export const FileUploader = (props: any) => {
     const { params } = useContext(Store);
     const { userInfo } = params;
-    const [preview, setPreview] = useState<any>();
 
     const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
         const fileUploaded: File = event.target.files![0];
@@ -52,12 +51,9 @@ export const FileUploader = (props: any) => {
                     });
                 }
             });
-
-        setPreview(URL.createObjectURL(fileUploaded));
     };
 
     const deleteImage = (event?: MouseEvent<HTMLElement>) => {
-        setPreview(undefined);
         props.setFieldValue(props.name, '');
     };
 
@@ -103,29 +99,53 @@ export const FileUploader = (props: any) => {
 
     return (
         <div className={s.wrapper}>
-            {!!props.currentPreview || preview ? (
+            <span className='mb-4 text-left'>
+                {props.type === 'IMAGE' ? 'Rasm yuklash' : 'Video yuklash'}
+            </span>
+            {!!props.currentPreview || props.preview ? (
                 <div className={s.preview_block}>
-                    <Image
-                        src={props.currentPreview ?? preview}
-                        alt='preview'
-                        height={300}
-                        width={300}
-                    />
+                    {props.type === 'IMAGE' && (
+                        <Image
+                            width={300}
+                            height={300}
+                            alt='preview'
+                            src={props.currentPreview ?? props.preview}
+                        />
+                    )}
+                    {props.type === 'VIDEO' && (
+                        <div className='w-full min-w-[300px] max-w-[500px] h-[300px]'>
+                            <video
+                                controls
+                                // autoPlay
+                                className={s.video}
+                                src={props.currentPreview ?? props.preview}
+                            />
+                        </div>
+                    )}
                     <span onClick={props.currentPreview ? deleteCurrentImage : deleteImage}>
+                        <span className={s.pulse} />
                         <DeleteIcon className='w-5 h-5' fill='#ffffff' />
                     </span>
                 </div>
             ) : (
                 <div className={s.imageUpload}>
-                    <label htmlFor='image'>
-                        <BallIcon className='w-20 h-20' />
+                    <label htmlFor='file'>
+                        <BallIcon
+                            className={`w-20 h-20 ${props.type === 'VIDEO' ? 'animate-spin' : ''}`}
+                        />
                         <input
                             name={props.name}
-                            id='image'
+                            id='file'
                             type='file'
                             onChange={handleChange}
                             style={{ display: 'none' }}
-                            accept='image/*, video/*'
+                            accept={`${
+                                props.type === 'VIDEO'
+                                    ? 'video/*'
+                                    : props.type === 'IMAGE'
+                                    ? 'image/*'
+                                    : ''
+                            }`}
                         />
                     </label>
                 </div>

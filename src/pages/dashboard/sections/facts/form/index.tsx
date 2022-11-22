@@ -136,7 +136,7 @@ export const CreateFactsForm = () => {
                         />
 
                         <Button variant='outline' type='submit' my='lg' size='md'>
-                            Submit
+                            Qabul qilish
                         </Button>
                     </Form>
                 );

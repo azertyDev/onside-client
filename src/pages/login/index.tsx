@@ -13,7 +13,7 @@ const useStyles = createStyles((theme) => ({
     wrapper: {
         minHeight: '100vh',
         backgroundSize: 'cover',
-        backgroundImage: "url('/assets/img/stadium.jpeg')",
+        backgroundImage: "url('/assets/img/login-img.jpg')",
         display: 'flex',
         justifyContent: 'center',
         backgroundPosition: 'center',
@@ -127,7 +127,7 @@ export const Login = () => {
                                     className='bg-blue-500'
                                     type='submit'
                                 >
-                                    Авторизоваться
+                                    Kirish
                                 </Button>
                             </Form>
                         );

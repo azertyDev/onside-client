@@ -74,9 +74,10 @@ export const Facts: FC = () => {
         <div className='w-full'>
             <CustomTabs>
                 <Tabs.List>
-                    <Tabs.Tab value='1'>Все</Tabs.Tab>
-                    <Tabs.Tab value='2'>Создать</Tabs.Tab>
-                    <Tabs.Tab value='3'>Редактировать</Tabs.Tab>
+                    <Tabs.Tab value='1'>Barcha</Tabs.Tab>
+
+                    {!currentFact && <Tabs.Tab value='2'>Yaratish</Tabs.Tab>}
+                    {currentFact && <Tabs.Tab value='3'>O`zgartirish</Tabs.Tab>}
                 </Tabs.List>
 
                 <Tabs.Panel value='1' pt='xl'>
@@ -100,13 +101,17 @@ export const Facts: FC = () => {
                     )}
                 </Tabs.Panel>
 
-                <Tabs.Panel value='2' pt='xl'>
-                    <CreateFactsForm />
-                </Tabs.Panel>
+                {!currentFact && (
+                    <Tabs.Panel value='2' pt='xl'>
+                        <CreateFactsForm />
+                    </Tabs.Panel>
+                )}
 
-                <Tabs.Panel value='3' pt='xl'>
-                    <UpdateFactForm currentFact={currentFact!} />
-                </Tabs.Panel>
+                {currentFact && (
+                    <Tabs.Panel value='3' pt='xl'>
+                        <UpdateFactForm currentFact={currentFact!} />
+                    </Tabs.Panel>
+                )}
             </CustomTabs>
         </div>
     );

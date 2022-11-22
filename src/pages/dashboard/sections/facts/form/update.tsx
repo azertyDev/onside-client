@@ -76,29 +76,25 @@ export const UpdateFactForm = ({ currentFact }: { currentFact: IFact }) => {
                                     name='type'
                                     label='Type'
                                     data={typeData}
-                                    onChange={(e) => setFieldValue(`type`, e)}
                                     value={values.type}
                                     placeholder='video or image'
+                                    onChange={(e) => setFieldValue(`type`, e)}
                                 />
                                 <FormikControl label='Link' control='input' name='link' />
                             </div>
                             <div className='flex justify-center gap-10 flex-col'>
                                 <FileUploader
-                                    currentPreview={values?.url}
-                                    setFieldValue={setFieldValue}
                                     name='url'
+                                    preview={values.url}
+                                    // currentPreview={values?.url}
+                                    setFieldValue={setFieldValue}
+                                    type={values.type.toUpperCase()}
                                 />
                             </div>
                         </div>
 
-                        <Button
-                            variant='outline'
-                            type='submit'
-                            my='lg'
-                            size='md'
-                            disabled={!!currentFact}
-                        >
-                            Submit
+                        <Button my='lg' size='md' type='submit' variant='outline'>
+                            Qabul qilish
                         </Button>
                     </Form>
                 );

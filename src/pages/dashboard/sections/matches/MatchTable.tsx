@@ -39,7 +39,7 @@ export const MatchTable = ({
                     <th>Хозяева</th>
                     <th>Гости</th>
                     <th>Дата</th>
-                    <th>Действия</th>
+                    <th>Imkoniyatlar</th>
                 </tr>
             </thead>
             <tbody>{rows}</tbody>

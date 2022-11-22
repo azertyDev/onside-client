@@ -79,7 +79,7 @@ export const CreateSlidersForm = (props: any) => {
                         </div>
 
                         <Button variant='outline' type='submit' my='lg'>
-                            Submit
+                            Qabul qilish
                         </Button>
                     </Form>
                 );

@@ -70,7 +70,7 @@ export const CreateModeratorsForm = ({ current }: { current: IUser | undefined }
                             <FormikControl name='phone' control='input' label='phone' />
                         </div>
                         <Button variant='outline' type='submit' my='lg' size='md' className='w-fit'>
-                            Submit
+                        Qabul qilish
                         </Button>
                     </Form>
                 );

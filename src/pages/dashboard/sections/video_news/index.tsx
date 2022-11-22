@@ -1,33 +1,24 @@
-import { Grid, Select, Tabs } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import { Checkbox, Grid, Select, Tabs } from '@mantine/core';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { axiosInstance } from 'utils/instance';
 import { CustomTabs } from 'components/common/tabs';
-import { CreateNewsForm } from './form';
-import { ImageCard } from './ImageCard';
+import { CreateVideoNewsForm } from './form';
+// import { ImageCard } from './ImageCard';
 import { INews } from 'src/interfaces/INews';
 import { Pagination } from '@mantine/core';
 import { useRouter } from 'next/router';
+import { FileUploader } from 'components/common/fileUploader';
 
-export const News = () => {
+export const VideoNews = () => {
     const { push } = useRouter();
     const [news, setNews] = useState<any>([]);
     const [page, setPage] = useState<number>(1);
     const [currentNews, setCurrentNews] = useState<INews>();
     const [newsType, setNewsType] = useState<string | null>('');
-    const [isPublic, setIsPublic] = useState<string | null>('');
-
-    const publicValues = [
-        {
-            label: 'Chop etilgan',
-            value: '1',
-        },
-        {
-            label: 'Chop etilmagan',
-            value: '0',
-        },
-    ];
+    const [isPublic, setIsPublic] = useState<boolean>(false);
 
     const newsTypes = [
+        { label: 'Тип новостей', value: '' },
         { label: 'COMMON', value: 'COMMON' },
         { label: 'INTERVIEW', value: 'INTERVIEW' },
         { label: 'BLOG', value: 'BLOG' },
@@ -36,10 +27,12 @@ export const News = () => {
         { label: 'VIDEO', value: 'VIDEO' },
     ];
 
+    console.log(news);
+    
     const fetchNews = async () => {
         await axiosInstance
             .get(
-                `/news?page=${page}&limit=12${newsType ? `&type=${newsType}` : ''}${
+                `/video/news?page=${page}&limit=12${newsType ? `&type=${newsType}` : ''}${
                     isPublic ? `&isPublic=${Number(isPublic)}` : ''
                 }`
             )
@@ -54,6 +47,11 @@ export const News = () => {
     const handleEditNews = (news: INews) => {
         setCurrentNews(news);
         push('/dashboard/news/2');
+    };
+
+    const toggleIsPublic = (event: ChangeEvent<HTMLInputElement>) => {
+        setIsPublic(event.currentTarget.checked);
+        // push(`/dashboard/news/1?isPublic=${Number(isPublic)}`);
     };
 
     const handlePagination = (e: any) => {
@@ -75,25 +73,22 @@ export const News = () => {
                 <Tabs.Panel value='1' pt='xl'>
                     <div className='flex gap-4 items-center mb-8'>
                         <Select
-                            clearable
                             value={newsType}
                             data={newsTypes}
                             onChange={setNewsType}
-                            placeholder='Yangilik turi'
+                            placeholder='Выбрать тип новостей'
                         />
-                        <Select
-                            clearable
-                            value={isPublic}
-                            data={publicValues}
-                            onChange={setIsPublic}
-                            placeholder='Holati'
+                        <Checkbox
+                            checked={isPublic}
+                            label='Опубликованные'
+                            onChange={(event) => setIsPublic(event.currentTarget.checked)}
                         />
                     </div>
                     <Grid>
                         {news?.data?.map((item: INews) => {
                             return (
                                 <Grid.Col xs={6} sm={6} md={6} lg={4} xl={3} key={item.id}>
-                                    <ImageCard data={item} handleEditNews={handleEditNews} />
+                                    {/* <ImageCard data={item} handleEditNews={handleEditNews} /> */}
                                 </Grid.Col>
                             );
                         })}
@@ -108,7 +103,7 @@ export const News = () => {
                 </Tabs.Panel>
 
                 <Tabs.Panel value='2' pt='xl'>
-                    <CreateNewsForm currentNews={currentNews!} />
+                    {/* <CreateNewsForm currentNews={currentNews!} /> */}
                 </Tabs.Panel>
             </CustomTabs>
         </div>

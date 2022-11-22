@@ -8,6 +8,7 @@ import { Matches } from './sections/matches';
 import { Moderators } from './sections/moderators';
 import { News } from './sections/news';
 import { Slider } from './sections/slider';
+import { VideoNews } from './sections/video_news';
 
 const useStyles = createStyles((theme) => {
     return {
@@ -41,6 +42,8 @@ export const Dashboard = () => {
                 return <Slider />;
             case 'facts':
                 return <Facts />;
+            case 'video_news':
+                return <VideoNews />;
         }
     };
 

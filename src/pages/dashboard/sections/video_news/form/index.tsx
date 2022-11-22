@@ -28,7 +28,7 @@ interface IOptions {
     group?: string;
 }
 
-export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
+export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => {
     const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
@@ -41,7 +41,9 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     const [categories, setCategories] = useState<IOptions[]>(categoriesArray);
     const [subCategories, setSubCategories] = useState<IOptions[]>(subCategoriesArray);
     const [subCategoriesType, setSubCategoriesType] = useState<IOptions[]>(subCategoriesTypeArray);
-    const [richText, setRichText] = useState<string | undefined>(currentNews?.editorText ?? '');
+    const [richText, setRichText] = useState(
+        currentNews ? currentNews?.editorText : '<p>asdasd</p>'
+    );
 
     const [moderators, setModerators] = useState<IUser[]>([]);
 
@@ -168,8 +170,8 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             url: `${baseURL}/news${currentNews ? `/${currentNews.id}` : ''}`,
             method: currentNews ? 'PATCH' : 'POST',
             headers: {
-                authorization: `Bearer ${userInfo!.token}`,
-                // 'Content-Type': 'multipart/form-data',
+                'authorization': `Bearer ${userInfo!.token}`,
+                'Content-Type': 'multipart/form-data',
             },
         })
             .then((data) => {
@@ -183,8 +185,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                 }
 
                 if (data.status === 200) {
-                    setRichText(undefined);
-                    resetForm();
+                    // reload();
                 }
             })
             .catch(({ response }) => {
@@ -210,7 +211,8 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
 
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
-            {({ values, setFieldValue, ...rest }) => {
+            {({ values, setFieldValue }) => {
+                console.log(typeof String(values));
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <FormikControl

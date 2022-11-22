@@ -79,7 +79,7 @@ export const CreateChampionshipForm = ({
                             />
                         </div>
                         <Button variant='outline' type='submit' my='lg' size='md'>
-                            Submit
+                            Qabul qilish
                         </Button>
                     </Form>
                 );

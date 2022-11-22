@@ -167,7 +167,7 @@ export const CreateCategoriesForm = () => {
                         <div className='row'></div>
 
                         <Button variant='outline' type='submit' my='lg'>
-                            Создать
+                            Qabul qilish
                         </Button>
                     </Form>
                 );

@@ -46,8 +46,8 @@ export const Slider = () => {
         <div className='w-full'>
             <CustomTabs onTabChange={onTabChange}>
                 <Tabs.List>
-                    <Tabs.Tab value='1'>Все</Tabs.Tab>
-                    <Tabs.Tab value='2'>Создать</Tabs.Tab>
+                    <Tabs.Tab value='1'>Barcha</Tabs.Tab>
+                    <Tabs.Tab value='2'>Yaratish</Tabs.Tab>
                     <Tabs.Tab value='3'>Slider</Tabs.Tab>
                 </Tabs.List>
 
