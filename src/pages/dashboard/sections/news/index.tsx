@@ -39,7 +39,7 @@ export const News = () => {
     const fetchNews = async () => {
         await axiosInstance
             .get(
-                `/news?page=${page}&limit=12${newsType ? `&type=${newsType}` : ''}${
+                `/news/byType?page=${page}&limit=12${newsType ? `&type=${newsType}` : ''}${
                     isPublic ? `&isPublic=${Number(isPublic)}` : ''
                 }`
             )
