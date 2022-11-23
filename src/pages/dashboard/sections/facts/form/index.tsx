@@ -62,6 +62,8 @@ export const CreateFactsForm = () => {
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {({ values, setFieldValue }) => {
+                console.log(values);
+
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <FieldArray
@@ -103,8 +105,11 @@ export const CreateFactsForm = () => {
                                                 </div>
                                                 <div className='flex justify-center gap-10 flex-col'>
                                                     <FileUploader
-                                                        // currentPreview={}
-                                                        // type={`data.${index}.type`}
+                                                        preview={values.data[index].url ?? ''}
+                                                        type={
+                                                            values.data[index]?.type?.toUpperCase() ??
+                                                            'IMAGE'
+                                                        }
                                                         setFieldValue={setFieldValue}
                                                         name={`data.${index}.url`}
                                                     />

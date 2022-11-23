@@ -60,7 +60,6 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             value: `${moderator.id}`,
         };
     });
-    console.log('Categories: ', categories);
 
     const fetchModerators = async () => {
         await axiosInstance
@@ -203,7 +202,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
             {({ values, setFieldValue, ...rest }) => {
-                console.log('Formik initialValues: ', values);
+                // console.log('Formik initialValues: ', values);
 
                 return (
                     <Form className='grid gap-8 sm:gap-5'>

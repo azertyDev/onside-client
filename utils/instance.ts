@@ -8,7 +8,7 @@ export const axiosInstance = axios.create({
     baseURL: baseURL,
     headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        'Access-Control-Allow-Methods': '*',
         'Content-Type': 'application/json',
     },
     httpsAgent: new https.Agent({

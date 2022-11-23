@@ -11,6 +11,8 @@ interface FileUploaderProps {}
 export const FileUploader = (props: any) => {
     const { params } = useContext(Store);
     const { userInfo } = params;
+    console.log(props);
+    
 
     const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
         const fileUploaded: File = event.target.files![0];
@@ -101,8 +103,9 @@ export const FileUploader = (props: any) => {
 
     return (
         <div className={s.wrapper}>
-            <span className='mb-4 text-left'>
+            <span className='mb-4'>
                 {props.type === 'IMAGE' ? 'Rasm yuklash' : 'Video yuklash'}
+                <span className='text-red-500 text-lg ml-[2px]'>*</span>
             </span>
             {!!props.currentPreview || props.preview ? (
                 <div className={s.preview_block}>
