@@ -1,4 +1,4 @@
-import { Form, Formik } from 'formik';
+import { Form, Formik, useFormik } from 'formik';
 import { Button, NumberInput, Select } from '@mantine/core';
 import FormikControl from 'components/common/formik/FormikControl';
 import { StarIcon } from 'components/common/icons/star_icon/StarIcon';
@@ -9,28 +9,20 @@ import { showNotification } from '@mantine/notifications';
 import { baseURL } from 'utils/constants';
 import { axiosInstance } from 'utils/instance';
 import { IUser } from 'src/interfaces/IUser';
-import { useRouter } from 'next/router';
 import { INews } from 'src/interfaces/INews';
 import { FileUploader } from 'components/common/fileUploader';
 import { CheckIcon, CloseIcon } from 'components/common/icons';
-
-export enum NewsType {
-    Common = 'COMMON',
-    Interview = 'INTERVIEW',
-    Blog = 'BLOG',
-    Sport = 'SPORT',
-    Photo = 'PHOTO',
-    Video = 'VIDEO',
-}
+import ISubCategory from 'src/interfaces/ISubCategory';
+import ISubCategoryType from 'src/interfaces/ISubCategoryType';
 
 interface IOptions {
     label: string;
     value: any;
     group?: string;
+    menu?: any;
 }
 
 export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
-    const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
 
@@ -76,46 +68,6 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             });
     };
 
-    const fetchCategories = async () => {
-        await axiosInstance
-            .get('/categories')
-            .then(({ data }) => {
-                data?.map((i: any) => {
-                    categoriesArray.push({
-                        value: i.id,
-                        label: i.name,
-                    });
-
-                    i.menu?.map((j: any) => {
-                        subCategoriesArray.push({
-                            value: j.id,
-                            label: j.name,
-                            group: i.name,
-                        });
-
-                        j.menu?.map((e: any) => {
-                            subCategoriesTypeArray.push({
-                                value: e.id,
-                                label: e.name,
-                                group: j.name,
-                            });
-                        });
-                    });
-                });
-
-                setCategories([...categoriesArray]);
-                setSubCategories([...subCategoriesArray]);
-                setSubCategoriesType([...subCategoriesTypeArray]);
-            })
-            .catch((error) => {
-                console.log('Categories fetch error: ', error);
-            });
-    };
-
-    useEffect(() => {
-        setRichText(currentNews?.editorText);
-    }, [currentNews]);
-
     const initialValues = {
         categoryId: currentNews?.category ? currentNews?.category.id : '',
         subCategoryId: currentNews?.subCategory ? currentNews?.subCategory.id : '',
@@ -126,10 +78,10 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
         link: currentNews?.link ?? '',
         type: currentNews?.type ?? '',
         amountRating: currentNews?.amountRating ?? 0,
+        amountViews: currentNews?.views ?? 0,
         rating: currentNews?.rating ?? 0.0,
         editorText: currentNews?.editorText ?? '',
         publishedAt: currentNews?.publishedAt ? `${currentNews?.publishedAt}` : '',
-        amountViews: '',
         image: {
             url: currentNews?.image ? currentNews?.image.url : '',
         },
@@ -137,6 +89,61 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             url: currentNews?.video ? currentNews?.video.url : '',
         },
     };
+
+    const fetchCategories = async () => {
+        await axiosInstance
+            .get('/categories')
+            .then(({ data }) => {
+                data?.map((i: any) => {
+                    categoriesArray.push({
+                        value: i.id,
+                        label: i.name,
+                        menu: i.menu,
+                    });
+                });
+                setCategories([...categoriesArray]);
+            })
+            .catch((error) => {
+                console.log('Categories fetch error: ', error);
+            });
+    };
+
+    const handleCategories = (id: any, setFieldValue: any) => {
+        setFieldValue('categoryId', id);
+
+        categories?.filter((item) => {
+            item.menu?.map((i: ISubCategory) => {
+                if (id === i.parentId) {
+                    subCategoriesArray.push({
+                        value: i.id,
+                        label: i.name,
+                        menu: i.menu,
+                    });
+                    setSubCategories([...subCategoriesArray]);
+                }
+            });
+        });
+    };
+
+    const handleSubCategories = (id: any, setFieldValue: any) => {
+        setFieldValue('subCategoryId', id);
+
+        subCategories?.filter((i: any) => {
+            i.menu?.map((j: any) => {
+                if (id === j.parentId) {
+                    subCategoriesTypeArray.push({
+                        value: j.id,
+                        label: j.name,
+                    });
+                    setSubCategoriesType([...subCategoriesTypeArray]);
+                }
+            });
+        });
+    };
+
+    useEffect(() => {
+        setRichText(currentNews?.editorText);
+    }, [currentNews]);
 
     const onSubmit = async (values: any, { resetForm }: { resetForm: any }) => {
         const { publishedAt, subCategoryTypeId, amountRating, image, rating, video, ...rest } =
@@ -199,11 +206,23 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
         fetchModerators();
     }, []);
 
+    const showViewsInput = (values: any, setFieldValue: any) => {
+        return (
+            <NumberInput
+                min={0}
+                size='md'
+                defaultValue={0}
+                name='amountViews'
+                label='Ko`rishlar soni'
+                value={values.amountViews}
+                onChange={(val) => setFieldValue('amountViews', val)}
+            />
+        );
+    };
+
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
             {({ values, setFieldValue, ...rest }) => {
-                // console.log('Formik initialValues: ', values);
-
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <FormikControl
@@ -238,9 +257,9 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 name='type'
                                 label='Yangilik turi'
                                 data={newsTypes}
-                                onChange={(e) => setFieldValue('type', e)}
                                 value={values.type}
                                 placeholder='Tanlang'
+                                onChange={(e) => setFieldValue('type', e)}
                             />
                             <FormikControl
                                 name='publishedAt'
@@ -258,7 +277,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 placeholder='Tanlang'
                                 label='Sport turi kategoriyasi'
                                 value={values.categoryId as string}
-                                onChange={(e) => setFieldValue('categoryId', e)}
+                                onChange={(e) => handleCategories(e, setFieldValue)}
                             />
                             <Select
                                 size='md'
@@ -267,16 +286,16 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 data={subCategories}
                                 placeholder='Tanlang'
                                 value={values.subCategoryId as string}
-                                onChange={(e) => setFieldValue('subCategoryId', e)}
+                                onChange={(e) => handleSubCategories(e, setFieldValue)}
                             />
                             <Select
                                 size='md'
+                                placeholder='Tanlang'
                                 name='subCategoryTypeId'
                                 label='Subcategory type'
                                 data={subCategoriesType}
-                                onChange={(e) => setFieldValue('subCategoryTypeId', e)}
                                 value={values.subCategoryTypeId as string}
-                                placeholder='Tanlang'
+                                onChange={(e) => setFieldValue('subCategoryTypeId', e)}
                             />
                         </div>
                         <div className='row'>
@@ -294,18 +313,6 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                             />
                             <NumberInput
                                 size='md'
-                                label='Baholaganlar soni'
-                                defaultValue={0}
-                                name='amountRating'
-                                value={values.amountRating}
-                                onChange={(val) => setFieldValue('amountRating', val)}
-                                min={0}
-                            />
-                        </div>
-
-                        <div className='row'>
-                            <NumberInput
-                                size='md'
                                 decimalSeparator=','
                                 label='Reyting'
                                 defaultValue={0.0}
@@ -318,6 +325,19 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 icon={<StarIcon className='w-6 h-6' />}
                                 min={0}
                             />
+                        </div>
+
+                        <div className='row'>
+                            <NumberInput
+                                min={0}
+                                size='md'
+                                defaultValue={0}
+                                name='amountRating'
+                                label='Baholaganlar soni'
+                                value={values.amountRating}
+                                onChange={(val) => setFieldValue('amountRating', val)}
+                            />
+                            {showViewsInput(values, setFieldValue)}
                         </div>
 
                         <div className='row'>

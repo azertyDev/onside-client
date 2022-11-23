@@ -121,11 +121,11 @@ export const Login = () => {
                                     placeholder='Пароль'
                                 />
                                 <Button
-                                    fullWidth
                                     mt='xl'
                                     size='md'
-                                    className='bg-blue-500'
+                                    fullWidth
                                     type='submit'
+                                    className='bg-blue-500'
                                 >
                                     Kirish
                                 </Button>

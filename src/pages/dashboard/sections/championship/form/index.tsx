@@ -4,7 +4,6 @@ import { FileUploader } from 'components/common/fileUploader';
 import FormikControl from 'components/common/formik/FormikControl';
 import { CheckIcon, CloseIcon } from 'components/common/icons';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { IChempionship } from 'src/interfaces/IChempionship';
 import { axiosInstance } from 'utils/instance';
@@ -12,10 +11,11 @@ import { Store } from 'utils/Store';
 
 export const CreateChampionshipForm = ({
     currentChampionship,
+    setCurrentChampionship,
 }: {
     currentChampionship: IChempionship;
+    setCurrentChampionship: (championship: IChempionship | undefined) => void;
 }) => {
-    const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
 
@@ -25,7 +25,7 @@ export const CreateChampionshipForm = ({
         url: currentChampionship?.image?.url ?? '',
     };
 
-    const onSubmit = async (values: any) => {
+    const onSubmit = async (values: any, { resetForm }: { resetForm: any }) => {
         await axiosInstance({
             data: values,
             method: currentChampionship ? 'PATCH' : 'POST',
@@ -45,7 +45,8 @@ export const CreateChampionshipForm = ({
                     });
                 }
                 if (data.status === 200) {
-                    reload();
+                    setCurrentChampionship(undefined);
+                    resetForm();
                 }
             })
             .catch(({ response }) => {
@@ -67,15 +68,20 @@ export const CreateChampionshipForm = ({
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <div className='grid grid-cols-2 sm:grid-cols-1 gap-8'>
-                            <FormikControl name='name' control='input' label='name' />
-                            <FormikControl name='link' control='input' label='link' />
+                            <FormikControl name='name' control='input' label='Chempionat nomi' />
+                            <FormikControl
+                                name='link'
+                                control='input'
+                                label='Chempionat havolasi (link)'
+                            />
                         </div>
 
                         <div className='grid place-items-start'>
                             <FileUploader
                                 name='url'
+                                type='IMAGE'
+                                preview={values?.url}
                                 setFieldValue={setFieldValue}
-                                currentPreview={values?.url}
                             />
                         </div>
                         <Button variant='outline' type='submit' my='lg' size='md'>

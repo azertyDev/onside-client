@@ -68,7 +68,10 @@ export const Slider = () => {
                 </Tabs.Panel>
 
                 <Tabs.Panel value='2' pt='xl'>
-                    <CreateSlidersForm currentSlide={currentSlide} />
+                    <CreateSlidersForm
+                        currentSlide={currentSlide}
+                        setCurrentSlide={setCurrentSlide}
+                    />
                 </Tabs.Panel>
 
                 <Tabs.Panel value='3' pt='xl'>

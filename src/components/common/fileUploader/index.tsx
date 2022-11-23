@@ -11,8 +11,6 @@ interface FileUploaderProps {}
 export const FileUploader = (props: any) => {
     const { params } = useContext(Store);
     const { userInfo } = params;
-    console.log(props);
-    
 
     const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
         const fileUploaded: File = event.target.files![0];
@@ -66,7 +64,7 @@ export const FileUploader = (props: any) => {
             .put(
                 '/common/image',
                 {
-                    url: props.currentPreview,
+                    url: props.preview,
                 },
                 {
                     headers: {
@@ -107,27 +105,17 @@ export const FileUploader = (props: any) => {
                 {props.type === 'IMAGE' ? 'Rasm yuklash' : 'Video yuklash'}
                 <span className='text-red-500 text-lg ml-[2px]'>*</span>
             </span>
-            {!!props.currentPreview || props.preview ? (
+            {props.preview ? (
                 <div className={s.preview_block}>
-                    {props.type === 'IMAGE' && (
-                        <Image
-                            width={300}
-                            height={300}
-                            alt='preview'
-                            src={props.currentPreview ?? props.preview}
-                        />
-                    )}
-                    {props.type === 'VIDEO' && (
+                    {props.type === 'IMAGE' ? (
+                        <Image width={300} height={300} alt='preview' src={props.preview} />
+                    ) : props.type === 'VIDEO' ? (
                         <div className='w-full min-w-[300px] max-w-[500px] h-[300px]'>
-                            <video
-                                controls
-                                // autoPlay
-                                className={s.video}
-                                src={props.currentPreview ?? props.preview}
-                            />
+                            <video controls className={s.video} src={props.preview} />
                         </div>
-                    )}
-                    <span onClick={props.currentPreview ? deleteCurrentImage : deleteImage}>
+                    ) : null}
+
+                    <span onClick={props.preview ? deleteCurrentImage : deleteImage}>
                         <span className={s.pulse} />
                         <DeleteIcon className='w-5 h-5' fill='#ffffff' />
                     </span>

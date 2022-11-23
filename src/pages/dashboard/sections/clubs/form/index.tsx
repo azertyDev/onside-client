@@ -4,17 +4,20 @@ import { FileUploader } from 'components/common/fileUploader';
 import FormikControl from 'components/common/formik/FormikControl';
 import { CheckIcon, CloseIcon } from 'components/common/icons';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { IClub } from 'src/interfaces/IClub';
 import { axiosInstance } from 'utils/instance';
 import { Store } from 'utils/Store';
 
-export const CreateClubsForm = ({ currentClub }: { currentClub: IClub }) => {
-    const { reload } = useRouter();
+export const CreateClubsForm = ({
+    currentClub,
+    setCurrentClub,
+}: {
+    currentClub: IClub;
+    setCurrentClub: (club: IClub | undefined) => void;
+}) => {
     const { params } = useContext(Store);
     const { userInfo } = params;
-    console.log('currentClub: ', currentClub);
 
     const initialValues = {
         name: currentClub?.name ?? '',
@@ -22,7 +25,7 @@ export const CreateClubsForm = ({ currentClub }: { currentClub: IClub }) => {
         url: currentClub?.image?.url ?? '',
     };
 
-    const onSubmit = async (values: any) => {
+    const onSubmit = async (values: any, { resetForm }: { resetForm: any }) => {
         await axiosInstance({
             url: `/clubs${currentClub ? `/${currentClub.id}` : ''}`,
             data: values,
@@ -42,7 +45,8 @@ export const CreateClubsForm = ({ currentClub }: { currentClub: IClub }) => {
                     });
                 }
                 if (data.status === 200) {
-                    reload();
+                    setCurrentClub(undefined);
+                    resetForm();
                 }
             })
             .catch(({ response }) => {
@@ -64,14 +68,19 @@ export const CreateClubsForm = ({ currentClub }: { currentClub: IClub }) => {
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <div className='grid grid-cols-2 sm:grid-cols-1 gap-8'>
-                            <FormikControl name='name' control='input' label='name' />
-                            <FormikControl name='link' control='input' label='link' />
+                            <FormikControl name='name' control='input' label='Klub nomi' />
+                            <FormikControl
+                                name='link'
+                                control='input'
+                                label='Klub havolasi (link)'
+                            />
                         </div>
                         <div className='grid place-items-start'>
                             <FileUploader
                                 name='url'
+                                type='IMAGE'
                                 setFieldValue={setFieldValue}
-                                currentPreview={values?.url}
+                                preview={values?.url}
                             />
                         </div>
 

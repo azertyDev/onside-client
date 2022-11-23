@@ -13,8 +13,7 @@ import { CheckIcon, CloseIcon } from 'components/common/icons';
 export const CreateSlidersForm = (props: any) => {
     const { params } = useContext(Store);
     const { userInfo } = params;
-    const { reload } = useRouter();
-    const { currentSlide } = props;
+    const { currentSlide, setCurrentSlide } = props;
 
     const initialValues = {
         text: currentSlide?.text ?? '',
@@ -22,14 +21,13 @@ export const CreateSlidersForm = (props: any) => {
         url: currentSlide?.image.url ?? '',
     };
 
-    const onSubmit = async (values: any) => {
+    const onSubmit = async (values: any, { resetForm }: { resetForm: any }) => {
         await axiosInstance({
             url: `${baseURL}/sliders${currentSlide ? `/${currentSlide.id}` : ''}`,
             data: values,
             method: currentSlide ? 'PATCH' : 'POST',
             headers: {
                 authorization: `Bearer ${userInfo!.token}`,
-                method: currentSlide ? 'PATCH' : 'POST',
             },
         })
             .then((data: any) => {
@@ -44,7 +42,8 @@ export const CreateSlidersForm = (props: any) => {
                 }
 
                 if (data.status === 200) {
-                    reload();
+                    resetForm();
+                    setCurrentSlide(undefined);
                 }
             })
             .catch(({ response }) => {
@@ -73,8 +72,9 @@ export const CreateSlidersForm = (props: any) => {
                         <div className='grid place-items-start'>
                             <FileUploader
                                 name='url'
-                                setFieldValue={setFieldValue}
+                                type='IMAGE'
                                 preview={values.url}
+                                setFieldValue={setFieldValue}
                             />
                         </div>
 

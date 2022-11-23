@@ -1,10 +1,11 @@
-"use strict";
+'use strict';
 
-import ISubCategoryType from "./ISubCategoryType";
+import ISubCategoryType from './ISubCategoryType';
 
 export default interface ISubCategory {
-  map(arg0: (item: ISubCategory) => void): unknown;
-  id: number;
-  name: string;
-  subMenu:ISubCategoryType[];
+    map(arg0: (item: ISubCategory) => void): unknown;
+    id: number;
+    name: string;
+    parentId?: number;
+    menu: ISubCategoryType[];
 }

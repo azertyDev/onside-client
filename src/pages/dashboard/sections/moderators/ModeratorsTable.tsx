@@ -23,6 +23,7 @@ import { Store } from 'utils/Store';
 
 const useStyles = createStyles((theme) => ({
     header: {
+        'zIndex': 99999,
         'position': 'sticky',
         'top': 0,
         'backgroundColor': theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
@@ -73,8 +74,6 @@ export const ModeratorsTable = ({
                 }
             )
             .then((data) => {
-                console.log(data);
-
                 if (data) {
                     showNotification({
                         title: '',
@@ -89,7 +88,6 @@ export const ModeratorsTable = ({
                 }
             })
             .catch(({ response }) => {
-                console.log(response);
                 if (response) {
                     showNotification({
                         title: '',
@@ -156,11 +154,11 @@ export const ModeratorsTable = ({
             <Table sx={{ minWidth: 700 }}>
                 <thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
                     <tr>
-                        <th>Имя</th>
-                        <th>Фамилия</th>
-                        <th>Почта</th>
-                        <th>Телефон</th>
-                        <th>Роль</th>
+                        <th>Ism</th>
+                        <th>Familiya</th>
+                        <th>Pochtas</th>
+                        <th>Telefon</th>
+                        <th>Rol</th>
                         <th />
                     </tr>
                 </thead>

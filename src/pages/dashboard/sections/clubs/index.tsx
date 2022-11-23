@@ -51,7 +51,7 @@ export const Clubs = () => {
             </Tabs.Panel>
 
             <Tabs.Panel value='2' pt='xl'>
-                <CreateClubsForm currentClub={currentClub!} />
+                <CreateClubsForm currentClub={currentClub!} setCurrentClub={setCurrentClub!} />
             </Tabs.Panel>
         </CustomTabs>
     );

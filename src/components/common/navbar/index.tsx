@@ -102,7 +102,7 @@ export const Navbar = ({ menu, logout }: INavbarProps) => {
         <MantineNavbar width={{ sm: 200, md: 300 }} p='md' hiddenBreakpoint='sm' hidden={!opened}>
             <MantineNavbar.Section grow>{Menu}</MantineNavbar.Section>
             <MantineNavbar.Section className={classes.footer}>
-                <Button onClick={logout} variant='outline' fullWidth>
+                <Button onClick={logout} variant='outline' size='md' fullWidth uppercase className=''> 
                     Chiqish
                 </Button>
             </MantineNavbar.Section>

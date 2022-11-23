@@ -11,7 +11,6 @@ export const Championships = () => {
     const { push } = useRouter();
     const [championships, setChampionships] = useState([]);
     const [currentChampionship, setCurrentChampionship] = useState<IChempionship>();
-    console.log(currentChampionship);
 
     const fetchChampionships = () => {
         axiosInstance.get(`/chempionships`).then(({ data }) => {
@@ -52,7 +51,10 @@ export const Championships = () => {
             </Tabs.Panel>
 
             <Tabs.Panel value='2' pt='xl'>
-                <CreateChampionshipForm currentChampionship={currentChampionship!} />
+                <CreateChampionshipForm
+                    currentChampionship={currentChampionship!}
+                    setCurrentChampionship={setCurrentChampionship!}
+                />
             </Tabs.Panel>
         </CustomTabs>
     );

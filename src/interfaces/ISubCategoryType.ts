@@ -1,5 +1,6 @@
-"use strict";
+'use strict';
 export default interface ISubCategoryType {
-  id: number;
-  name: string;
+    id: number;
+    name: string;
+    parentId: number;
 }
