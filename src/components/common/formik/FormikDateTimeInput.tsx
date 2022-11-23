@@ -3,7 +3,7 @@ import { ErrorText } from './ErrorText';
 import s from './index.module.scss';
 
 export const FormikDateTimeInput = (props: any) => {
-    const { label, name, placeholder, withAsterisk, className, ...rest } = props;
+    const { label, name, placeholder, withAsterisk, value, className, ...rest } = props;
 
     return (
         <div className={s.field}>
@@ -15,6 +15,7 @@ export const FormikDateTimeInput = (props: any) => {
                             id={name}
                             {...field}
                             {...rest}
+                            value={value}
                             type='datetime-local'
                             pattern='[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}'
                             className={className}

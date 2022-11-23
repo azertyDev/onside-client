@@ -80,15 +80,15 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export const menu = [
-    { id: 1, title: 'Новости', link: 'news' },
+    { id: 1, title: 'Yangiliklar', link: 'news' },
     // { id: 9, title: 'Видео новости', link: 'video_news' },
-    { id: 3, title: 'Категории', link: 'categories' },
-    { id: 4, title: 'Матч центр', link: 'match_center' },
-    { id: 6, title: 'Модераторы', link: 'moderators' },
-    { id: 2, title: 'Слайдер', link: 'slider' },
-    { id: 5, title: 'Клубы', link: 'clubs' },
-    { id: 8, title: 'Чемпионаты', link: 'championship' },
-    { id: 7, title: 'Факты', link: 'facts' },
+    { id: 3, title: 'Kategoriyalar', link: 'categories' },
+    { id: 4, title: 'Match senter', link: 'match_center' },
+    { id: 6, title: 'Moderatorlar', link: 'moderators' },
+    { id: 2, title: 'Slayderlar', link: 'slider' },
+    { id: 5, title: 'Klublar', link: 'clubs' },
+    { id: 8, title: 'Chempionatlar', link: 'championship' },
+    { id: 7, title: 'Faktlar', link: 'facts' },
 ];
 
 export const Header = ({ logout }: IHeaderProps) => {

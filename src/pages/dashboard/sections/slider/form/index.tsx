@@ -74,7 +74,7 @@ export const CreateSlidersForm = (props: any) => {
                             <FileUploader
                                 name='url'
                                 setFieldValue={setFieldValue}
-                                currentPreview={values.url}
+                                preview={values.url}
                             />
                         </div>
 

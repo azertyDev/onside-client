@@ -86,7 +86,6 @@ export const UpdateFactForm = ({ currentFact }: { currentFact: IFact }) => {
                                 <FileUploader
                                     name='url'
                                     preview={values.url}
-                                    // currentPreview={values?.url}
                                     setFieldValue={setFieldValue}
                                     type={values.type.toUpperCase()}
                                 />

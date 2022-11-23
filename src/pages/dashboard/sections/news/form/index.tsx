@@ -12,6 +12,7 @@ import { IUser } from 'src/interfaces/IUser';
 import { useRouter } from 'next/router';
 import { INews } from 'src/interfaces/INews';
 import { FileUploader } from 'components/common/fileUploader';
+import { CheckIcon, CloseIcon } from 'components/common/icons';
 
 export enum NewsType {
     Common = 'COMMON',
@@ -32,18 +33,26 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
-    // console.log(currentNews);
 
     const categoriesArray: IOptions[] = [];
     const subCategoriesArray: IOptions[] = [];
     const subCategoriesTypeArray: IOptions[] = [];
+    const newsTypes = [
+        { label: 'COMMON', value: 'COMMON' },
+        { label: 'INTERVIEW', value: 'INTERVIEW' },
+        { label: 'BLOG', value: 'BLOG' },
+        { label: 'SPORT', value: 'SPORT' },
+        { label: 'PHOTO', value: 'PHOTO' },
+        { label: 'VIDEO', value: 'VIDEO' },
+    ];
 
+    const [moderators, setModerators] = useState<IUser[]>([]);
     const [categories, setCategories] = useState<IOptions[]>(categoriesArray);
     const [subCategories, setSubCategories] = useState<IOptions[]>(subCategoriesArray);
     const [subCategoriesType, setSubCategoriesType] = useState<IOptions[]>(subCategoriesTypeArray);
-    const [richText, setRichText] = useState<string | undefined>(currentNews?.editorText ?? '');
-
-    const [moderators, setModerators] = useState<IUser[]>([]);
+    const [richText, setRichText] = useState<string | undefined>(
+        currentNews?.editorText ? currentNews?.editorText : ''
+    );
 
     const authorsData = moderators.map((moderator: IUser) => {
         return {
@@ -51,6 +60,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             value: `${moderator.id}`,
         };
     });
+    console.log('Categories: ', categories);
 
     const fetchModerators = async () => {
         await axiosInstance
@@ -103,50 +113,30 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             });
     };
 
-    const newsTypes = [
-        { label: 'COMMON', value: 'COMMON' },
-        { label: 'INTERVIEW', value: 'INTERVIEW' },
-        { label: 'BLOG', value: 'BLOG' },
-        { label: 'SPORT', value: 'SPORT' },
-        { label: 'PHOTO', value: 'PHOTO' },
-        { label: 'VIDEO', value: 'VIDEO' },
-    ];
-
-    // const initialValues = {
-    //     categoryId: currentNews?.categoryId ?? '',
-    //     subCategoryId: currentNews?.subCategoryId ?? '',
-    //     subCategoryTypeId: currentNews?.subCategoryTypeId ?? '',
-    //     text: currentNews?.text ?? '',
-    //     authorId: currentNews?.authorId ?? '',
-    //     nameLink: currentNews?.nameLink ?? '',
-    //     link: currentNews?.link ?? '',
-    //     type: currentNews?.type ?? '',
-    //     amountRating: currentNews?.amountRating ?? '',
-    //     rating: currentNews?.rating ?? '',
-    //     editorText: currentNews?.editorText ?? '',
-    //     image: currentNews?.image ?? '',
-    //     publishedAt: currentNews?.publishedAt ?? '',
-    // };
+    useEffect(() => {
+        setRichText(currentNews?.editorText);
+    }, [currentNews]);
 
     const initialValues = {
-        categoryId: '',
-        subCategoryId: '',
-        subCategoryTypeId: '',
-        text: '',
-        authorId: '',
-        nameLink: '',
-        link: '',
-        type: '',
-        amountRating: 0,
-        rating: 0.0,
-        editorText: '',
+        categoryId: currentNews?.category ? currentNews?.category.id : '',
+        subCategoryId: currentNews?.subCategory ? currentNews?.subCategory.id : '',
+        subCategoryTypeId: currentNews?.subCategoryType ? currentNews?.subCategoryType?.id : '',
+        text: currentNews?.text ?? '',
+        authorId: currentNews?.authorId ? `${currentNews?.authorId}` : '',
+        nameLink: currentNews?.nameLink ?? '',
+        link: currentNews?.link ?? '',
+        type: currentNews?.type ?? '',
+        amountRating: currentNews?.amountRating ?? 0,
+        rating: currentNews?.rating ?? 0.0,
+        editorText: currentNews?.editorText ?? '',
+        publishedAt: currentNews?.publishedAt ? `${currentNews?.publishedAt}` : '',
+        amountViews: '',
         image: {
-            url: '',
+            url: currentNews?.image ? currentNews?.image.url : '',
         },
         video: {
-            url: '',
+            url: currentNews?.video ? currentNews?.video.url : '',
         },
-        publishedAt: '',
     };
 
     const onSubmit = async (values: any, { resetForm }: { resetForm: any }) => {
@@ -169,16 +159,16 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             method: currentNews ? 'PATCH' : 'POST',
             headers: {
                 authorization: `Bearer ${userInfo!.token}`,
-                // 'Content-Type': 'multipart/form-data',
             },
         })
             .then((data) => {
-                // console.log(data.data);
-
                 if (data) {
                     showNotification({
                         title: '',
                         message: data.data.message,
+                        color: 'teal',
+                        icon: <CheckIcon />,
+                        autoClose: 5000,
                     });
                 }
 
@@ -193,6 +183,8 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                         title: '',
                         message: response.data.message,
                         color: 'red',
+                        icon: <CloseIcon />,
+                        autoClose: 5000,
                     });
                 }
             });
@@ -211,6 +203,8 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
             {({ values, setFieldValue, ...rest }) => {
+                console.log('Formik initialValues: ', values);
+
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <FormikControl
@@ -219,6 +213,17 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                             label='Sarlavha'
                             placeholder='Matnni kiriting'
                         />
+                        <div>
+                            <label htmlFor='editorText' className='mb-4'>
+                                Matn tahriri
+                            </label>
+                            <Rich_text
+                                value={richText}
+                                placeholder='Izoh'
+                                className='editorTex mt-1'
+                                onChange={(value) => handleRichText(setFieldValue, value)}
+                            />
+                        </div>
                         <div className='row'>
                             <Select
                                 size='md'
@@ -241,20 +246,11 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                             <FormikControl
                                 name='publishedAt'
                                 control='dateTime'
+                                value={values.publishedAt.substring(0, 19)}
                                 label='Chop etish vaqti'
                             />
                         </div>
-                        <div>
-                            <label htmlFor='editorText' className='mb-4'>
-                                Matn tahriri
-                            </label>
-                            <Rich_text
-                                value={richText!}
-                                placeholder='Izoh'
-                                className='editorTex mt-1'
-                                onChange={(value) => handleRichText(setFieldValue, value)}
-                            />
-                        </div>
+
                         <div className='row'>
                             <Select
                                 size='md'
@@ -262,7 +258,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 data={categories}
                                 placeholder='Tanlang'
                                 label='Sport turi kategoriyasi'
-                                value={values.categoryId}
+                                value={values.categoryId as string}
                                 onChange={(e) => setFieldValue('categoryId', e)}
                             />
                             <Select
@@ -271,7 +267,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 name='subCategoryId'
                                 data={subCategories}
                                 placeholder='Tanlang'
-                                value={values.subCategoryId}
+                                value={values.subCategoryId as string}
                                 onChange={(e) => setFieldValue('subCategoryId', e)}
                             />
                             <Select
@@ -280,7 +276,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 label='Subcategory type'
                                 data={subCategoriesType}
                                 onChange={(e) => setFieldValue('subCategoryTypeId', e)}
-                                value={values.subCategoryTypeId}
+                                value={values.subCategoryTypeId as string}
                                 placeholder='Tanlang'
                             />
                         </div>

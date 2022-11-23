@@ -104,6 +104,7 @@ export const CreateFactsForm = () => {
                                                 <div className='flex justify-center gap-10 flex-col'>
                                                     <FileUploader
                                                         // currentPreview={}
+                                                        // type={`data.${index}.type`}
                                                         setFieldValue={setFieldValue}
                                                         name={`data.${index}.url`}
                                                     />

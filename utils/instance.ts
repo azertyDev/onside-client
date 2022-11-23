@@ -7,7 +7,7 @@ export const axiosInstance = axios.create({
     withCredentials: false,
     baseURL: baseURL,
     headers: {
-        'Access-Control-Allow-Origin': 'localhost',
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         'Content-Type': 'application/json',
     },
