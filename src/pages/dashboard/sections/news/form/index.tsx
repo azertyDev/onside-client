@@ -272,6 +272,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                         <div className='row'>
                             <Select
                                 size='md'
+                                clearable
                                 name='categoryId'
                                 data={categories}
                                 placeholder='Tanlang'
@@ -281,6 +282,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                             />
                             <Select
                                 size='md'
+                                clearable
                                 label='Subcategory'
                                 name='subCategoryId'
                                 data={subCategories}
@@ -290,6 +292,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                             />
                             <Select
                                 size='md'
+                                clearable
                                 placeholder='Tanlang'
                                 name='subCategoryTypeId'
                                 label='Subcategory type'
