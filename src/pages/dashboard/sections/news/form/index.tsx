@@ -45,8 +45,6 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
         currentNews?.editorText ? currentNews?.editorText : ''
     );
 
-    console.log('richText: ', richText);
-
     const authorsData = moderators.map((moderator: IUser) => {
         return {
             label: `${moderator.name} ${moderator.surname}`,
@@ -81,7 +79,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
         amountRating: currentNews?.amountRating ?? 0,
         amountViews: currentNews?.views ?? 0,
         rating: currentNews?.rating ?? 0.0,
-        editorText: currentNews?.editorText ?? '',
+        editorText: richText,
         publishedAt: currentNews?.publishedAt ? `${currentNews?.publishedAt}` : '',
         image: {
             url: currentNews?.image ? currentNews?.image.url : '',
@@ -199,7 +197,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
 
     const handleRichText = (setFieldValue: any, value: any) => {
         setRichText(value);
-        setFieldValue('editorText', richText);
+        // setFieldValue('editorText', richText);
     };
 
     useEffect(() => {
