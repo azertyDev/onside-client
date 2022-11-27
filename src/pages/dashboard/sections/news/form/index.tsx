@@ -1,4 +1,4 @@
-import { Form, Formik, useFormik } from 'formik';
+import { Form, Formik } from 'formik';
 import { Button, NumberInput, Select } from '@mantine/core';
 import FormikControl from 'components/common/formik/FormikControl';
 import { StarIcon } from 'components/common/icons/star_icon/StarIcon';
@@ -13,7 +13,6 @@ import { INews } from 'src/interfaces/INews';
 import { FileUploader } from 'components/common/fileUploader';
 import { CheckIcon, CloseIcon } from 'components/common/icons';
 import ISubCategory from 'src/interfaces/ISubCategory';
-import ISubCategoryType from 'src/interfaces/ISubCategoryType';
 
 interface IOptions {
     label: string;
@@ -45,6 +44,8 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     const [richText, setRichText] = useState<string | undefined>(
         currentNews?.editorText ? currentNews?.editorText : ''
     );
+
+    console.log('richText: ', richText);
 
     const authorsData = moderators.map((moderator: IUser) => {
         return {
