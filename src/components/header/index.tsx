@@ -89,6 +89,7 @@ export const menu = [
     { id: 5, title: 'Klublar', link: 'clubs' },
     { id: 8, title: 'Chempionatlar', link: 'championship' },
     { id: 7, title: 'Faktlar', link: 'facts' },
+    { id: 10, title: 'Kanallar', link: 'channels' },
 ];
 
 export const Header = ({ logout }: IHeaderProps) => {

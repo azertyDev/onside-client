@@ -8,6 +8,11 @@ import { INews } from 'src/interfaces/INews';
 import { Store } from 'utils/Store';
 import { DeleteModal } from '../slider/Card';
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const useStyles = createStyles((theme, _params, getRef) => {
     const image = getRef('image');
@@ -84,7 +89,7 @@ export function ImageCard({
     const { classes } = useStyles();
 
     const date = dayjs(data.publishedAt).format('YYYY-MM-DD');
-    const hour = dayjs(data.publishedAt).format('HH:mm');
+    const hour = dayjs(data.publishedAt).tz('Asia/Tashkent').format('HH:mm');
 
     return (
         <Card

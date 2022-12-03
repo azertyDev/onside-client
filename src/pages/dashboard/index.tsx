@@ -2,6 +2,7 @@ import { createStyles } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { Categories } from './sections/categories';
 import { Championships } from './sections/championship';
+import { Channels } from './sections/channels';
 import { Clubs } from './sections/clubs';
 import { Facts } from './sections/facts';
 import { Matches } from './sections/matches';
@@ -44,6 +45,8 @@ export const Dashboard = () => {
                 return <Facts />;
             case 'video_news':
                 return <VideoNews />;
+            case 'channels':
+                return <Channels />;
         }
     };
 

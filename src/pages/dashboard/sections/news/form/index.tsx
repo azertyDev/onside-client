@@ -79,7 +79,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
         amountRating: currentNews?.amountRating ?? 0,
         amountViews: currentNews?.views ?? 0,
         rating: currentNews?.rating ?? 0.0,
-        editorText: richText,
+        editorText: currentNews?.editorText ? currentNews?.editorText : '',
         publishedAt: currentNews?.publishedAt ? `${currentNews?.publishedAt}` : '',
         image: {
             url: currentNews?.image ? currentNews?.image.url : '',
@@ -141,12 +141,22 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     };
 
     useEffect(() => {
-        setRichText(currentNews?.editorText);
+        if (currentNews) {
+            setRichText(currentNews?.editorText);
+        }
     }, [currentNews]);
 
     const onSubmit = async (values: any, { resetForm }: { resetForm: any }) => {
-        const { publishedAt, subCategoryTypeId, amountRating, image, rating, video, ...rest } =
-            values;
+        const {
+            publishedAt,
+            subCategoryTypeId,
+            amountRating,
+            image,
+            rating,
+            video,
+            amountViews,
+            ...rest
+        } = values;
 
         const data = {
             publishedAt: publishedAt.replace('T', ' '),
@@ -155,6 +165,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             rating: rating === '' ? null : rating,
             video: video.url === '' ? null : video,
             image: image.url === '' ? null : image,
+            amountViews: amountViews === 0 ? 1 : amountViews,
             ...rest,
         };
 
@@ -197,7 +208,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
 
     const handleRichText = (setFieldValue: any, value: any) => {
         setRichText(value);
-        // setFieldValue('editorText', richText);
+        setFieldValue('editorText', richText);
     };
 
     useEffect(() => {
@@ -210,7 +221,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             <NumberInput
                 min={0}
                 size='md'
-                defaultValue={0}
+                defaultValue={1}
                 name='amountViews'
                 label='Ko`rishlar soni'
                 value={values.amountViews}
@@ -237,7 +248,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                             <Rich_text
                                 value={richText}
                                 placeholder='Izoh'
-                                className='editorTex mt-1'
+                                className='editorText mt-1'
                                 onChange={(value) => handleRichText(setFieldValue, value)}
                             />
                         </div>
