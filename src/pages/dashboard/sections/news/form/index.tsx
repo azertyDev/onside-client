@@ -355,8 +355,8 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                             <FormikControl
                                 name='iframe'
                                 control='input'
-                                label='Sarlavha'
-                                placeholder='Matnni kiriting'
+                                label='Ilova (iframe)'
+                                placeholder='Ma`lumotni kiriting'
                             />
                         </div>
 
