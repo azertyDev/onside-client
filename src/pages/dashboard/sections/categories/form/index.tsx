@@ -3,30 +3,25 @@ import { showNotification } from '@mantine/notifications';
 import FormikControl from 'components/common/formik/FormikControl';
 import { AddIcon, CloseIcon, DeleteIcon } from 'components/common/icons';
 import { FieldArray, Form, Formik } from 'formik';
-import { useRouter } from 'next/router';
 import { Fragment, useContext } from 'react';
-import { baseURL } from 'utils/constants';
 import { axiosInstance } from 'utils/instance';
 import { Store } from 'utils/Store';
 
 export const CreateCategoriesForm = () => {
-    const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
 
     const initialValues = {
         name: '',
-        menu: {
-            name: '',
-            subMenu: [
-                {
-                    name: '',
-                },
-            ],
-        },
+        menu: [{ name: '' }],
+        subMenu: [
+            {
+                name: '',
+            },
+        ],
     };
 
-    const onSubmit = async (values: any) => {
+    const onSubmit = async (values: any, { resetForm }: { resetForm: any }) => {
         await axiosInstance
             .post(`/categories`, values, {
                 headers: {
@@ -44,7 +39,8 @@ export const CreateCategoriesForm = () => {
                 }
 
                 if (data.status === 200) {
-                    reload();
+                    resetForm();
+                    // reload();
                 }
             })
             .catch(({ response }) => {
@@ -66,19 +62,18 @@ export const CreateCategoriesForm = () => {
                     <Form className='grid gap-8 sm:gap-5'>
                         <div className='row'>
                             <FormikControl name='name' control='input' label='Category (1 level)' />
-                            <FormikControl
+                            {/* <FormikControl
                                 name='menu.name'
                                 control='input'
                                 label='Subcategory (2 level)'
-                            />
-                            {/* <FieldArray
+                            /> */}
+
+                            <FieldArray
                                 name='menu'
                                 render={({ insert, remove, push }) => (
                                     <div className='flex flex-col justify-end'>
                                         {values.menu.length > 0 &&
                                             values.menu.map((item, index) => {
-                                                console.log(item);
-
                                                 return (
                                                     <Fragment key={index}>
                                                         <div className='mb-4 flex gap-5'>
@@ -86,7 +81,7 @@ export const CreateCategoriesForm = () => {
                                                                 type='text'
                                                                 control='input'
                                                                 className='flex-1'
-                                                                label='Subcategory (2 level)'
+                                                                label='menu'
                                                                 name={`menu[${index}].name`}
                                                             />
                                                             <Button
@@ -117,13 +112,14 @@ export const CreateCategoriesForm = () => {
                                         </Button>
                                     </div>
                                 )}
-                            /> */}
+                            />
+
                             <FieldArray
-                                name='menu.subMenu'
+                                name='subMenu'
                                 render={({ insert, remove, push }) => (
                                     <div className='flex flex-col justify-end'>
-                                        {values.menu.subMenu.length > 0 &&
-                                            values.menu.subMenu.map((item, index) => {
+                                        {values.subMenu.length > 0 &&
+                                            values.subMenu.map((item, index) => {
                                                 return (
                                                     <Fragment key={index}>
                                                         <div className='mb-4 flex gap-5'>
@@ -131,8 +127,8 @@ export const CreateCategoriesForm = () => {
                                                                 type='text'
                                                                 control='input'
                                                                 className='flex-1'
-                                                                label='Child category (3 level)'
-                                                                name={`menu.subMenu[${index}].name`}
+                                                                label='subMenu'
+                                                                name={`subMenu[${index}].name`}
                                                             />
                                                             <Button
                                                                 size='xs'

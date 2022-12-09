@@ -50,7 +50,7 @@ interface CardProps {
     handleEdit: () => void;
 }
 
-export const DeleteModal = ({ url }: { url: string }) => {
+export const DeleteModal = ({ url, reloadPage = true }: { url: string; reloadPage?: boolean }) => {
     const { reload } = useRouter();
     const { classes, cx } = useStyles();
     const { params } = useContext(Store);
@@ -72,7 +72,7 @@ export const DeleteModal = ({ url }: { url: string }) => {
                     });
                 }
                 if (data.status === 200) {
-                    reload();
+                    reloadPage && reload();
                 }
             })
             .catch(({ response }) => {

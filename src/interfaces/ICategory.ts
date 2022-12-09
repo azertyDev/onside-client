@@ -1,9 +1,10 @@
-"use strict";
 
 import ISubCategory from "./ISubCategory";
+import ISubCategoryType from "./ISubCategoryType";
 
 export default interface ICategory {
   id: number;
   name: string;
-  menu:ISubCategory;
+  menu:ISubCategory[];
+  subMenu:ISubCategoryType[];
 }

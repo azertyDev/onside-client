@@ -1,60 +1,76 @@
-import { ActionIcon, Group, NavLink, Table } from '@mantine/core';
+import { ActionIcon, Menu, NavLink, Table } from '@mantine/core';
+import { SettingsIcon } from 'components/common/icons';
 import { EditIcon } from 'components/common/icons/edit_icon/EditIcon';
-import ICategory from 'src/interfaces/ICategory';
-import ISubCategory from 'src/interfaces/ISubCategory';
 import { DeleteModal } from '../slider/Card';
+
+const settingsMenu = (id: number, type: string) => {
+    const handleUpdate = (id: number) => {
+        console.log(id);
+    };
+
+    return (
+        <Menu withinPortal position='bottom' shadow='sm'>
+            <Menu.Target>
+                <ActionIcon>
+                    <SettingsIcon fill='#228be6' />
+                </ActionIcon>
+            </Menu.Target>
+
+            <Menu.Dropdown>
+                <div className='flex gap-2'>
+                    <DeleteModal url={`${type}/${id}`} reloadPage={false} />
+                    <ActionIcon color='blue' onClick={() => handleUpdate(id)}>
+                        <EditIcon className='w-6 h-6' />
+                    </ActionIcon>
+                </div>
+            </Menu.Dropdown>
+        </Menu>
+    );
+};
 
 export const CategoriesTable = (props: any) => {
     const rows = props.data.map((element: any) => {
-        const category = element.menu.map((item: ICategory) => item.menu);
-
-        // const subCategory = category.map((item: ISubCategory) => {
-        //     return item.map((j: any) => {
-        //         return j.name;
-        //     });
-        // });
-
         return (
             <tr key={element.name}>
                 <td rowSpan={1}>
-                    {element.name ? (
-                        <NavLink component='span' label={element.name} childrenOffset={28}>
-                            {element.menu.map((i: any) => {
-                                return (
-                                    <NavLink
-                                        key={i.id}
-                                        component='span'
-                                        label={i.name}
-                                        childrenOffset={28}
-                                    >
-                                        {i.menu.map((j: any) => {
-                                            return (
-                                                <NavLink
-                                                    key={j.id}
-                                                    label={j.name}
-                                                    component='span'
-                                                    childrenOffset={28}
-                                                />
-                                            );
-                                        })}
-                                    </NavLink>
-                                );
-                            })}
-                        </NavLink>
-                    ) : (
-                        'Пусто'
-                    )}
+                    <NavLink
+                        component='span'
+                        label={element.name}
+                        childrenOffset={28}
+                        icon={settingsMenu(element.id, 'categories')}
+                    >
+                        {element.menu && (
+                            <NavLink label='menu' component='span' childrenOffset={28}>
+                                {element.menu?.map((i: any) => {
+                                    return (
+                                        <NavLink
+                                            key={i.id}
+                                            label={i.name}
+                                            component='span'
+                                            childrenOffset={28}
+                                            icon={settingsMenu(i.id, 'categories/menu')}
+                                        />
+                                    );
+                                })}
+                            </NavLink>
+                        )}
+                        {element.subMenu && (
+                            <NavLink label='subMenu' component='span' childrenOffset={28}>
+                                {element.subMenu?.map((j: any) => {
+                                    return (
+                                        <NavLink
+                                            key={j.id}
+                                            label={j.name}
+                                            component='span'
+                                            childrenOffset={28}
+                                            icon={settingsMenu(j.id, 'categories/subMenu')}
+                                        />
+                                    );
+                                })}
+                            </NavLink>
+                        )}
+                    </NavLink>
                 </td>
-
-                {/* <td>
-                    <Group spacing='sm' position='right'>
-                        <ActionIcon>
-                            <EditIcon />
-                        </ActionIcon>
-                        <DeleteModal url={`/categories/${element.id}`} />
-                    </Group>
-                </td> */}
-                {/* <td>{element.menu.map((item: ISubCategoryType) => console.log(item.name))}</td> */}
             </tr>
         );
     });
@@ -64,7 +80,6 @@ export const CategoriesTable = (props: any) => {
             <thead>
                 <tr>
                     <th>Kategoriyalar</th>
-                    {/* <th>SubCategoryType (3 level)</th> */}
                 </tr>
             </thead>
             <tbody>{rows}</tbody>

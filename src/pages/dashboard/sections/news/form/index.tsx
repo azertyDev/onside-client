@@ -1,24 +1,26 @@
-import { Form, Formik } from 'formik';
-import { Button, NumberInput, Select } from '@mantine/core';
-import FormikControl from 'components/common/formik/FormikControl';
-import { StarIcon } from 'components/common/icons/star_icon/StarIcon';
-import Rich_text from 'components/common/rich_text';
-import { useContext, useEffect, useState } from 'react';
 import { Store } from 'utils/Store';
-import { showNotification } from '@mantine/notifications';
+import { Form, Formik } from 'formik';
 import { baseURL } from 'utils/constants';
-import { axiosInstance } from 'utils/instance';
 import { IUser } from 'src/interfaces/IUser';
 import { INews } from 'src/interfaces/INews';
+import { axiosInstance } from 'utils/instance';
+import Rich_text from 'components/common/rich_text';
+import { useContext, useEffect, useState } from 'react';
+import ISubCategory from 'src/interfaces/ISubCategory';
+import ISubCategoryType from 'src/interfaces/ISubCategoryType';
+import { Button, NumberInput, Select } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 import { FileUploader } from 'components/common/fileUploader';
 import { CheckIcon, CloseIcon } from 'components/common/icons';
-import ISubCategory from 'src/interfaces/ISubCategory';
+import FormikControl from 'components/common/formik/FormikControl';
+import { StarIcon } from 'components/common/icons/star_icon/StarIcon';
 
 interface IOptions {
     label: string;
     value: any;
     group?: string;
     menu?: any;
+    subMenu?: any;
 }
 
 export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
@@ -67,28 +69,6 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             });
     };
 
-    const initialValues = {
-        categoryId: currentNews?.category ? currentNews?.category.id : '',
-        subCategoryId: currentNews?.subCategory ? currentNews?.subCategory.id : '',
-        subCategoryTypeId: currentNews?.subCategoryType ? currentNews?.subCategoryType?.id : '',
-        text: currentNews?.text ?? '',
-        authorId: currentNews?.authorId ? `${currentNews?.authorId}` : '',
-        nameLink: currentNews?.nameLink ?? '',
-        link: currentNews?.link ?? '',
-        type: currentNews?.type ?? '',
-        amountRating: currentNews?.amountRating ?? 0,
-        amountViews: currentNews?.views ?? 0,
-        rating: currentNews?.rating ?? 0.0,
-        editorText: currentNews?.editorText ? currentNews?.editorText : '',
-        publishedAt: currentNews?.publishedAt ? `${currentNews?.publishedAt}` : '',
-        image: {
-            url: currentNews?.image ? currentNews?.image.url : '',
-        },
-        video: {
-            url: currentNews?.video ? currentNews?.video.url : '',
-        },
-    };
-
     const fetchCategories = async () => {
         await axiosInstance
             .get('/categories')
@@ -98,6 +78,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                         value: i.id,
                         label: i.name,
                         menu: i.menu,
+                        subMenu: i.subMenu,
                     });
                 });
                 setCategories([...categoriesArray]);
@@ -105,6 +86,29 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             .catch((error) => {
                 console.log('Categories fetch error: ', error);
             });
+    };
+
+    const initialValues = {
+        categoryId: currentNews?.category?.id ?? '',
+        subCategoryId: currentNews?.subCategory?.id ?? '',
+        subCategoryTypeId: currentNews?.subCategoryType?.id ?? '',
+        text: currentNews?.text ?? '',
+        authorId: currentNews?.authorId ?? '',
+        nameLink: currentNews?.nameLink ?? '',
+        link: currentNews?.link ?? '',
+        type: currentNews?.type ?? '',
+        amountRating: currentNews?.amountRating ?? 0,
+        amountViews: currentNews?.views ?? 0,
+        rating: currentNews?.rating ?? 0.0,
+        editorText: currentNews?.editorText ?? '',
+        publishedAt: currentNews?.publishedAt ?? '',
+        iframe: currentNews?.iframe ?? '',
+        image: {
+            url: currentNews?.image ? currentNews?.image.url : '',
+        },
+        video: {
+            url: currentNews?.video ? currentNews?.video.url : '',
+        },
     };
 
     const handleCategories = (id: any, setFieldValue: any) => {
@@ -116,19 +120,12 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                     subCategoriesArray.push({
                         value: i.id,
                         label: i.name,
-                        menu: i.menu,
                     });
                     setSubCategories([...subCategoriesArray]);
                 }
             });
-        });
-    };
 
-    const handleSubCategories = (id: any, setFieldValue: any) => {
-        setFieldValue('subCategoryId', id);
-
-        subCategories?.filter((i: any) => {
-            i.menu?.map((j: any) => {
+            item.subMenu?.map((j: ISubCategoryType) => {
                 if (id === j.parentId) {
                     subCategoriesTypeArray.push({
                         value: j.id,
@@ -260,7 +257,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 data={authorsData}
                                 searchable
                                 onChange={(e) => setFieldValue('authorId', e)}
-                                value={values.authorId}
+                                value={values.authorId as unknown as string}
                                 placeholder='Tanlang'
                             />
                             <Select
@@ -289,7 +286,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 placeholder='Tanlang'
                                 searchable
                                 label='Sport turi kategoriyasi'
-                                value={values.categoryId as string}
+                                value={values.categoryId as unknown as string}
                                 onChange={(e) => handleCategories(e, setFieldValue)}
                             />
                             <Select
@@ -300,8 +297,8 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 data={subCategories}
                                 placeholder='Tanlang'
                                 searchable
-                                value={values.subCategoryId as string}
-                                onChange={(e) => handleSubCategories(e, setFieldValue)}
+                                value={values.subCategoryId as unknown as string}
+                                onChange={(e) => setFieldValue('subCategoryId', e)}
                             />
                             <Select
                                 size='md'
@@ -355,6 +352,12 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 onChange={(val) => setFieldValue('amountRating', val)}
                             />
                             {showViewsInput(values, setFieldValue)}
+                            <FormikControl
+                                name='iframe'
+                                control='input'
+                                label='Sarlavha'
+                                placeholder='Matnni kiriting'
+                            />
                         </div>
 
                         <div className='row'>

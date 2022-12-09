@@ -8,6 +8,7 @@ import ISubCategoryType from './ISubCategoryType';
 import IVideo from './IVideo';
 
 export interface INews {
+    iframe?: string;
     id?: number;
     views?: number;
     category: ICategory;
