@@ -1,9 +1,21 @@
+import dayjs from 'dayjs';
 import { Field, ErrorMessage, FieldProps } from 'formik';
 import { ErrorText } from './ErrorText';
 import s from './index.module.scss';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export const FormikDateTimeInput = (props: any) => {
     const { label, name, placeholder, withAsterisk, value, className, ...rest } = props;
+    console.log(value);
+
+    const date = dayjs(value).format('YYYY-MM-DD');
+    const hour = dayjs(value).tz('Asia/Tashkent').format('HH:mm');
+
+    console.log(hour);
 
     return (
         <div className={s.field}>

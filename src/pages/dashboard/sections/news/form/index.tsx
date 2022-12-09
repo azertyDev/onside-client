@@ -208,7 +208,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
 
     const handleRichText = (setFieldValue: any, value: any) => {
         setRichText(value);
-        setFieldValue('editorText', richText);
+        setFieldValue('editorText', value);
     };
 
     useEffect(() => {
