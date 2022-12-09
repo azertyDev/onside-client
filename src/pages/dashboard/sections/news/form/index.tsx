@@ -258,6 +258,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 name='authorId'
                                 label='Muallif'
                                 data={authorsData}
+                                searchable
                                 onChange={(e) => setFieldValue('authorId', e)}
                                 value={values.authorId}
                                 placeholder='Tanlang'
@@ -286,6 +287,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 name='categoryId'
                                 data={categories}
                                 placeholder='Tanlang'
+                                searchable
                                 label='Sport turi kategoriyasi'
                                 value={values.categoryId as string}
                                 onChange={(e) => handleCategories(e, setFieldValue)}
@@ -297,6 +299,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 name='subCategoryId'
                                 data={subCategories}
                                 placeholder='Tanlang'
+                                searchable
                                 value={values.subCategoryId as string}
                                 onChange={(e) => handleSubCategories(e, setFieldValue)}
                             />
@@ -306,6 +309,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 placeholder='Tanlang'
                                 name='subCategoryTypeId'
                                 label='Subcategory type'
+                                searchable
                                 data={subCategoriesType}
                                 value={values.subCategoryTypeId as string}
                                 onChange={(e) => setFieldValue('subCategoryTypeId', e)}
