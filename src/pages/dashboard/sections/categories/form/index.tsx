@@ -22,8 +22,22 @@ export const CreateCategoriesForm = () => {
     };
 
     const onSubmit = async (values: any, { resetForm }: { resetForm: any }) => {
+        const { menu, subMenu, ...rest } = values;
+
+        const data = {
+            menu: menu.map((item: any) => {
+                console.log('menu.name: ', item);
+
+                // item.name ?? null;
+            }),
+            subMenu: subMenu.name === '' ? null : subMenu.name,
+            ...rest,
+        };
+
+        // console.log('data: ', data);
+
         await axiosInstance
-            .post(`/categories`, values, {
+            .post(`/categories`, data, {
                 headers: {
                     authorization: `Bearer ${userInfo!.token}`,
                 },
@@ -61,17 +75,19 @@ export const CreateCategoriesForm = () => {
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <div className='row'>
-                            <FormikControl name='name' control='input' label='Category (1 level)' />
-                            {/* <FormikControl
-                                name='menu.name'
+                            <FormikControl
+                                name='name'
                                 control='input'
-                                label='Subcategory (2 level)'
-                            /> */}
-
+                                label='Kategoriya'
+                                className='leading-6'
+                            />
                             <FieldArray
                                 name='menu'
                                 render={({ insert, remove, push }) => (
-                                    <div className='flex flex-col justify-end'>
+                                    <div className='flex flex-col'>
+                                        <label className='leading-6'>
+                                            Kategoriya 2 (menu)
+                                        </label>
                                         {values.menu.length > 0 &&
                                             values.menu.map((item, index) => {
                                                 return (
@@ -81,7 +97,11 @@ export const CreateCategoriesForm = () => {
                                                                 type='text'
                                                                 control='input'
                                                                 className='flex-1'
-                                                                label='menu'
+                                                                // label={
+                                                                //     <span className='pl-1'>
+                                                                //         {index + 1}
+                                                                //     </span>
+                                                                // }
                                                                 name={`menu[${index}].name`}
                                                             />
                                                             <Button
@@ -117,7 +137,8 @@ export const CreateCategoriesForm = () => {
                             <FieldArray
                                 name='subMenu'
                                 render={({ insert, remove, push }) => (
-                                    <div className='flex flex-col justify-end'>
+                                    <div className='flex flex-col'>
+                                        <div className='leading-6'>Kategoriya 3 (subMenu)</div>
                                         {values.subMenu.length > 0 &&
                                             values.subMenu.map((item, index) => {
                                                 return (
@@ -127,7 +148,11 @@ export const CreateCategoriesForm = () => {
                                                                 type='text'
                                                                 control='input'
                                                                 className='flex-1'
-                                                                label='subMenu'
+                                                                // label={
+                                                                //     <span className='pl-1'>
+                                                                //         {index + 1}
+                                                                //     </span>
+                                                                // }
                                                                 name={`subMenu[${index}].name`}
                                                             />
                                                             <Button

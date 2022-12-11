@@ -113,6 +113,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
 
     const handleCategories = (id: any, setFieldValue: any) => {
         setFieldValue('categoryId', id);
+        console.log(id);
 
         categories?.filter((item) => {
             item.menu?.map((i: ISubCategory) => {
@@ -146,10 +147,12 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     const onSubmit = async (values: any, { resetForm }: { resetForm: any }) => {
         const {
             publishedAt,
+            subCategoryId,
             subCategoryTypeId,
             amountRating,
             image,
             rating,
+            iframe,
             video,
             amountViews,
             ...rest
@@ -158,7 +161,9 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
         const data = {
             publishedAt: publishedAt.replace('T', ' '),
             subCategoryTypeId: subCategoryTypeId === '' ? null : subCategoryTypeId,
+            subCategoryId: subCategoryTypeId === '' ? null : subCategoryId,
             amountRating: amountRating === '' ? null : amountRating,
+            iframe: iframe === '' ? null : iframe,
             rating: rating === '' ? null : rating,
             video: video.url === '' ? null : video,
             image: image.url === '' ? null : image,
@@ -230,6 +235,8 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
             {({ values, setFieldValue, ...rest }) => {
+                console.log('values.categoryId', values.categoryId);
+
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <FormikControl
@@ -256,8 +263,8 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 label='Muallif'
                                 data={authorsData}
                                 searchable
-                                onChange={(e) => setFieldValue('authorId', e)}
-                                value={values.authorId as unknown as string}
+                                onChange={(e) => setFieldValue('authorId', Number(e))}
+                                value={String(values.authorId)}
                                 placeholder='Tanlang'
                             />
                             <Select
@@ -360,7 +367,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                             />
                         </div>
 
-                        <div className='row'>
+                        <div className='grid grid-cols-2 md:grid-cols-1'>
                             <FileUploader
                                 type='IMAGE'
                                 name='image.url'

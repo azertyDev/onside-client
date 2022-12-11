@@ -5,10 +5,18 @@ import { IFact } from 'src/interfaces/IFact';
 import { DeleteModal } from '../slider/Card';
 
 export const FactCard = ({ data, handleUpdate }: { data: IFact; handleUpdate: () => void }) => {
+    console.log(data);
+
     return (
         <Card shadow='xs' p='sm' radius='md' withBorder>
             <Card.Section>
-                <Image src={`${data.url}`} height={250} alt={data.type} />
+                {data.type === 'image' ? (
+                    <Image src={`${data.url}`} height={250} alt={data.type} />
+                ) : (
+                    <div className='w-full min-w-[250px] h-[250px]'>
+                        <video controls className='h-full w-full' src={data.url} />
+                    </div>
+                )}
             </Card.Section>
 
             <Group position='apart' mt='md' mb='xs'>
@@ -20,9 +28,7 @@ export const FactCard = ({ data, handleUpdate }: { data: IFact; handleUpdate: ()
                 <Group spacing={8}>
                     <Center>
                         <EyeIcon className='stroke-white h-4 w-4' />
-                        <Text size='sm'>
-                            {data.amountViews}
-                        </Text>
+                        <Text size='sm'>{data.amountViews}</Text>
                     </Center>
                     <ActionIcon onClick={handleUpdate}>
                         <EditIcon className='w-5 h-5' />

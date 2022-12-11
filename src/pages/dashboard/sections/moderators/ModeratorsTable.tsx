@@ -11,15 +11,15 @@ import {
     CheckIcon,
 } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
-import { CloseIcon, DeleteIcon } from 'components/common/icons';
+import { CloseIcon } from 'components/common/icons';
 import { EditIcon } from 'components/common/icons/edit_icon/EditIcon';
 import { LockIcon } from 'components/common/icons/lock_icon/LockIcon';
-import { UnlockIcon } from 'components/common/icons/unlock_icon/UnlockIcon';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import { IUser } from 'src/interfaces/IUser';
 import { axiosInstance } from 'utils/instance';
 import { Store } from 'utils/Store';
+import { DeleteModal } from '../slider/Card';
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -58,7 +58,7 @@ export const ModeratorsTable = ({
     data: IUser[];
     handleEdit: (item: IUser) => void;
 }) => {
-    const { reload, push } = useRouter();
+    const { reload } = useRouter();
     const { classes, cx } = useStyles();
     const [scrolled, setScrolled] = useState(false);
     const { params } = useContext(Store);
@@ -144,6 +144,7 @@ export const ModeratorsTable = ({
                     >
                         <LockIcon />
                     </ActionIcon>
+                    <DeleteModal url={`moderators/${item.id!}`} />
                 </Group>
             </td>
         </tr>
@@ -156,8 +157,8 @@ export const ModeratorsTable = ({
                     <tr>
                         <th>Ism</th>
                         <th>Familiya</th>
-                        <th>Pochtas</th>
-                        <th>Telefon</th>
+                        <th>Pochtasi</th>
+                        <th>Telefoni</th>
                         <th>Rol</th>
                         <th />
                     </tr>

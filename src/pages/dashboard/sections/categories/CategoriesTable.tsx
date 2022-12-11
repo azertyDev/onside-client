@@ -1,6 +1,8 @@
 import { ActionIcon, Menu, NavLink, Table } from '@mantine/core';
 import { SettingsIcon } from 'components/common/icons';
 import { EditIcon } from 'components/common/icons/edit_icon/EditIcon';
+import { useContext } from 'react';
+import { Store } from 'utils/Store';
 import { DeleteModal } from '../slider/Card';
 
 const settingsMenu = (id: number, type: string) => {
@@ -29,6 +31,10 @@ const settingsMenu = (id: number, type: string) => {
 };
 
 export const CategoriesTable = (props: any) => {
+    const { params } = useContext(Store);
+    const { userInfo } = params;
+    let showSettingsIcon = userInfo?.user.isAdmin ? settingsMenu : null;
+
     const rows = props.data.map((element: any) => {
         return (
             <tr key={element.name}>
@@ -37,7 +43,9 @@ export const CategoriesTable = (props: any) => {
                         component='span'
                         label={element.name}
                         childrenOffset={28}
-                        icon={settingsMenu(element.id, 'categories')}
+                        icon={
+                            userInfo?.user.isAdmin ? settingsMenu(element.id, 'categories') : null
+                        }
                     >
                         {element.menu && (
                             <NavLink label='menu' component='span' childrenOffset={28}>
@@ -48,7 +56,11 @@ export const CategoriesTable = (props: any) => {
                                             label={i.name}
                                             component='span'
                                             childrenOffset={28}
-                                            icon={settingsMenu(i.id, 'categories/menu')}
+                                            icon={
+                                                userInfo?.user.isAdmin
+                                                    ? settingsMenu(i.id, 'categories/menu')
+                                                    : null
+                                            }
                                         />
                                     );
                                 })}
@@ -63,7 +75,11 @@ export const CategoriesTable = (props: any) => {
                                             label={j.name}
                                             component='span'
                                             childrenOffset={28}
-                                            icon={settingsMenu(j.id, 'categories/subMenu')}
+                                            icon={
+                                                userInfo?.user.isAdmin
+                                                    ? settingsMenu(j.id, 'categories/subMenu')
+                                                    : null
+                                            }
                                         />
                                     );
                                 })}
