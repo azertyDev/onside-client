@@ -1,6 +1,7 @@
 'use strict';
 
 import ICategory from './ICategory';
+import IFrame from './IFrame';
 import { IImage } from './IImage';
 import { NewsType } from './INewsType';
 import ISubCategory from './ISubCategory';
@@ -8,7 +9,7 @@ import ISubCategoryType from './ISubCategoryType';
 import IVideo from './IVideo';
 
 export interface INews {
-    iframe?: string;
+    iframe?: IFrame;
     id?: number;
     views?: number;
     category: ICategory;
@@ -21,7 +22,7 @@ export interface INews {
     type: NewsType;
     editorText: string;
     image: IImage;
-    video?:IVideo;
+    video?: IVideo;
     nameLink: string;
     link: string;
     authorId: number;
@@ -33,7 +34,7 @@ export interface INews {
     likes?: number;
     comment?: number;
     amountRating?: number;
-    amountViews?:number;
+    amountViews?: number;
     rating?: number;
     createdAt?: Date;
     updatedAt?: Date | null;

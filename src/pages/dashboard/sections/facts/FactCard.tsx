@@ -5,8 +5,6 @@ import { IFact } from 'src/interfaces/IFact';
 import { DeleteModal } from '../slider/Card';
 
 export const FactCard = ({ data, handleUpdate }: { data: IFact; handleUpdate: () => void }) => {
-    console.log(data);
-
     return (
         <Card shadow='xs' p='sm' radius='md' withBorder>
             <Card.Section>

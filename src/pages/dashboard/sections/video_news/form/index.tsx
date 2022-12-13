@@ -88,7 +88,9 @@ export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => 
         rating: currentNews?.rating ?? 0.0,
         editorText: currentNews?.editorText ?? '',
         publishedAt: currentNews?.publishedAt ?? '',
-        iframe: currentNews?.iframe ?? '',
+        iframe: {
+            url: currentNews?.iframe ? currentNews?.iframe.url : '',
+        },
         image: {
             url: currentNews?.image ? currentNews?.image.url : '',
         },
@@ -124,8 +126,6 @@ export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => 
     };
 
     const onSubmit = async (values: any, { resetForm }: { resetForm: any }) => {
-        console.log('values', values);
-
         const {
             publishedAt,
             subCategoryId,
@@ -144,8 +144,8 @@ export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => 
             subCategoryTypeId: subCategoryTypeId === '' ? null : subCategoryTypeId,
             subCategoryId: subCategoryTypeId === '' ? null : subCategoryId,
             amountRating: amountRating === '' ? null : amountRating,
-            iframe: iframe === '' ? null : iframe,
             rating: rating === '' ? null : rating,
+            iframe: iframe.url === '' ? null : iframe,
             video: video.url === '' ? null : video,
             image: image.url === '' ? null : image,
             amountViews: amountViews === 0 ? 1 : amountViews,
@@ -314,7 +314,7 @@ export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => 
                             />
                             {showViewsInput(values, setFieldValue)}
                             <FormikControl
-                                name='iframe'
+                                name='iframe.url'
                                 control='input'
                                 label='Ilova (iframe)'
                                 placeholder='Ma`lumotni kiriting'

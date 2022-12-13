@@ -164,10 +164,10 @@ export function ImageCard({
                                     <ActionIcon onClick={() => handleEditNews(data)}>
                                         <EditIcon className='w-5 h-5' />
                                     </ActionIcon>
-                                    {data.authorId === userInfo?.user.id ||
-                                        (!!userInfo?.user.isAdmin && (
-                                            <DeleteModal url={`/news/${data.id}`} />
-                                        ))}
+                                    {(data.authorId === userInfo?.user.id ||
+                                        Boolean(userInfo?.user.isAdmin)) && (
+                                        <DeleteModal url={`/news/${data.id}`} />
+                                    )}
                                 </Group>
                             </Group>
                         </div>

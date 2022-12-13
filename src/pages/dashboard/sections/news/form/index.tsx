@@ -102,7 +102,9 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
         rating: currentNews?.rating ?? 0.0,
         editorText: currentNews?.editorText ?? '',
         publishedAt: currentNews?.publishedAt ?? '',
-        iframe: currentNews?.iframe ?? '',
+        iframe: {
+            url: currentNews?.iframe ? currentNews?.iframe.url : '',
+        },
         image: {
             url: currentNews?.image ? currentNews?.image.url : '',
         },
@@ -113,7 +115,6 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
 
     const handleCategories = (id: any, setFieldValue: any) => {
         setFieldValue('categoryId', id);
-        console.log(id);
 
         categories?.filter((item) => {
             item.menu?.map((i: ISubCategory) => {
@@ -163,7 +164,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             subCategoryTypeId: subCategoryTypeId === '' ? null : subCategoryTypeId,
             subCategoryId: subCategoryTypeId === '' ? null : subCategoryId,
             amountRating: amountRating === '' ? null : amountRating,
-            iframe: iframe === '' ? null : iframe,
+            iframe: iframe.url === '' ? null : iframe,
             rating: rating === '' ? null : rating,
             video: video.url === '' ? null : video,
             image: image.url === '' ? null : image,
@@ -235,8 +236,6 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
             {({ values, setFieldValue, ...rest }) => {
-                console.log('values.categoryId', values.categoryId);
-
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <FormikControl
@@ -360,7 +359,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                             />
                             {showViewsInput(values, setFieldValue) as ReactNode}
                             <FormikControl
-                                name='iframe'
+                                name='iframe.url'
                                 control='input'
                                 label='Ilova (iframe)'
                                 placeholder='Ma`lumotni kiriting'
