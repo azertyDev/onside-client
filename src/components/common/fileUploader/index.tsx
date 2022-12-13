@@ -10,8 +10,6 @@ export const FileUploader = (props: any) => {
     const { params } = useContext(Store);
     const { userInfo } = params;
 
-    // console.log(props);
-    
     const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
         const fileUploaded: File = event.target.files![0];
 

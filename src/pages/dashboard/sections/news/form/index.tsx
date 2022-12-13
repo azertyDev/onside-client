@@ -5,7 +5,7 @@ import { IUser } from 'src/interfaces/IUser';
 import { INews } from 'src/interfaces/INews';
 import { axiosInstance } from 'utils/instance';
 import Rich_text from 'components/common/rich_text';
-import { useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import ISubCategory from 'src/interfaces/ISubCategory';
 import ISubCategoryType from 'src/interfaces/ISubCategoryType';
 import { Button, NumberInput, Select } from '@mantine/core';
@@ -219,7 +219,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     }, []);
 
     const showViewsInput = (values: any, setFieldValue: any) => {
-        return (
+        userInfo?.user.isAdmin ? (
             <NumberInput
                 min={0}
                 size='md'
@@ -229,7 +229,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                 value={values.amountViews}
                 onChange={(val) => setFieldValue('amountViews', val)}
             />
-        );
+        ) : null;
     };
 
     return (
@@ -358,7 +358,7 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 value={values.amountRating}
                                 onChange={(val) => setFieldValue('amountRating', val)}
                             />
-                            {showViewsInput(values, setFieldValue)}
+                            {showViewsInput(values, setFieldValue) as ReactNode}
                             <FormikControl
                                 name='iframe'
                                 control='input'

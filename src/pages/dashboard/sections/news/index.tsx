@@ -98,7 +98,7 @@ export const News = () => {
                             );
                         })}
                     </Grid>
-                    {news.data?.length > 0 && news.data && (
+                    {news.data?.length >= 12 && news.data && (
                         <Pagination
                             total={news.total}
                             className='my-6 flex justify-center'

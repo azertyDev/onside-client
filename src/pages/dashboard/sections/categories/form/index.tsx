@@ -26,7 +26,9 @@ export const CreateCategoriesForm = () => {
 
         const data = {
             menu: menu.map((item: any) => {
-                console.log('menu.name: ', item);
+                if (item.name === '') {
+                    console.log('empty string');
+                }
 
                 // item.name ?? null;
             }),
@@ -85,9 +87,7 @@ export const CreateCategoriesForm = () => {
                                 name='menu'
                                 render={({ insert, remove, push }) => (
                                     <div className='flex flex-col'>
-                                        <label className='leading-6'>
-                                            Kategoriya 2 (menu)
-                                        </label>
+                                        <label className='leading-6'>Kategoriya 2 (menu)</label>
                                         {values.menu.length > 0 &&
                                             values.menu.map((item, index) => {
                                                 return (

@@ -1,51 +1,40 @@
+import { Store } from 'utils/Store';
 import { Form, Formik } from 'formik';
-import { Button, NumberInput, Select } from '@mantine/core';
-import FormikControl from 'components/common/formik/FormikControl';
-import { StarIcon } from 'components/common/icons/star_icon/StarIcon';
+import { baseURL } from 'utils/constants';
+import { IUser } from 'src/interfaces/IUser';
+import { INews } from 'src/interfaces/INews';
+import { axiosInstance } from 'utils/instance';
 import Rich_text from 'components/common/rich_text';
 import { useContext, useEffect, useState } from 'react';
-import { Store } from 'utils/Store';
+import ISubCategory from 'src/interfaces/ISubCategory';
+import ISubCategoryType from 'src/interfaces/ISubCategoryType';
+import { Button, NumberInput, Select } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
-import { baseURL } from 'utils/constants';
-import { axiosInstance } from 'utils/instance';
-import { IUser } from 'src/interfaces/IUser';
-import { useRouter } from 'next/router';
-import { INews } from 'src/interfaces/INews';
 import { FileUploader } from 'components/common/fileUploader';
-
-export enum NewsType {
-    Common = 'COMMON',
-    Interview = 'INTERVIEW',
-    Blog = 'BLOG',
-    Sport = 'SPORT',
-    Photo = 'PHOTO',
-    Video = 'VIDEO',
-}
+import { CheckIcon, CloseIcon } from 'components/common/icons';
+import FormikControl from 'components/common/formik/FormikControl';
+import { StarIcon } from 'components/common/icons/star_icon/StarIcon';
 
 interface IOptions {
     label: string;
     value: any;
     group?: string;
+    menu?: any;
+    subMenu?: any;
 }
 
 export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => {
-    const { reload } = useRouter();
     const { params } = useContext(Store);
     const { userInfo } = params;
-    // console.log(currentNews);
 
     const categoriesArray: IOptions[] = [];
     const subCategoriesArray: IOptions[] = [];
     const subCategoriesTypeArray: IOptions[] = [];
 
+    const [moderators, setModerators] = useState<IUser[]>([]);
     const [categories, setCategories] = useState<IOptions[]>(categoriesArray);
     const [subCategories, setSubCategories] = useState<IOptions[]>(subCategoriesArray);
     const [subCategoriesType, setSubCategoriesType] = useState<IOptions[]>(subCategoriesTypeArray);
-    const [richText, setRichText] = useState(
-        currentNews ? currentNews?.editorText : '<p>asdasd</p>'
-    );
-
-    const [moderators, setModerators] = useState<IUser[]>([]);
 
     const authorsData = moderators.map((moderator: IUser) => {
         return {
@@ -77,115 +66,113 @@ export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => 
                     categoriesArray.push({
                         value: i.id,
                         label: i.name,
-                    });
-
-                    i.menu?.map((j: any) => {
-                        subCategoriesArray.push({
-                            value: j.id,
-                            label: j.name,
-                            group: i.name,
-                        });
-
-                        j.menu?.map((e: any) => {
-                            subCategoriesTypeArray.push({
-                                value: e.id,
-                                label: e.name,
-                                group: j.name,
-                            });
-                        });
+                        menu: i.menu,
+                        subMenu: i.subMenu,
                     });
                 });
-
                 setCategories([...categoriesArray]);
-                setSubCategories([...subCategoriesArray]);
-                setSubCategoriesType([...subCategoriesTypeArray]);
             })
             .catch((error) => {
                 console.log('Categories fetch error: ', error);
             });
     };
 
-    const newsTypes = [
-        { label: 'COMMON', value: 'COMMON' },
-        { label: 'INTERVIEW', value: 'INTERVIEW' },
-        { label: 'BLOG', value: 'BLOG' },
-        { label: 'SPORT', value: 'SPORT' },
-        { label: 'PHOTO', value: 'PHOTO' },
-        { label: 'VIDEO', value: 'VIDEO' },
-    ];
-
-    // const initialValues = {
-    //     categoryId: currentNews?.categoryId ?? '',
-    //     subCategoryId: currentNews?.subCategoryId ?? '',
-    //     subCategoryTypeId: currentNews?.subCategoryTypeId ?? '',
-    //     text: currentNews?.text ?? '',
-    //     authorId: currentNews?.authorId ?? '',
-    //     nameLink: currentNews?.nameLink ?? '',
-    //     link: currentNews?.link ?? '',
-    //     type: currentNews?.type ?? '',
-    //     amountRating: currentNews?.amountRating ?? '',
-    //     rating: currentNews?.rating ?? '',
-    //     editorText: currentNews?.editorText ?? '',
-    //     image: currentNews?.image ?? '',
-    //     publishedAt: currentNews?.publishedAt ?? '',
-    // };
-
     const initialValues = {
-        categoryId: '',
-        subCategoryId: '',
-        subCategoryTypeId: '',
-        text: '',
-        authorId: '',
-        nameLink: '',
-        link: '',
-        type: '',
-        amountRating: 0,
-        rating: 0.0,
-        editorText: '',
+        categoryId: currentNews?.category?.id ?? '',
+        subCategoryId: currentNews?.subCategory?.id ?? '',
+        subCategoryTypeId: currentNews?.subCategoryType?.id ?? '',
+        text: currentNews?.text ?? '',
+        authorId: currentNews?.authorId ?? '',
+        amountRating: currentNews?.amountRating ?? 0,
+        amountViews: currentNews?.views ?? 0,
+        rating: currentNews?.rating ?? 0.0,
+        editorText: currentNews?.editorText ?? '',
+        publishedAt: currentNews?.publishedAt ?? '',
+        iframe: currentNews?.iframe ?? '',
         image: {
-            url: '',
+            url: currentNews?.image ? currentNews?.image.url : '',
         },
         video: {
-            url: '',
+            url: currentNews?.video ? currentNews?.video.url : '',
         },
-        publishedAt: '',
+    };
+
+    const handleCategories = (id: any, setFieldValue: any) => {
+        setFieldValue('categoryId', id);
+
+        categories?.filter((item) => {
+            item.menu?.map((i: ISubCategory) => {
+                if (id === i.parentId) {
+                    subCategoriesArray.push({
+                        value: i.id,
+                        label: i.name,
+                    });
+                    setSubCategories([...subCategoriesArray]);
+                }
+            });
+
+            item.subMenu?.map((j: ISubCategoryType) => {
+                if (id === j.parentId) {
+                    subCategoriesTypeArray.push({
+                        value: j.id,
+                        label: j.name,
+                    });
+                    setSubCategoriesType([...subCategoriesTypeArray]);
+                }
+            });
+        });
     };
 
     const onSubmit = async (values: any, { resetForm }: { resetForm: any }) => {
-        const { publishedAt, subCategoryTypeId, amountRating, image, rating, video, ...rest } =
-            values;
+        console.log('values', values);
+
+        const {
+            publishedAt,
+            subCategoryId,
+            subCategoryTypeId,
+            amountRating,
+            image,
+            rating,
+            iframe,
+            video,
+            amountViews,
+            ...rest
+        } = values;
 
         const data = {
             publishedAt: publishedAt.replace('T', ' '),
             subCategoryTypeId: subCategoryTypeId === '' ? null : subCategoryTypeId,
+            subCategoryId: subCategoryTypeId === '' ? null : subCategoryId,
             amountRating: amountRating === '' ? null : amountRating,
+            iframe: iframe === '' ? null : iframe,
             rating: rating === '' ? null : rating,
             video: video.url === '' ? null : video,
             image: image.url === '' ? null : image,
+            amountViews: amountViews === 0 ? 1 : amountViews,
             ...rest,
         };
 
         await axiosInstance({
             data: data,
-            url: `${baseURL}/news${currentNews ? `/${currentNews.id}` : ''}`,
+            url: `${baseURL}/video/news${currentNews ? `/${currentNews.id}` : ''}`,
             method: currentNews ? 'PATCH' : 'POST',
             headers: {
-                'authorization': `Bearer ${userInfo!.token}`,
-                'Content-Type': 'multipart/form-data',
+                authorization: `Bearer ${userInfo!.token}`,
             },
         })
             .then((data) => {
-                // console.log(data.data);
-
                 if (data) {
                     showNotification({
                         title: '',
                         message: data.data.message,
+                        color: 'teal',
+                        icon: <CheckIcon />,
+                        autoClose: 5000,
                     });
                 }
 
                 if (data.status === 200) {
-                    // reload();
+                    resetForm();
                 }
             })
             .catch(({ response }) => {
@@ -194,14 +181,15 @@ export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => 
                         title: '',
                         message: response.data.message,
                         color: 'red',
+                        icon: <CloseIcon />,
+                        autoClose: 5000,
                     });
                 }
             });
     };
 
     const handleRichText = (setFieldValue: any, value: any) => {
-        setRichText(value);
-        setFieldValue('editorText', richText);
+        setFieldValue('editorText', value);
     };
 
     useEffect(() => {
@@ -209,10 +197,23 @@ export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => 
         fetchModerators();
     }, []);
 
+    const showViewsInput = (values: any, setFieldValue: any) => {
+        return (
+            <NumberInput
+                min={0}
+                size='md'
+                defaultValue={1}
+                name='amountViews'
+                label='Ko`rishlar soni'
+                value={values.amountViews}
+                onChange={(val) => setFieldValue('amountViews', val)}
+            />
+        );
+    };
+
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
-            {({ values, setFieldValue }) => {
-                console.log(typeof String(values));
+            {({ values, setFieldValue, ...rest }) => {
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <FormikControl
@@ -221,96 +222,34 @@ export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => 
                             label='Sarlavha'
                             placeholder='Matnni kiriting'
                         />
-                        <div className='row'>
-                            <Select
-                                size='md'
-                                name='authorId'
-                                label='Muallif'
-                                data={authorsData}
-                                onChange={(e) => setFieldValue('authorId', e)}
-                                value={values.authorId}
-                                placeholder='Tanlang'
-                            />
-                            <Select
-                                size='md'
-                                name='type'
-                                label='Yangilik turi'
-                                data={newsTypes}
-                                onChange={(e) => setFieldValue('type', e)}
-                                value={values.type}
-                                placeholder='Tanlang'
-                            />
-                            <FormikControl
-                                name='publishedAt'
-                                control='dateTime'
-                                label='Chop etish vaqti'
-                            />
-                        </div>
                         <div>
                             <label htmlFor='editorText' className='mb-4'>
                                 Matn tahriri
                             </label>
                             <Rich_text
-                                value={richText!}
+                                value={values.editorText}
                                 placeholder='Izoh'
-                                className='editorTex mt-1'
+                                className='editorText mt-1'
                                 onChange={(value) => handleRichText(setFieldValue, value)}
                             />
                         </div>
                         <div className='row'>
                             <Select
                                 size='md'
-                                name='categoryId'
-                                data={categories}
-                                placeholder='Tanlang'
-                                label='Sport turi kategoriyasi'
-                                value={values.categoryId}
-                                onChange={(e) => setFieldValue('categoryId', e)}
-                            />
-                            <Select
-                                size='md'
-                                label='Subcategory'
-                                name='subCategoryId'
-                                data={subCategories}
-                                placeholder='Tanlang'
-                                value={values.subCategoryId}
-                                onChange={(e) => setFieldValue('subCategoryId', e)}
-                            />
-                            <Select
-                                size='md'
-                                name='subCategoryTypeId'
-                                label='Subcategory type'
-                                data={subCategoriesType}
-                                onChange={(e) => setFieldValue('subCategoryTypeId', e)}
-                                value={values.subCategoryTypeId}
-                                placeholder='Tanlang'
-                            />
-                        </div>
-                        <div className='row'>
-                            <FormikControl
-                                name='nameLink'
-                                control='input'
-                                label='Manba nomi'
+                                name='authorId'
+                                label='Muallif'
+                                data={authorsData}
+                                searchable
+                                onChange={(e) => setFieldValue('authorId', Number(e))}
+                                value={String(values.authorId)}
                                 placeholder='Tanlang'
                             />
                             <FormikControl
-                                name='link'
-                                control='input'
-                                label='Manba havolasi'
-                                placeholder='www.example.com'
+                                name='publishedAt'
+                                control='dateTime'
+                                value={values.publishedAt.substring(0, 19)}
+                                label='Chop etish vaqti'
                             />
-                            <NumberInput
-                                size='md'
-                                label='Baholaganlar soni'
-                                defaultValue={0}
-                                name='amountRating'
-                                value={values.amountRating}
-                                onChange={(val) => setFieldValue('amountRating', val)}
-                                min={0}
-                            />
-                        </div>
-
-                        <div className='row'>
                             <NumberInput
                                 size='md'
                                 decimalSeparator=','
@@ -328,16 +267,71 @@ export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => 
                         </div>
 
                         <div className='row'>
+                            <Select
+                                size='md'
+                                clearable
+                                name='categoryId'
+                                data={categories}
+                                placeholder='Tanlang'
+                                searchable
+                                label='Sport turi kategoriyasi'
+                                value={values.categoryId as unknown as string}
+                                onChange={(e) => handleCategories(e, setFieldValue)}
+                            />
+                            <Select
+                                size='md'
+                                clearable
+                                label='Subcategory'
+                                name='subCategoryId'
+                                data={subCategories}
+                                placeholder='Tanlang'
+                                searchable
+                                value={values.subCategoryId as unknown as string}
+                                onChange={(e) => setFieldValue('subCategoryId', e)}
+                            />
+                            <Select
+                                size='md'
+                                clearable
+                                placeholder='Tanlang'
+                                name='subCategoryTypeId'
+                                label='Subcategory type'
+                                searchable
+                                data={subCategoriesType}
+                                value={values.subCategoryTypeId as string}
+                                onChange={(e) => setFieldValue('subCategoryTypeId', e)}
+                            />
+                        </div>
+
+                        <div className='row'>
+                            <NumberInput
+                                min={0}
+                                size='md'
+                                defaultValue={0}
+                                name='amountRating'
+                                label='Baholaganlar soni'
+                                value={values.amountRating}
+                                onChange={(val) => setFieldValue('amountRating', val)}
+                            />
+                            {showViewsInput(values, setFieldValue)}
+                            <FormikControl
+                                name='iframe'
+                                control='input'
+                                label='Ilova (iframe)'
+                                placeholder='Ma`lumotni kiriting'
+                            />
+                        </div>
+
+                        <div className='grid grid-cols-2 md:grid-cols-1'>
                             <FileUploader
                                 type='IMAGE'
                                 name='image.url'
-                                preview={values.image.url}
+                                preview={values.image?.url}
                                 setFieldValue={setFieldValue}
                             />
                             <FileUploader
                                 type='VIDEO'
                                 name='video.url'
-                                preview={values.video.url}
+                                preview={values.video?.url}
                                 setFieldValue={setFieldValue}
                             />
                         </div>

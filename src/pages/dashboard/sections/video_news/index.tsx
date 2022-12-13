@@ -3,36 +3,33 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { axiosInstance } from 'utils/instance';
 import { CustomTabs } from 'components/common/tabs';
 import { CreateVideoNewsForm } from './form';
-// import { ImageCard } from './ImageCard';
 import { INews } from 'src/interfaces/INews';
 import { Pagination } from '@mantine/core';
 import { useRouter } from 'next/router';
-import { FileUploader } from 'components/common/fileUploader';
+import { ImageCard } from '../news/ImageCard';
 
 export const VideoNews = () => {
     const { push } = useRouter();
     const [news, setNews] = useState<any>([]);
     const [page, setPage] = useState<number>(1);
     const [currentNews, setCurrentNews] = useState<INews>();
-    const [newsType, setNewsType] = useState<string | null>('');
-    const [isPublic, setIsPublic] = useState<boolean>(false);
+    const [isPublic, setIsPublic] = useState<string | null>('');
 
-    const newsTypes = [
-        { label: 'Тип новостей', value: '' },
-        { label: 'COMMON', value: 'COMMON' },
-        { label: 'INTERVIEW', value: 'INTERVIEW' },
-        { label: 'BLOG', value: 'BLOG' },
-        { label: 'SPORT', value: 'SPORT' },
-        { label: 'PHOTO', value: 'PHOTO' },
-        { label: 'VIDEO', value: 'VIDEO' },
+    const publicValues = [
+        {
+            label: 'Chop etilgan',
+            value: '1',
+        },
+        {
+            label: 'Chop etilmagan',
+            value: '0',
+        },
     ];
 
-    console.log(news);
-    
     const fetchNews = async () => {
         await axiosInstance
             .get(
-                `/video/news?page=${page}&limit=12${newsType ? `&type=${newsType}` : ''}${
+                `/video/news?page=${page}&limit=12${
                     isPublic ? `&isPublic=${Number(isPublic)}` : ''
                 }`
             )
@@ -40,18 +37,13 @@ export const VideoNews = () => {
                 setNews(data);
             })
             .catch((error) => {
-                console.log('News fetch error: ', error);
+                console.log('Video news fetch error: ', error);
             });
     };
 
     const handleEditNews = (news: INews) => {
         setCurrentNews(news);
-        push('/dashboard/news/2');
-    };
-
-    const toggleIsPublic = (event: ChangeEvent<HTMLInputElement>) => {
-        setIsPublic(event.currentTarget.checked);
-        // push(`/dashboard/news/1?isPublic=${Number(isPublic)}`);
+        push('/dashboard/video_news/2');
     };
 
     const handlePagination = (e: any) => {
@@ -60,7 +52,7 @@ export const VideoNews = () => {
 
     useEffect(() => {
         fetchNews();
-    }, [page, newsType, isPublic]);
+    }, [page, isPublic]);
 
     return (
         <div className='w-full'>
@@ -73,22 +65,18 @@ export const VideoNews = () => {
                 <Tabs.Panel value='1' pt='xl'>
                     <div className='flex gap-4 items-center mb-8'>
                         <Select
-                            value={newsType}
-                            data={newsTypes}
-                            onChange={setNewsType}
-                            placeholder='Выбрать тип новостей'
-                        />
-                        <Checkbox
-                            checked={isPublic}
-                            label='Опубликованные'
-                            onChange={(event) => setIsPublic(event.currentTarget.checked)}
+                            clearable
+                            value={isPublic}
+                            data={publicValues}
+                            onChange={setIsPublic}
+                            placeholder='Holati'
                         />
                     </div>
                     <Grid>
                         {news?.data?.map((item: INews) => {
                             return (
                                 <Grid.Col xs={6} sm={6} md={6} lg={4} xl={3} key={item.id}>
-                                    {/* <ImageCard data={item} handleEditNews={handleEditNews} /> */}
+                                    <ImageCard data={item} handleEditNews={handleEditNews} />
                                 </Grid.Col>
                             );
                         })}
@@ -103,7 +91,7 @@ export const VideoNews = () => {
                 </Tabs.Panel>
 
                 <Tabs.Panel value='2' pt='xl'>
-                    {/* <CreateNewsForm currentNews={currentNews!} /> */}
+                    <CreateVideoNewsForm currentNews={currentNews!} />
                 </Tabs.Panel>
             </CustomTabs>
         </div>

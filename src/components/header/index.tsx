@@ -81,7 +81,7 @@ const useStyles = createStyles((theme) => ({
 
 export const menu = [
     { id: 1, title: 'Yangiliklar', link: 'news' },
-    // { id: 9, title: 'Видео новости', link: 'video_news' },
+    { id: 9, title: 'Video yangiliklar', link: 'video_news' },
     { id: 3, title: 'Kategoriyalar', link: 'categories' },
     { id: 4, title: 'Match senter', link: 'match_center' },
     { id: 6, title: 'Moderatorlar', link: 'moderators' },
