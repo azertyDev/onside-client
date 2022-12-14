@@ -1,55 +1,54 @@
 import dynamic from 'next/dynamic';
-import { ReactQuillProps } from 'react-quill';
+import { SunEditorReactProps } from 'suneditor-react/dist/types/SunEditorReactProps';
+import 'suneditor/dist/css/suneditor.min.css';
+import plugins from 'suneditor/src/plugins';
 
-const QuillNoSSRWrapper = dynamic(import('react-quill'), {
+const SunEditor = dynamic(() => import('suneditor-react'), {
     ssr: false,
-    loading: () => <p>Loading ...</p>,
 });
 
-export const modules = {
-    toolbar: [
-        [{ header: '1' }, { header: '2' }, { font: [] }],
-        [{ size: [] }],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [
-            { list: 'ordered' },
-            { list: 'bullet' },
-            { indent: '-1' },
-            { indent: '+1' },
-            { align: [] },
-        ],
-        ['link', 'image', 'video'],
-        ['clean'],
-    ],
-    // imageDrop: true,
-    // imageResize: {},
-    clipboard: {
-        // toggle to add extra line breaks when pasting HTML:
-        matchVisual: false,
-    },
-};
-/*
- * Quill editor formats
- * See https://quilljs.com/docs/formats/
- */
-export const formats = [
-    'header',
-    'font',
-    'size',
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'blockquote',
-    'list',
-    'bullet',
-    'indent',
-    'link',
-    'image',
-    'video',
-    'align',
-];
-
-export const QuillEditor = (props: ReactQuillProps) => {
-    return <QuillNoSSRWrapper theme='snow' modules={modules} formats={formats} />;
+export const Editor = (props: SunEditorReactProps) => {
+    return (
+        <SunEditor
+            {...props}
+            placeholder='Ma`lumotlarni kiriting...'
+            lang='ru'
+            setOptions={{
+                height: 'auto',
+                defaultTag: 'div',
+                mode: 'classic',
+                buttonList: [
+                    ['undo', 'redo'],
+                    ['image', 'video'],
+                    [
+                        'fontSize',
+                        'formatBlock',
+                        'bold',
+                        'italic',
+                        'underline',
+                        'strike',
+                        'paragraphStyle',
+                        'subscript',
+                        'superscript',
+                        'fontColor',
+                        'hiliteColor',
+                        'align',
+                        'horizontalRule',
+                        'outdent',
+                        'indent',
+                        'list',
+                        'removeFormat',
+                    ],
+                    [
+                        'table',
+                        // 'fullScreen'
+                    ],
+                    [
+                        'showBlocks',
+                        // 'codeView'
+                    ],
+                ],
+            }}
+        />
+    );
 };

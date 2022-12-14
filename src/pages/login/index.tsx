@@ -61,7 +61,7 @@ export const Login = () => {
                 if (data) {
                     showNotification({
                         title: '',
-                        message: `You are logged in as ${data.user.name}`,
+                        message: `Xush kelibsiz ${data.user.name}`,
                     });
                 }
             })

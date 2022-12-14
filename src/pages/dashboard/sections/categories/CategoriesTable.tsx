@@ -1,15 +1,11 @@
 import { ActionIcon, Menu, NavLink, Table } from '@mantine/core';
 import { SettingsIcon } from 'components/common/icons';
-import { EditIcon } from 'components/common/icons/edit_icon/EditIcon';
+import { UpdateModal } from 'components/common/updateModal';
 import { useContext } from 'react';
 import { Store } from 'utils/Store';
 import { DeleteModal } from '../slider/Card';
 
-const settingsMenu = (id: number, type: string) => {
-    const handleUpdate = (id: number) => {
-        console.log(id);
-    };
-
+const settingsMenu = (data: any, type: string) => {
     return (
         <Menu withinPortal position='bottom' shadow='sm'>
             <Menu.Target>
@@ -20,10 +16,8 @@ const settingsMenu = (id: number, type: string) => {
 
             <Menu.Dropdown>
                 <div className='flex gap-2'>
-                    <DeleteModal url={`${type}/${id}`} reloadPage={false} />
-                    <ActionIcon color='blue' onClick={() => handleUpdate(id)}>
-                        <EditIcon className='w-6 h-6' />
-                    </ActionIcon>
+                    <DeleteModal url={`${type}/${data.id}`} reloadPage={false} />
+                    <UpdateModal url={`${type}`} data={data} />
                 </div>
             </Menu.Dropdown>
         </Menu>
@@ -43,9 +37,7 @@ export const CategoriesTable = (props: any) => {
                         component='span'
                         label={element.name}
                         childrenOffset={28}
-                        icon={
-                            userInfo?.user.isAdmin ? settingsMenu(element.id, 'categories') : null
-                        }
+                        icon={userInfo?.user.isAdmin ? settingsMenu(element, 'categories') : null}
                     >
                         {element.menu && (
                             <NavLink label='menu' component='span' childrenOffset={28}>
@@ -58,7 +50,7 @@ export const CategoriesTable = (props: any) => {
                                             childrenOffset={28}
                                             icon={
                                                 userInfo?.user.isAdmin
-                                                    ? settingsMenu(i.id, 'categories/menu')
+                                                    ? settingsMenu(i, 'categories/menu')
                                                     : null
                                             }
                                         />
@@ -77,7 +69,7 @@ export const CategoriesTable = (props: any) => {
                                             childrenOffset={28}
                                             icon={
                                                 userInfo?.user.isAdmin
-                                                    ? settingsMenu(j.id, 'categories/subMenu')
+                                                    ? settingsMenu(j, 'categories/subMenu')
                                                     : null
                                             }
                                         />

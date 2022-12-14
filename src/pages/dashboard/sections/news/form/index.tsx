@@ -5,7 +5,7 @@ import { IUser } from 'src/interfaces/IUser';
 import { INews } from 'src/interfaces/INews';
 import { axiosInstance } from 'utils/instance';
 import Rich_text from 'components/common/rich_text';
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ISubCategory from 'src/interfaces/ISubCategory';
 import ISubCategoryType from 'src/interfaces/ISubCategoryType';
 import { Button, NumberInput, Select } from '@mantine/core';
@@ -23,7 +23,7 @@ interface IOptions {
     subMenu?: any;
 }
 
-export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
+const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     const { params } = useContext(Store);
     const { userInfo } = params;
 
@@ -43,9 +43,6 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     const [categories, setCategories] = useState<IOptions[]>(categoriesArray);
     const [subCategories, setSubCategories] = useState<IOptions[]>(subCategoriesArray);
     const [subCategoriesType, setSubCategoriesType] = useState<IOptions[]>(subCategoriesTypeArray);
-    const [richText, setRichText] = useState<string | undefined>(
-        currentNews?.editorText ? currentNews?.editorText : ''
-    );
 
     const authorsData = moderators.map((moderator: IUser) => {
         return {
@@ -139,12 +136,6 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
         });
     };
 
-    useEffect(() => {
-        if (currentNews) {
-            setRichText(currentNews?.editorText);
-        }
-    }, [currentNews]);
-
     const onSubmit = async (values: any, { resetForm }: { resetForm: any }) => {
         const {
             publishedAt,
@@ -192,7 +183,6 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                 }
 
                 if (data.status === 200) {
-                    setRichText(undefined);
                     resetForm();
                 }
             })
@@ -209,18 +199,13 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
             });
     };
 
-    const handleRichText = (setFieldValue: any, value: any) => {
-        setRichText(value);
-        setFieldValue('editorText', value);
-    };
-
     useEffect(() => {
         fetchCategories();
         fetchModerators();
     }, []);
 
     const showViewsInput = (values: any, setFieldValue: any) => {
-        userInfo?.user.isAdmin ? (
+        return Boolean(userInfo?.user.isAdmin) ? (
             <NumberInput
                 min={0}
                 size='md'
@@ -244,24 +229,25 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                             label='Sarlavha'
                             placeholder='Matnni kiriting'
                         />
+
                         <div>
                             <label htmlFor='editorText' className='mb-4'>
                                 Matn tahriri
                             </label>
                             <Rich_text
-                                value={richText}
+                                value={values.editorText}
                                 placeholder='Izoh'
                                 className='editorText mt-1'
-                                onChange={(value) => handleRichText(setFieldValue, value)}
+                                onChange={(value) => setFieldValue('editorText', value)}
                             />
                         </div>
                         <div className='row'>
                             <Select
                                 size='md'
+                                searchable
                                 name='authorId'
                                 label='Muallif'
                                 data={authorsData}
-                                searchable
                                 onChange={(e) => setFieldValue('authorId', Number(e))}
                                 value={String(values.authorId)}
                                 placeholder='Tanlang'
@@ -287,10 +273,10 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                             <Select
                                 size='md'
                                 clearable
+                                searchable
                                 name='categoryId'
                                 data={categories}
                                 placeholder='Tanlang'
-                                searchable
                                 label='Sport turi kategoriyasi'
                                 value={values.categoryId as unknown as string}
                                 onChange={(e) => handleCategories(e, setFieldValue)}
@@ -298,21 +284,21 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                             <Select
                                 size='md'
                                 clearable
+                                searchable
                                 label='Subcategory'
                                 name='subCategoryId'
                                 data={subCategories}
                                 placeholder='Tanlang'
-                                searchable
                                 value={values.subCategoryId as unknown as string}
                                 onChange={(e) => setFieldValue('subCategoryId', e)}
                             />
                             <Select
                                 size='md'
                                 clearable
+                                searchable
                                 placeholder='Tanlang'
                                 name='subCategoryTypeId'
                                 label='Subcategory type'
-                                searchable
                                 data={subCategoriesType}
                                 value={values.subCategoryTypeId as string}
                                 onChange={(e) => setFieldValue('subCategoryTypeId', e)}
@@ -357,13 +343,23 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 value={values.amountRating}
                                 onChange={(val) => setFieldValue('amountRating', val)}
                             />
-                            {showViewsInput(values, setFieldValue) as ReactNode}
                             <FormikControl
                                 name='iframe.url'
                                 control='input'
                                 label='Ilova (iframe)'
                                 placeholder='Ma`lumotni kiriting'
                             />
+                            {Boolean(userInfo?.user.isAdmin) ? (
+                                <NumberInput
+                                    min={0}
+                                    size='md'
+                                    defaultValue={1}
+                                    name='amountViews'
+                                    label='Ko`rishlar soni'
+                                    value={values.amountViews}
+                                    onChange={(val) => setFieldValue('amountViews', val)}
+                                />
+                            ) : null}
                         </div>
 
                         <div className='grid grid-cols-2 md:grid-cols-1'>
@@ -390,3 +386,5 @@ export const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
         </Formik>
     );
 };
+
+export default CreateNewsForm;

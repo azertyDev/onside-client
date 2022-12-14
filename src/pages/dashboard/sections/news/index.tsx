@@ -1,12 +1,16 @@
+import dynamic from 'next/dynamic';
 import { Grid, Select, Tabs } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from 'utils/instance';
 import { CustomTabs } from 'components/common/tabs';
-import { CreateNewsForm } from './form';
 import { ImageCard } from './ImageCard';
 import { INews } from 'src/interfaces/INews';
 import { Pagination } from '@mantine/core';
 import { useRouter } from 'next/router';
+
+const DynamicForm = dynamic(() => import('./form'), {
+    ssr: false,
+});
 
 export const News = () => {
     const { push } = useRouter();
@@ -108,7 +112,7 @@ export const News = () => {
                 </Tabs.Panel>
 
                 <Tabs.Panel value='2' pt='xl'>
-                    <CreateNewsForm currentNews={currentNews!} />
+                    <DynamicForm currentNews={currentNews!} />
                 </Tabs.Panel>
             </CustomTabs>
         </div>
