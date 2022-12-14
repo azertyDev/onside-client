@@ -22,24 +22,8 @@ export const CreateCategoriesForm = () => {
     };
 
     const onSubmit = async (values: any, { resetForm }: { resetForm: any }) => {
-        const { menu, subMenu, ...rest } = values;
-
-        const data = {
-            menu: menu.map((item: any) => {
-                if (item.name === '') {
-                    console.log('empty string');
-                }
-
-                // item.name ?? null;
-            }),
-            subMenu: subMenu.name === '' ? null : subMenu.name,
-            ...rest,
-        };
-
-        // console.log('data: ', data);
-
         await axiosInstance
-            .post(`/categories`, data, {
+            .post(`/categories`, values, {
                 headers: {
                     authorization: `Bearer ${userInfo!.token}`,
                 },
@@ -185,7 +169,6 @@ export const CreateCategoriesForm = () => {
                                 )}
                             />
                         </div>
-                        <div className='row'></div>
 
                         <Button variant='outline' type='submit' my='lg'>
                             Qabul qilish
