@@ -1,9 +1,11 @@
 import { Button, createStyles, Navbar as MantineNavbar } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { ISuperUser } from 'src/interfaces/IUser';
 import { NextLink } from '../next_link';
 
 interface INavbarProps {
+    userInfo: ISuperUser | null;
     logout: () => void;
     menu: {
         id: number;
@@ -82,30 +84,60 @@ const useStyles = createStyles((theme, _params, getRef) => {
     };
 });
 
-export const Navbar = ({ menu, logout }: INavbarProps) => {
+const Navbar = ({ menu, logout, userInfo }: INavbarProps) => {
     const { classes } = useStyles();
     const router = useRouter();
     const slug = (router.query.slug as string[]) || [];
     const [opened, setOpened] = useState(false);
 
-    const Menu = menu.map((item) => (
-        <NextLink
-            key={item.id}
-            href={`/dashboard/${item.link}`}
-            className={slug[0] === item.link ? classes.linkActive : classes.link}
-        >
-            {item.title}
-        </NextLink>
-    ));
+    const Menu = menu.map((item) => {
+        return (
+            <NextLink
+                key={item.id}
+                href={`/dashboard/${item.link}`}
+                className={slug[0] === item.link ? classes.linkActive : classes.link}
+            >
+                {item.title}
+            </NextLink>
+        );
+    });
 
     return (
         <MantineNavbar width={{ sm: 200, md: 300 }} p='md' hiddenBreakpoint='sm' hidden={!opened}>
-            <MantineNavbar.Section grow>{Menu}</MantineNavbar.Section>
+            <MantineNavbar.Section grow>
+                {userInfo?.user.role === 'MODERATOR' ? (
+                    <>
+                        <NextLink
+                            href={`/dashboard/news`}
+                            className={slug[0] === 'news' ? classes.linkActive : classes.link}
+                        >
+                            Yangiliklar
+                        </NextLink>
+                        <NextLink
+                            href={`/dashboard/video_news`}
+                            className={slug[0] === 'video_news' ? classes.linkActive : classes.link}
+                        >
+                            Video yangiliklar
+                        </NextLink>
+                    </>
+                ) : (
+                    Menu
+                )}
+            </MantineNavbar.Section>
             <MantineNavbar.Section className={classes.footer}>
-                <Button onClick={logout} variant='outline' size='md' fullWidth uppercase className=''> 
+                <Button
+                    onClick={logout}
+                    variant='outline'
+                    size='md'
+                    fullWidth
+                    uppercase
+                    className=''
+                >
                     Chiqish
                 </Button>
             </MantineNavbar.Section>
         </MantineNavbar>
     );
 };
+
+export default Navbar;

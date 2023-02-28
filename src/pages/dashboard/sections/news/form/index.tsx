@@ -43,6 +43,9 @@ const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     const [categories, setCategories] = useState<IOptions[]>(categoriesArray);
     const [subCategories, setSubCategories] = useState<IOptions[]>(subCategoriesArray);
     const [subCategoriesType, setSubCategoriesType] = useState<IOptions[]>(subCategoriesTypeArray);
+    const [iframeType, setIframeType] = useState<object>({
+        type: '',
+    });
 
     const authorsData = moderators.map((moderator: IUser) => {
         return {
@@ -84,6 +87,11 @@ const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                 console.log('Categories fetch error: ', error);
             });
     };
+
+    const iframeTypes = [
+        { label: 'Telegram', value: '?embed=1' },
+        { label: 'Instagram', value: '/embed' },
+    ];
 
     const initialValues = {
         categoryId: currentNews?.category?.id ?? '',
@@ -218,9 +226,22 @@ const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
         ) : null;
     };
 
+    const handleIframe = (
+        e: string,
+        value: string,
+        setFieldValue?: (field: string, value: any, shouldValidate?: boolean | undefined) => void
+    ) => {
+        setIframeType({ ...iframeType, type: e });
+        console.log(iframeType);
+
+        // setFieldValue!('iframe.url', (...value, value.concat('', e)));
+    };
+
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
             {({ values, setFieldValue, ...rest }) => {
+                // console.log(values.iframe);
+
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <FormikControl
@@ -343,23 +364,28 @@ const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                                 value={values.amountRating}
                                 onChange={(val) => setFieldValue('amountRating', val)}
                             />
-                            <FormikControl
-                                name='iframe.url'
-                                control='input'
-                                label='Ilova (iframe)'
-                                placeholder='Ma`lumotni kiriting'
-                            />
-                            {Boolean(userInfo?.user.isAdmin) ? (
-                                <NumberInput
-                                    min={0}
-                                    size='md'
-                                    defaultValue={1}
-                                    name='amountViews'
-                                    label='Ko`rishlar soni'
-                                    value={values.amountViews}
-                                    onChange={(val) => setFieldValue('amountViews', val)}
+                            {showViewsInput(values, setFieldValue)}
+                            <div className='gap-4'>
+                                <FormikControl
+                                    control='input'
+                                    name='iframe.url'
+                                    label='Ilova (iframe)'
+                                    placeholder='www.example.com'
                                 />
-                            ) : null}
+                                {/* <Select
+                                    size='md'
+                                    clearable
+                                    label='Turi'
+                                    name='iframeType'
+                                    placeholder='Tanlang'
+                                    data={iframeTypes}
+                                    value={iframeType}
+                                    // onChange={(e) => setIframeType(e!)}
+                                    onChange={(e) =>
+                                        handleIframe(e!, values.iframe.url, setFieldValue)
+                                    }
+                                /> */}
+                            </div>
                         </div>
 
                         <div className='grid grid-cols-2 md:grid-cols-1'>

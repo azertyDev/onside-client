@@ -90,6 +90,7 @@ export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => 
         publishedAt: currentNews?.publishedAt ?? '',
         iframe: {
             url: currentNews?.iframe ? currentNews?.iframe.url : '',
+            type: '',
         },
         image: {
             url: currentNews?.image ? currentNews?.image.url : '',
@@ -313,12 +314,20 @@ export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => 
                                 onChange={(val) => setFieldValue('amountRating', val)}
                             />
                             {showViewsInput(values, setFieldValue)}
-                            <FormikControl
-                                name='iframe.url'
-                                control='input'
-                                label='Ilova (iframe)'
-                                placeholder='Ma`lumotni kiriting'
-                            />
+                            <div className='gap-4 flex'>
+                                <FormikControl
+                                    name='iframe.url'
+                                    control='input'
+                                    label='Ilova (iframe)'
+                                    placeholder='https://www.example.com/************'
+                                />
+                                <FormikControl
+                                    label='Turi'
+                                    name='iframe.type'
+                                    control='select'
+                                    placeholder='Tablang'
+                                />
+                            </div>
                         </div>
 
                         <div className='grid grid-cols-2 md:grid-cols-1'>

@@ -1,14 +1,19 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import Cookies from 'js-cookie';
 import { Store } from 'utils/Store';
 import { useRouter } from 'next/router';
 import { AppShell } from '@mantine/core';
 import { Header, menu } from 'components/header';
-import { Navbar } from 'components/common/navbar';
+import dynamic from 'next/dynamic';
+
+const DynamicNavbar = dynamic(() => import('../common/navbar'), {
+    ssr: false,
+});
 
 export const DashboardLayout = ({ children, meta }: any) => {
-    const { dispatch } = useContext(Store);
+    const { dispatch, params } = useContext(Store);
     const router = useRouter();
+    const { userInfo } = params;
 
     const logoutClickHandler = () => {
         dispatch({
@@ -28,7 +33,9 @@ export const DashboardLayout = ({ children, meta }: any) => {
                     },
                 }}
                 navbarOffsetBreakpoint='sm'
-                navbar={<Navbar menu={menu} logout={logoutClickHandler} />}
+                navbar={
+                    <DynamicNavbar menu={menu} logout={logoutClickHandler} userInfo={userInfo} />
+                }
                 header={<Header logout={logoutClickHandler} />}
             >
                 {children}
