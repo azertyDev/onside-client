@@ -314,19 +314,19 @@ export const CreateVideoNewsForm = ({ currentNews }: { currentNews: INews }) => 
                                 onChange={(val) => setFieldValue('amountRating', val)}
                             />
                             {showViewsInput(values, setFieldValue)}
-                            <div className='gap-4 flex'>
+                            <div className=''>
                                 <FormikControl
                                     name='iframe.url'
                                     control='input'
                                     label='Ilova (iframe)'
                                     placeholder='https://www.example.com/************'
                                 />
-                                <FormikControl
+                                {/* <FormikControl
                                     label='Turi'
                                     name='iframe.type'
                                     control='select'
                                     placeholder='Tablang'
-                                />
+                                /> */}
                             </div>
                         </div>
 
