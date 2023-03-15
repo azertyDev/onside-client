@@ -166,7 +166,7 @@ export function ImageCard({
                                     </ActionIcon>
                                     {(data.authorId === userInfo?.user.id ||
                                         Boolean(userInfo?.user.isAdmin)) && (
-                                        <DeleteModal url={`/news/${data.id}`} />
+                                        <DeleteModal url={`/video/news/${data.id}`} />
                                     )}
                                 </Group>
                             </Group>
