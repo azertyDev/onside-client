@@ -78,11 +78,13 @@ const useStyles = createStyles((theme, _params, getRef) => {
 });
 
 export function ImageCard({
-    handleEditNews,
     data,
+    url,
+    handleEditNews,
 }: {
-    handleEditNews: (news: INews) => void;
     data: INews;
+    url: string;
+    handleEditNews: (news: INews) => void;
 }) {
     const { params } = useContext(Store);
     const { userInfo } = params;
@@ -166,7 +168,7 @@ export function ImageCard({
                                     </ActionIcon>
                                     {(data.authorId === userInfo?.user.id ||
                                         Boolean(userInfo?.user.isAdmin)) && (
-                                        <DeleteModal url={`/video/news/${data.id}`} />
+                                        <DeleteModal url={url} />
                                     )}
                                 </Group>
                             </Group>

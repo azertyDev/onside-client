@@ -97,7 +97,11 @@ export const News = () => {
                         {news?.data?.map((item: INews) => {
                             return (
                                 <Grid.Col xs={6} sm={6} md={6} lg={4} xl={3} key={item.id}>
-                                    <ImageCard data={item} handleEditNews={handleEditNews} />
+                                    <ImageCard
+                                        data={item}
+                                        url={`/news/${item.id}`}
+                                        handleEditNews={handleEditNews}
+                                    />
                                 </Grid.Col>
                             );
                         })}
