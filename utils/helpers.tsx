@@ -3,7 +3,6 @@ import { IUser } from 'src/interfaces/IUser';
 
 export const setTokenToHeader = () => {
     const userInfo: IUser = JSON.parse(Cookies.get('userInfo')!);
-
     if (userInfo.token) {
         return {
             headers: {
@@ -12,4 +11,9 @@ export const setTokenToHeader = () => {
             },
         };
     }
+};
+
+export const getToken = () => {
+    const userInfo: IUser = JSON.parse(Cookies.get('userInfo')!);
+    return `Bearer ${userInfo.token}`;
 };

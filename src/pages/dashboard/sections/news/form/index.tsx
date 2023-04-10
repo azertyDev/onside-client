@@ -5,7 +5,7 @@ import { IUser } from 'src/interfaces/IUser';
 import { INews } from 'src/interfaces/INews';
 import { axiosInstance } from 'utils/instance';
 import Rich_text from 'components/common/rich_text';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ISubCategory from 'src/interfaces/ISubCategory';
 import ISubCategoryType from 'src/interfaces/ISubCategoryType';
 import { Button, NumberInput, Select } from '@mantine/core';
@@ -14,6 +14,8 @@ import { FileUploader } from 'components/common/fileUploader';
 import { CheckIcon, CloseIcon } from 'components/common/icons';
 import FormikControl from 'components/common/formik/FormikControl';
 import { StarIcon } from 'components/common/icons/star_icon/StarIcon';
+import { newsTypes } from '../index';
+import Editor from 'components/common/editor';
 
 interface IOptions {
     label: string;
@@ -27,17 +29,11 @@ const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     const { params } = useContext(Store);
     const { userInfo } = params;
 
+    // console.log('@currentNews: ', currentNews);
+
     const categoriesArray: IOptions[] = [];
     const subCategoriesArray: IOptions[] = [];
     const subCategoriesTypeArray: IOptions[] = [];
-    const newsTypes = [
-        { label: 'COMMON', value: 'COMMON' },
-        { label: 'INTERVIEW', value: 'INTERVIEW' },
-        { label: 'BLOG', value: 'BLOG' },
-        { label: 'SPORT', value: 'SPORT' },
-        { label: 'PHOTO', value: 'PHOTO' },
-        { label: 'VIDEO', value: 'VIDEO' },
-    ];
 
     const [moderators, setModerators] = useState<IUser[]>([]);
     const [categories, setCategories] = useState<IOptions[]>(categoriesArray);
@@ -73,6 +69,8 @@ const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
         await axiosInstance
             .get('/categories')
             .then(({ data }) => {
+                console.log(data);
+
                 data?.map((i: any) => {
                     categoriesArray.push({
                         value: i.id,
@@ -232,7 +230,6 @@ const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
         setFieldValue?: (field: string, value: any, shouldValidate?: boolean | undefined) => void
     ) => {
         setIframeType({ ...iframeType, type: e });
-        console.log(iframeType);
 
         // setFieldValue!('iframe.url', (...value, value.concat('', e)));
     };
@@ -240,8 +237,6 @@ const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
             {({ values, setFieldValue, ...rest }) => {
-                // console.log(values.iframe);
-
                 return (
                     <Form className='grid gap-8 sm:gap-5'>
                         <FormikControl
@@ -255,11 +250,18 @@ const CreateNewsForm = ({ currentNews }: { currentNews: INews }) => {
                             <label htmlFor='editorText' className='mb-4'>
                                 Matn tahriri
                             </label>
-                            <Rich_text
+                            {/* <Rich_text
                                 value={values.editorText}
                                 placeholder='Izoh'
                                 className='editorText mt-1'
                                 onChange={(value) => setFieldValue('editorText', value)}
+                            /> */}
+
+                            <Editor
+                                value={values.editorText}
+                                placeholder='Izoh'
+                                className='editorText mt-1'
+                                onChange={(data: any) => setFieldValue('editorText', data)}
                             />
                         </div>
                         <div className='row'>

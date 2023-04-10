@@ -12,6 +12,15 @@ const DynamicForm = dynamic(() => import('./form'), {
     ssr: false,
 });
 
+export const newsTypes = [
+    { label: 'COMMON', value: 'COMMON' },
+    { label: 'INTERVIEW', value: 'INTERVIEW' },
+    { label: 'BLOG', value: 'BLOG' },
+    { label: 'SPORT', value: 'SPORT' },
+    { label: 'PHOTO', value: 'PHOTO' },
+    { label: 'VIDEO', value: 'VIDEO' },
+];
+
 export const News = () => {
     const { push } = useRouter();
     const [news, setNews] = useState<any>([]);
@@ -31,15 +40,6 @@ export const News = () => {
         },
     ];
 
-    const newsTypes = [
-        { label: 'COMMON', value: 'COMMON' },
-        { label: 'INTERVIEW', value: 'INTERVIEW' },
-        { label: 'BLOG', value: 'BLOG' },
-        { label: 'SPORT', value: 'SPORT' },
-        { label: 'PHOTO', value: 'PHOTO' },
-        { label: 'VIDEO', value: 'VIDEO' },
-    ];
-
     const fetchNews = async () => {
         await axiosInstance
             .get(
@@ -55,9 +55,16 @@ export const News = () => {
             });
     };
 
-    const handleEditNews = (news: INews) => {
-        setCurrentNews(news);
-        push('/dashboard/news/2');
+    const handleEditNews = async (id: number) => {
+        await axiosInstance
+            .get(`/news/${id}`)
+            .then(({ data }) => {
+                setCurrentNews(data);
+                push('/dashboard/news/2');
+            })
+            .catch((error) => {
+                console.log(`News ${id} fetch error: `, error);
+            });
     };
 
     const handlePagination = (e: any) => {

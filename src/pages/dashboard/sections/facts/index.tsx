@@ -8,6 +8,11 @@ import { Store } from 'utils/Store';
 import { FactCard } from './FactCard';
 import { CreateFactsForm } from './form';
 import { UpdateFactForm } from './form/update';
+import dynamic from 'next/dynamic';
+
+const Editor = dynamic(() => import('components/common/editor'), {
+    ssr: false,
+});
 
 export interface Story {
     id: number;

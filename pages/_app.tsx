@@ -6,8 +6,6 @@ import { appWithTranslation } from 'next-i18next';
 import { MantineProvider } from '@mantine/core';
 import { StoreProvider } from 'utils/Store';
 
-import 'react-quill/dist/quill.snow.css';
-import 'react-quill/dist/quill.bubble.css';
 import '../styles/globals.scss';
 import { NotificationsProvider } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';

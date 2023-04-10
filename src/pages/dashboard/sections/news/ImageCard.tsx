@@ -84,7 +84,7 @@ export function ImageCard({
 }: {
     data: INews;
     url: string;
-    handleEditNews: (news: INews) => void;
+    handleEditNews: (id: number) => void;
 }) {
     const { params } = useContext(Store);
     const { userInfo } = params;
@@ -163,7 +163,7 @@ export function ImageCard({
                             </Group>
                             <Group>
                                 <Group spacing={8}>
-                                    <ActionIcon onClick={() => handleEditNews(data)}>
+                                    <ActionIcon onClick={() => handleEditNews(data.id!)}>
                                         <EditIcon className='w-5 h-5' />
                                     </ActionIcon>
                                     {(data.authorId === userInfo?.user.id ||
