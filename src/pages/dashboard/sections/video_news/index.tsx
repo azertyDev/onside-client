@@ -41,9 +41,16 @@ export const VideoNews = () => {
             });
     };
 
-    const handleEditNews = (news: INews) => {
-        setCurrentNews(news);
-        push('/dashboard/video_news/2');
+    const handleEditNews = async (id: number) => {
+        await axiosInstance
+            .get(`/video/news/${id}`)
+            .then(({ data }) => {
+                setCurrentNews(data);
+                push('/dashboard/video_news/2');
+            })
+            .catch((error) => {
+                console.log(`News ${id} fetch error: `, error);
+            });
     };
 
     const handlePagination = (e: any) => {
